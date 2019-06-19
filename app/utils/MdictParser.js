@@ -345,7 +345,7 @@ export default class MdictParser {
 
     console.log('block started from: ' + this.offset);
 
-    this.concatFile(path.join(__dirname, '../resources/dicts/柯林斯双解.mdx.txt'));
+    // this.concatFile(path.join(__dirname, '../resources/dicts/柯林斯双解.mdx.txt'));
 
 
   };
