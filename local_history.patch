@@ -1,0 +1,15 @@
+Index: app/utils/MdictParser.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/utils/MdictParser.js	(date 1560414412000)
++++ app/utils/MdictParser.js	(date 1560414412000)
+@@ -21,6 +21,7 @@
+     console.log('log');
+     this.offset = 0;
+     this.length = 4;
++    fs.read
+     this.stream = fs.createReadStream('resources/dicts/柯林斯双解.mdx');
+     this.stream.on('readable', () => {
+ 
