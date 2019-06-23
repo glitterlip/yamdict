@@ -1,4 +1,15 @@
 {
-  "HOME": "/",
-  "COUNTER": "/counter"
+  "HOME": {
+    "path": "/",
+    "icon":"search",
+    "type": "single",
+    "name": "查询"
+  },
+  "TRANSLATE": {
+    "path": "/translate",
+    "icon":"font-size",
+    "type": "single",
+    "name": "翻译"
+
+  }
 }

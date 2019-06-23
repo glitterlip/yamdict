@@ -18,7 +18,7 @@ export default class Counter extends Component<Props> {
 
   constructor() {
     super();
-    let parser = new Parser();
+
 
   }
 

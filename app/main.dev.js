@@ -10,11 +10,15 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, globalShortcut, dialog, Tray, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import { youdao, baidu, google } from 'translation.js';
+import { registerTranslateEvent } from './utils/translate';
 
+const path = require('path');
+const { ipcMain } = require('electron');
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -24,7 +28,7 @@ export default class AppUpdater {
 }
 
 let mainWindow = null;
-
+let appicon = null;
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -69,8 +73,9 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728
+    width: 960,
+    height: 680,
+    titleBarStyle: 'hiddenInset'
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -93,10 +98,33 @@ app.on('ready', async () => {
     mainWindow = null;
   });
 
+  globalShortcut.register('Super+Alt+X', () => {
+    dialog.showMessageBox({
+      type: 'info',
+      message: '你按下了全局注册的快捷键'
+    });
+  });
+
+  let trayImgPath = path.join(__dirname, '/flagTemplate.png');
+  appicon = new Tray(trayImgPath);
+  const contextMenu = Menu.buildFromTemplate([
+    { label: '菜单一', type: 'radio' },
+    { label: '菜单二', type: 'radio' },
+    { label: '菜单三', type: 'radio', checked: true },
+    { label: '关于', type: 'radio' }
+  ]);
+
+  appicon.setToolTip('这是系统托盘！');
+  // appicon.setTitle('这里是歌词！');
+  appicon.setContextMenu(contextMenu);
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
+  registerTranslateEvent(ipcMain);
+
+
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-  new AppUpdater();
+  // new AppUpdater();
 });

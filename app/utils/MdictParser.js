@@ -434,9 +434,10 @@ export default class MdictParser {
     // let res = Buffer.from(pako.inflate(compressed)).toString('utf8');
 
     let arr = this.searchEnd(res, wordSite.wordOffset - (this.recordInfo.blockSize[wanted.count]).blockOffset);
-    console.log(arr[0]);
+    // console.log(arr[0]);
 
 
+    return arr[0];
   };
 
 
