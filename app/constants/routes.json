@@ -10,6 +10,56 @@
     "icon":"font-size",
     "type": "single",
     "name": "翻译"
-
+  },
+  "NOTE": {
+    "path": "/notes",
+    "icon": "tags",
+    "type": "multiple",
+    "name": "单词本",
+    "children": [
+      {
+        "path": "/notes/1",
+        "icon": "tag",
+        "name": "单词本1"
+      },
+      {
+        "path": "/notes/2",
+        "icon": "tag",
+        "name": "单词本2"
+      },
+      {
+        "path": "/notes/3",
+        "icon": "tag",
+        "name": "单词本3"
+      }
+    ]
+  },
+  "DICTS": {
+    "path": "/dicts",
+    "icon": "database",
+    "type": "multiple",
+    "name": "词典库",
+    "children": [
+      {
+        "path": "/dicts/1",
+        "icon": "read",
+        "name": "柯林斯双解"
+      },
+      {
+        "path": "/dicts/2",
+        "icon": "read",
+        "name": "麦克米伦高阶"
+      },
+      {
+        "path": "/dicts/3",
+        "icon": "read",
+        "name": "牛津高阶"
+      },
+      {
+        "path": "/dicts/4",
+        "icon": "read",
+        "name": "剑桥高阶"
+      }
+    ]
   }
 }

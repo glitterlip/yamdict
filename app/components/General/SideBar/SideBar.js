@@ -8,13 +8,14 @@ import style from './SideBar.css';
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 const SideBar = () => {
-  const ROUTEARR = Object.keys(routes).map((item, key) => {
+  const ROUTEARR = Object.keys(routes).map(item => {
     return {
-      key,
-      path: item.path,
-      icon: item.icon,
-      type: item.type,
-      name: item.name
+      key: item,
+      children: routes[item].children ? routes[item].children : null,
+      path: routes[item].path,
+      icon: routes[item].icon,
+      type: routes[item].type,
+      name: routes[item].name
     };
   });
 
@@ -36,18 +37,24 @@ const SideBar = () => {
             </Menu.Item>
           ) : (
             <SubMenu
-              key="sub3"
+              key={item.path}
               title={
                 <span>
-                  <Icon type="notification" />
-                  单词本
+                  <Icon type={item.icon} />
+                  {item.name}
                 </span>
               }
             >
-              <Menu.Item key="9">option9</Menu.Item>
-              <Menu.Item key="10">option10</Menu.Item>
-              <Menu.Item key="11">option11</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
+              {item.children.map(child => {
+                return (
+                  <Menu.Item key={child.name}>
+                    <Link to={child.path} className={style.link}>
+                      <Icon type={child.icon} />
+                      {child.name}
+                    </Link>
+                  </Menu.Item>
+                );
+              })}
             </SubMenu>
           );
         })}
