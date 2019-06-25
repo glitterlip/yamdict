@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Weather</title>
+</head>
+<body>
+<div class="header-arrow"></div>
+<div class="window">
+  <header class="toolbar toolbar-header">
+    <h1 class="title">The Weather <span class="js-update-time"></span></h1>
+  </header>
+
+  <div class="window-content">
+    <div class="pane">
+      <div>
+        <div class="column">
+          <label for="search">搜索</label><input type="text" id="search">
+        </div>
+        <div class="column">
+          <button>偏好设置</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="toolbar toolbar-footer">
+
+    <div class="footer-link">
+      Powered by <a href="http://forecast.io">Forecast</a>
+    </div>
+
+    <div class="toolbar-actions pull-right">
+      <div class="btn-group">
+        <button class="btn btn-default js-refresh-action">
+          <span class="icon icon-arrows-ccw js-refresh-action" title="Refresh"></span>
+        </button>
+
+        <button class="btn btn-default js-quit-action">
+          <span class="icon icon-cancel js-quit-action" title="Quit"></span>
+        </button>
+      </div>
+    </div>
+
+  </footer>
+</div>
+</body>
+</html>

@@ -10,14 +10,15 @@
  *
  * @flow
  */
-import { app, BrowserWindow, globalShortcut, dialog, Tray, Menu } from 'electron';
+import { app, BrowserWindow, dialog, globalShortcut } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
-import { youdao, baidu, google } from 'translation.js';
 import { registerTranslateEvent } from './utils/translate';
+import { registerTray } from './utils/tray';
+import { registerConfig } from './utils/config';
+import { registerErrorService } from './utils/Error/main';
 
-const path = require('path');
+
 const { ipcMain } = require('electron');
 export default class AppUpdater {
   constructor() {
@@ -26,9 +27,7 @@ export default class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
-
 let mainWindow = null;
-let appicon = null;
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -71,6 +70,8 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+
+
   mainWindow = new BrowserWindow({
     show: false,
     width: 960,
@@ -105,24 +106,11 @@ app.on('ready', async () => {
     });
   });
 
-  let trayImgPath = path.join(__dirname, '/flagTemplate.png');
-  appicon = new Tray(trayImgPath);
-  const contextMenu = Menu.buildFromTemplate([
-    { label: '菜单一', type: 'radio' },
-    { label: '菜单二', type: 'radio' },
-    { label: '菜单三', type: 'radio', checked: true },
-    { label: '关于', type: 'radio' }
-  ]);
-
-  appicon.setToolTip('这是系统托盘！');
-  // appicon.setTitle('这里是歌词！');
-  appicon.setContextMenu(contextMenu);
-
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
 
   registerTranslateEvent(ipcMain);
-
+  registerTray(ipcMain);
+  registerConfig();
+  registerErrorService(ipcMain,dialog);
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
