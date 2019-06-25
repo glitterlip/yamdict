@@ -381,7 +381,7 @@ export default class MdictParser {
     }
   };
 
-  findWord = (word = 'aback') => {
+  findWord = (word = 'aback', filePath) => {
     let wordSite = this.indexMap.get(word);
 
     if (!wordSite) {
@@ -395,7 +395,6 @@ export default class MdictParser {
 
     let end = flip.wordOffset;
 
-    console.log('start', this);
     console.log('start', start);
     console.log('wordOffset', end);
 
@@ -427,15 +426,15 @@ export default class MdictParser {
     }
 
     //解压目标 word 所在区块 然后截取 start-end 返回
-    let buffer = fs.readFileSync(path.join(__dirname, '../resources/dicts/柯林斯双解.mdx'));
+    let buffer = fs.readFileSync(path.join(process.cwd(), filePath));
 
-    console.log(buffer);
+    console.log('429');
     let no = this.recordInfo.blockSize[wanted.count];
     console.log(no, no.globalOffset, no.compressSize);
     //303516
     let compressed = buffer.slice(no.globalOffset + 8, no.globalOffset + no.compressSize);
 
-    console.log(compressed);
+    console.log('437');
     let res = Buffer.from(pako.inflate(compressed));
     // let res = Buffer.from(pako.inflate(compressed)).toString('utf8');
 

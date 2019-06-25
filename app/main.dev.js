@@ -17,7 +17,7 @@ import { registerTranslateEvent } from './utils/translate';
 import { registerTray } from './utils/tray';
 import { registerConfig } from './utils/config';
 import { registerErrorService } from './utils/Error/main';
-
+import { registerDictService } from './services/dict/DictService';
 
 const { ipcMain } = require('electron');
 export default class AppUpdater {
@@ -71,7 +71,6 @@ app.on('ready', async () => {
   }
 
 
-
   mainWindow = new BrowserWindow({
     show: false,
     width: 960,
@@ -106,11 +105,12 @@ app.on('ready', async () => {
     });
   });
 
-
-  registerTranslateEvent(ipcMain);
+  registerErrorService(ipcMain, dialog);
   registerTray(ipcMain);
   registerConfig();
-  registerErrorService(ipcMain,dialog);
+  registerDictService(ipcMain);
+  registerTranslateEvent(ipcMain);
+  // init();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line

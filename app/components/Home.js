@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import styles from './Home.css';
-import Parser from '../utils/MdictParser';
 import IndexHeader from './Index/Header/Header';
 import { Breadcrumb, Layout } from 'antd';
 import SideBar from './General/SideBar/SideBar';
 import AppFooter from './General/Footer/Footer';
 
+const { ipcRenderer } = require('electron');
 const { Content } = Layout;
 
 type Props = {
@@ -21,18 +21,14 @@ export default class Home extends Component<Props> {
 
   constructor(props) {
     super(props);
-    let parser;
-    if (typeof parser == 'undefined' && props.dict.engine == null) {
-      this.parser = parser = new Parser();
-      props.setDict(parser);
+    ipcRenderer.on('search-results', (event, arg) => {
 
-    }
-
+      this.props.setResult(arg);
+    });
   }
 
   render() {
-    let { findWord } = this.parser || this.props.dict;
-    let { setResult } = this.props;
+
     return (
       <Layout>
         {/*<Header className="header">*/}
@@ -48,7 +44,7 @@ export default class Home extends Component<Props> {
         {/*<Menu.Item key="3">nav 3</Menu.Item>*/}
         {/*</Menu>*/}
         {/*</Header>*/}
-        <IndexHeader engine={findWord} {...this.props}/>
+        <IndexHeader {...this.props}/>
         <Layout>
           {/*<Sider width={200} style={{ background: '#fff' }} theme={this.props.setting.theme}>*/}
           {/*<Menu*/}
@@ -106,9 +102,15 @@ export default class Home extends Component<Props> {
               <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>
             <Content className={styles.content}
-
             >
-              <div dangerouslySetInnerHTML={{ __html: this.props.dict.result }}/>
+              {Object.keys(this.props.dict.result) ?
+                Object.keys(this.props.dict.result).map((key) => {
+                  return <div key={key}>
+                    <p>{key}</p>
+                    <div dangerouslySetInnerHTML={{ __html: this.props.dict.result[key] }}/>
+                  </div>;
+
+                }) : ''}
             </Content>
           </Layout>
         </Layout>

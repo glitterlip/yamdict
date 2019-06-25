@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import Home from '../components/Home';
-import { bindActionCreators } from 'redux';
 import * as DictActions from '../actions/dict';
 import * as SettingActions from '../actions/setting';
 import { connect } from 'react-redux';

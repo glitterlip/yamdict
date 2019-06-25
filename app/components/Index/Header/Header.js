@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Col, Input, Layout, Row, Switch } from 'antd';
 import styles from './Header.css';
 
+const { ipcRenderer } = require('electron');
 const { Header } = Layout;
 type Props = {
   toggleTheme: () => void,
@@ -14,9 +15,7 @@ export default class IndexHeader extends Component<Props> {
   props: Props;
 
   search = value => {
-    const { engine, setResult } = this.props;
-    const res = engine(value);
-    setResult(res);
+    ipcRenderer.send('search-word', value);
   };
 
   render() {
