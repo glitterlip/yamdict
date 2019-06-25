@@ -1,16 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import routes from '../constants/routes';
 import styles from './Home.css';
 import Parser from '../utils/MdictParser';
 import IndexHeader from './Index/Header/Header';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-import SideBar  from './General/SideBar/SideBar';
+import { Breadcrumb, Layout } from 'antd';
+import SideBar from './General/SideBar/SideBar';
 import AppFooter from './General/Footer/Footer';
 
-const { SubMenu } = Menu;
-const { Content, Sider, Footer } = Layout;
+const { Content } = Layout;
 
 type Props = {
   setDict: ()=>void,

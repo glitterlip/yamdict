@@ -1,10 +1,10 @@
+import { ripemd128 } from './ripemd128';
+
 const fs = require('fs');
 const pako = require('pako');
 const path = require('path');
 const stream = require('stream');
-
-import { ripemd128 } from './ripemd128';
-
+const { ipcRenderer } = require('electron');
 export default class MdictParser {
 
   headLength;
@@ -20,13 +20,21 @@ export default class MdictParser {
   keyBlocks = [];
   indexMap;
 
-  constructor(parth) {
+  constructor(filePath = '/resources/dicts/柯林斯双解.mdx') {
 
     this.offset = 0;
     this.length = 4;
     this.indexMap = new Map();
     this.flipMap = new Map();
-    let buffer = fs.readFileSync(path.join(__dirname, '../resources/dicts/柯林斯双解.mdx'));
+
+    const realPath = path.join(process.cwd(), filePath);
+    fs.access(realPath, fs.constants.R_OK, (err) => {
+      if (err) {
+        ipcRenderer.send('app-error', { title: '解析失败', content: `解析词典文件时发生错误,请确认文件:${realPath} 存在并且有读取权限` });
+      }
+    });
+
+    let buffer = fs.readFileSync(realPath);
 
 
 // 创建一个bufferstream
@@ -50,11 +58,6 @@ export default class MdictParser {
     this.getKeyBlocks(this.read(this.keyWordSummary.key_blocks_len));
 
     this.getRecordBlocks();
-
-    this.findWord('24-7');
-    this.findWord('911');
-    this.findWord('999');
-
 
     // });
 
@@ -381,6 +384,9 @@ export default class MdictParser {
   findWord = (word = 'aback') => {
     let wordSite = this.indexMap.get(word);
 
+    if (!wordSite) {
+      return 'no results';
+    }
     console.log('weizhi', wordSite);
     let start = wordSite.wordOffset;
     let count = wordSite.count;
