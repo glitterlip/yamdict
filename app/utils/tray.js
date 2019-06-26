@@ -77,4 +77,4 @@ const getWindowPosition = () => {
 };
 
 
-export { registerTray };
+export { registerTray, toggleWindow };

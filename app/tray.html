@@ -15,7 +15,8 @@
     <div class="pane">
       <div>
         <div class="column">
-          <label for="search">搜索</label><input type="text" id="search">
+          <label for="search">搜索</label><input type="text" id="search"  autofocus
+                                               placeholder="按下 Command+Option+X 快速查询">
         </div>
         <div class="column">
           <button>偏好设置</button>
@@ -46,4 +47,18 @@
   </footer>
 </div>
 </body>
+<script>
+
+  const { ipcRenderer } = require('electron');
+  document.onkeydown = (event) => {
+    console.log(event.code);
+    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+
+      let input = document.querySelector('#search');
+
+      ipcRenderer.send('search-word', input.value);
+
+    }
+  };
+</script>
 </html>
