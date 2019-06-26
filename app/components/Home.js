@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import styles from './Home.css';
 import IndexHeader from './Index/Header/Header';
-import { Breadcrumb, Layout } from 'antd';
+import { Breadcrumb, Collapse, Icon, Layout } from 'antd';
 import SideBar from './General/SideBar/SideBar';
 import AppFooter from './General/Footer/Footer';
+import { parserNames } from '../utils/config';
 
 const { ipcRenderer } = require('electron');
 const { Content } = Layout;
@@ -23,6 +24,7 @@ export default class Home extends Component<Props> {
     super(props);
     ipcRenderer.on('search-results', (event, arg) => {
 
+      console.log('result received');
       this.props.setResult(arg);
     });
   }
@@ -31,69 +33,10 @@ export default class Home extends Component<Props> {
 
     return (
       <Layout>
-        {/*<Header className="header">*/}
-        {/*<div className="logo"/>*/}
-        {/*<Menu*/}
-        {/*theme="dark"*/}
-        {/*mode="horizontal"*/}
-        {/*defaultSelectedKeys={['2']}*/}
-        {/*style={{ lineHeight: '64px' }}*/}
-        {/*>*/}
-        {/*<Menu.Item key="1">nav 1</Menu.Item>*/}
-        {/*<Menu.Item key="2">nav 2</Menu.Item>*/}
-        {/*<Menu.Item key="3">nav 3</Menu.Item>*/}
-        {/*</Menu>*/}
-        {/*</Header>*/}
+
         <IndexHeader {...this.props}/>
         <Layout>
-          {/*<Sider width={200} style={{ background: '#fff' }} theme={this.props.setting.theme}>*/}
-          {/*<Menu*/}
-          {/*mode="inline"*/}
-          {/*defaultSelectedKeys={['1']}*/}
-          {/*defaultOpenKeys={['sub1']}*/}
-          {/*theme={this.props.theme}*/}
-          {/*style={{ height: '100%', borderRight: 0 }}*/}
-          {/*>*/}
-          {/*<Menu.Item key="main1">*/}
-          {/*<Icon type="search"/>*/}
-          {/*<span><Link to={routes.HOME}>查询</Link></span>*/}
-          {/*</Menu.Item>*/}
 
-          {/*<Menu.Item key="main2">*/}
-          {/*<Icon type="font-size" />*/}
-          {/*<span><Link to={routes.TRANSLATE}>翻译</Link></span>*/}
-          {/*</Menu.Item>*/}
-          {/*<SubMenu*/}
-          {/*key="sub3"*/}
-          {/*title={*/}
-          {/*<span>*/}
-          {/*<Icon type="notification"/>*/}
-          {/*单词本*/}
-          {/*</span>*/}
-          {/*}*/}
-          {/*>*/}
-          {/*<Menu.Item key="9">option9</Menu.Item>*/}
-          {/*<Menu.Item key="10">option10</Menu.Item>*/}
-          {/*<Menu.Item key="11">option11</Menu.Item>*/}
-          {/*<Menu.Item key="12">option12</Menu.Item>*/}
-          {/*</SubMenu>*/}
-          {/*<SubMenu*/}
-          {/*key="sub4"*/}
-          {/*title={*/}
-          {/*<span>*/}
-          {/*<Icon type="notification"/>*/}
-          {/*词典库*/}
-          {/*</span>*/}
-          {/*}*/}
-          {/*>*/}
-          {/*<Menu.Item key="13">option9</Menu.Item>*/}
-          {/*<Menu.Item key="14">option10</Menu.Item>*/}
-          {/*<Menu.Item key="15">option11</Menu.Item>*/}
-          {/*<Menu.Item key="16">option12</Menu.Item>*/}
-          {/*</SubMenu>*/}
-
-          {/*</Menu>*/}
-          {/*</Sider>*/}
           <SideBar></SideBar>
           <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
@@ -103,14 +46,7 @@ export default class Home extends Component<Props> {
             </Breadcrumb>
             <Content className={styles.content}
             >
-              {Object.keys(this.props.dict.result) ?
-                Object.keys(this.props.dict.result).map((key) => {
-                  return <div key={key}>
-                    <p>{key}</p>
-                    <div dangerouslySetInnerHTML={{ __html: this.props.dict.result[key] }}/>
-                  </div>;
-
-                }) : ''}
+              {Object.keys(this.props.dict.result) ? <Definitions result={this.props.dict.result}/> : ''}
             </Content>
           </Layout>
         </Layout>
@@ -120,3 +56,31 @@ export default class Home extends Component<Props> {
     );
   }
 }
+
+
+const customPanelStyle = {
+  background: '#f7f7f7',
+  borderRadius: 4,
+  marginBottom: 24,
+  border: 0,
+  overflow: 'hidden'
+};
+const { Panel } = Collapse;
+
+const Definitions = ({ result }) => <Collapse
+  bordered={false}
+  defaultActiveKey={parserNames()}
+  expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0}/>}
+>
+
+  {
+    Object.keys(result).map((key) => {
+      return <Panel key={key} header={key} style={customPanelStyle}>
+        <div dangerouslySetInnerHTML={{ __html: result[key] }}/>
+
+      </Panel>;
+
+
+    })}
+
+</Collapse>;
