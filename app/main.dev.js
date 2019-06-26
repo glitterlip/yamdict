@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow, dialog, globalShortcut } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { registerTranslateEvent } from './utils/translate';
@@ -18,6 +18,7 @@ import { registerTray } from './utils/tray';
 import { registerConfig } from './utils/config';
 import { registerErrorService } from './utils/Error/main';
 import { registerDictService } from './services/dict/DictService';
+import { init } from './services/app/AppService';
 
 const { ipcMain } = require('electron');
 export default class AppUpdater {
@@ -98,19 +99,13 @@ app.on('ready', async () => {
     mainWindow = null;
   });
 
-  globalShortcut.register('Super+Alt+X', () => {
-    dialog.showMessageBox({
-      type: 'info',
-      message: '你按下了全局注册的快捷键'
-    });
-  });
 
   registerErrorService(ipcMain, dialog);
   registerTray(ipcMain);
   registerConfig();
-  registerDictService(ipcMain);
+  registerDictService(ipcMain,mainWindow);
   registerTranslateEvent(ipcMain);
-  // init();
+  init();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
