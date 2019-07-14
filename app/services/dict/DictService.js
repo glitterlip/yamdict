@@ -11,7 +11,7 @@ const registerDictService = (ipcMain, mainWindow) => {
       { id: 2, name: '牛津', path: '/resources/dicts/nnnn牛津双解.mdx', enabled: 1 }
     ]).write();
   } else {
-    configDb.get('dicts').filter({enabled:1}).value().map((dict) => {
+    configDb.get('dicts').filter({ enabled: 1 }).value().map((dict) => {
       parsers.set(dict.name, { dict: new Parser(dict.path), path: dict.path });
     });
   }
@@ -47,4 +47,12 @@ const findWord = (word) => {
   console.log('return :', result);
   return result;
 };
-export { parsers, registerDictService, findWord };
+const loadParsers = () => {
+  parsers.clear();
+  console.log('reload');
+  configDb.get('dicts').filter({ enabled: 1 }).value().map((dict) => {
+    console.log(dict);
+    parsers.set(dict.name, { dict: new Parser(dict.path), path: dict.path });
+  });
+};
+export { parsers, registerDictService, findWord, loadParsers };

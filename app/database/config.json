@@ -3,7 +3,14 @@
     {
       "id": 1,
       "name": "柯林斯双解",
-      "path": "/resources/dicts/柯林斯双解.mdx"
+      "path": "/resources/dicts/柯林斯双解.mdx",
+      "enabled": 1
+    },
+    {
+      "id": 2,
+      "name": "牛津",
+      "path": "/resources/dicts/nnnn牛津双解.mdx",
+      "enabled": 1
     }
   ]
 }

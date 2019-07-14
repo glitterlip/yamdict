@@ -57,11 +57,10 @@ export default class Translate extends Component<Props> {
   };
 
   render() {
-    const { findWord } = this.props.dict.engine;
-    const { setResult } = this.props;
+
     return (
       <Layout>
-        <IndexHeader engine={findWord} {...this.props} />
+        <IndexHeader  {...this.props} />
         <Layout>
           <SideBar></SideBar>
           <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
