@@ -81,8 +81,11 @@ export default class Home extends Component<Props> {
   };
 
   like = (value) => {
-    NoteService.add({ word: this.state.word, score: value });
-    this.setState({ score: value });
+    if (value){
+      NoteService.add({ word: this.state.word, score: value });
+      this.setState({ score: value });
+    }
+
   };
 
   render() {

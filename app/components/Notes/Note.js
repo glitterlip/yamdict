@@ -73,7 +73,7 @@ export default class Note extends Component<Props> {
             </Breadcrumb>
             <Content className={styles.content}>
 
-              <Table dataSource={this.words} columns={columns}>
+              <Table dataSource={this.words} columns={columns} rowKey={'word'}>
 
               </Table>
             </Content>

@@ -9,7 +9,8 @@
       "note": "序数词第一的意思",
       "score": 4,
       "count": 1,
-      "last_time": 1563437037690
+      "last_time": 1563437037690,
+      "next_time": 1563437037690
     },
     {
       "word": "try",
@@ -17,7 +18,8 @@
       "note": "",
       "score": 5,
       "count": 1,
-      "last_time": 1563437037690
+      "last_time": 1563437037690,
+      "next_time": 1563437037690
     }
   ]
 }

@@ -4,41 +4,36 @@ const lodashId = require('lodash-id');
 const adapter = new FileSync('app/database/notes/note.json');
 const noteDb = low(adapter);
 
-const note = {
 
-  add: (info) => {
+class NoteService {
+  add = (info) => {
 
     const { word, score } = info;
     let exist = noteDb.get('words').find({ word }).value();
     if (exist) {
       noteDb.get('words').find({ word }).assign({ score, count: exist.count + 1 }).write();
     } else {
-      const _now = (new Date()).getTime();
-      noteDb.get('words').push({
+      noteDb.get('words').push(this.getDefault({
         word,
-        time: _now,
-        note: '',
-        score,
-        count: 1,
-        last_time: _now
-      }).write();
+        score
+      })).write();
 
     }
 
   }
-  ,
-  find: (word) => {
+  ;
+  find = (word) => {
     return noteDb.get('words').find({ word }).value();
-  },
-  remove: (info) => {
+  };
+  remove = (info) => {
     noteDb.get('words')
       .remove({ word: info })
       .write();
-  },
-  all: () => {
+  };
+  all = () => {
     return noteDb.get('words').value();
-  },
-  getDefault: (word = null) => {
+  };
+  getDefault = (word = null) => {
     const _now = (new Date()).getTime();
 
     return {
@@ -47,10 +42,13 @@ const note = {
       score: 1,
       count: 1,
       last_time: _now,
+      next_time: _now,
       ...word
     };
-  }
-};
+  };
+}
+
+const note = new NoteService();
 
 const registerNoteService = () => {
   // noteDb._.mixin(lodashId);
