@@ -7,19 +7,17 @@
       "word": "first",
       "time": 1563353412427,
       "note": "序数词第一的意思",
-      "score": 4
+      "score": 4,
+      "count": 1,
+      "last_time": 1563437037690
     },
     {
       "word": "try",
       "time": 1563436410164,
       "note": "",
-      "score": 5
-    },
-    {
-      "word": "than",
-      "time": 1563437037690,
-      "note": "",
-      "score": 5
+      "score": 5,
+      "count": 1,
+      "last_time": 1563437037690
     }
   ]
 }

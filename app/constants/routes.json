@@ -14,7 +14,7 @@
   "NOTE": {
     "path": "/notes",
     "icon": "tags",
-    "type": "multiple",
+    "type": "single",
     "name": "单词本",
     "children": [
       {

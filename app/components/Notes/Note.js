@@ -1,14 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { Layout, Menu, Breadcrumb,  Row, Col, Input, Button } from 'antd';
-import ReactAudioPlayer from 'react-audio-player';
+import { Breadcrumb, Icon, Layout, Rate, Table } from 'antd';
 import styles from './Note.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
 import AppFooter from '../General/Footer/Footer';
+import { note as NoteService } from '../../services/note/NoteService';
 
-const { Content} = Layout;
-const { ipcRenderer } = require('electron');
+const { Content } = Layout;
 
 type Props = {
   setDict: () => void,
@@ -21,43 +20,46 @@ export default class Note extends Component<Props> {
 
   constructor() {
     super();
+    this.words = NoteService.all();
 
-    this.state = {
-      target: '',
-      result: '',
-      read: ''
-    };
-
-    ipcRenderer.on('translate-result', (event, arg) => {
-      this.setState({
-        result: arg
-      });
-    });
-
-    ipcRenderer.on('read-result', (event, arg) => {
-      const player = this.player.audioEl;
-      player.src = arg;
-      player.load();
-      player.play();
-    });
   }
 
-  translate = () => {
-    ipcRenderer.send('translate-request', this.state.target);
-  };
-
-  read = () => {
-    ipcRenderer.send('read-request', this.state.target);
-  };
-
-  handleChange = e => {
-    this.setState({
-      target: e.target.value
-    });
+  remove = (word) => {
+    NoteService.remove(word);
   };
 
   render() {
-
+    const columns = [
+      {
+        title: '单词',
+        dataIndex: 'word'
+      },
+      {
+        title: '添加时间',
+        dataIndex: 'time',
+        render: time => (new Date(time)).toLocaleString()
+      },
+      {
+        title: '星级',
+        dataIndex: 'score',
+        render: score => <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} value={score}/>
+      },
+      {
+        title: '查询次数',
+        dataIndex: 'count'
+      },
+      {
+        title: '操作',
+        key: 'action',
+        render: (record) => (
+          <span>
+        <Icon type="delete" theme="twoTone" onClick={() => {
+          this.remove(record.word);
+        }}/>
+      </span>
+        )
+      }
+    ];
     return (
       <Layout>
         <IndexHeader {...this.props} />
@@ -70,67 +72,10 @@ export default class Note extends Component<Props> {
               <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>
             <Content className={styles.content}>
-              <Row>
-                <Col span={24}>
-                  <Input.TextArea rows={8} onChange={this.handleChange} />
-                </Col>
-              </Row>
-              <br />
-              <Row>
-                <Col span={24}>
-                  <Input.TextArea rows={8} value={this.state.result.result} />
-                </Col>
-              </Row>
-              <br />
 
-              <Row>
-                <Col span={6}>
-                  <Button
-                    type="primary"
-                    icon="audio"
-                    className={styles['tans-button']}
-                    block
-                    onClick={this.read}
-                  >
-                    朗读
-                  </Button>
-                </Col>
-                <Col span={3}></Col>
-                <Col span={6}>
-                  <Button
-                    type="primary"
-                    icon="search"
-                    className={styles['tans-button']}
-                    block
-                    onClick={this.translate}
-                  >
-                    翻译
-                  </Button>
-                </Col>
-                <Col span={3}></Col>
+              <Table dataSource={this.words} columns={columns}>
 
-                <Col span={6}>
-                  <Button
-                    type="primary"
-                    icon="search"
-                    className={styles['tans-button']}
-                    block
-                  >
-                    Search
-                  </Button>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <ReactAudioPlayer
-                    ref={element => {
-                      this.player = element;
-                    }}
-                    src=""
-                  />
-                </Col>
-              </Row>
+              </Table>
             </Content>
           </Layout>
         </Layout>

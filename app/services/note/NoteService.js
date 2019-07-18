@@ -9,14 +9,18 @@ const note = {
   add: (info) => {
 
     const { word, score } = info;
-    if (noteDb.get('words').find({ word }).value()) {
-      noteDb.get('words').find({ word }).assign({ score }).write();
+    let exist = noteDb.get('words').find({ word }).value();
+    if (exist) {
+      noteDb.get('words').find({ word }).assign({ score, count: exist.count + 1 }).write();
     } else {
+      const _now = (new Date()).getTime();
       noteDb.get('words').push({
         word,
-        time: (new Date()).getTime(),
+        time: _now,
         note: '',
-        score
+        score,
+        count: 1,
+        last_time: _now
       }).write();
 
     }
@@ -24,10 +28,27 @@ const note = {
   }
   ,
   find: (word) => {
-    return noteDb.get('words').find({ word }).value()
+    return noteDb.get('words').find({ word }).value();
   },
   remove: (info) => {
+    noteDb.get('words')
+      .remove({ word: info })
+      .write();
+  },
+  all: () => {
+    return noteDb.get('words').value();
+  },
+  getDefault: (word = null) => {
+    const _now = (new Date()).getTime();
 
+    return {
+      time: _now,
+      note: '',
+      score: 1,
+      count: 1,
+      last_time: _now,
+      ...word
+    };
   }
 };
 
