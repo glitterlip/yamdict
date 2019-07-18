@@ -5,16 +5,7 @@ import { configDb } from '../../utils/config';
 let parsers = new Map();
 
 const registerDictService = (ipcMain, mainWindow) => {
-  if (!configDb.has('dicts').value()) {
-    configDb.set('dicts', [
-      { id: 1, name: '柯林斯双解', path: '/resources/dicts/柯林斯双解.mdx', enabled: 1 },
-      { id: 2, name: '牛津', path: '/resources/dicts/nnnn牛津双解.mdx', enabled: 1 }
-    ]).write();
-  } else {
-    configDb.get('dicts').filter({ enabled: 1 }).value().map((dict) => {
-      parsers.set(dict.name, { dict: new Parser(dict.path), path: dict.path });
-    });
-  }
+  loadParsers();
 
   ipcMain.on('search-word', (event, arg) => {
 
@@ -43,16 +34,26 @@ const findWord = (word) => {
     //???? electron ipc cant accept Map param?
   });
 
-  console.log(result);
-  console.log('return :', result);
   return result;
 };
 const loadParsers = () => {
   parsers.clear();
-  console.log('reload');
-  configDb.get('dicts').filter({ enabled: 1 }).value().map((dict) => {
-    console.log(dict);
-    parsers.set(dict.name, { dict: new Parser(dict.path), path: dict.path });
-  });
+  if (!configDb.has('dicts').value()) {
+    configDb.set('dicts', [
+      { name: '柯林斯双解', path: '/resources/dicts/柯林斯双解.mdx', enabled: 1 },
+      { name: '牛津', path: '/resources/dicts/nnnn牛津双解.mdx', enabled: 1 }
+    ]).write();
+  } else {
+    configDb.get('dicts').filter({ enabled: 1 }).value().map((dict) => {
+
+      let newParser = new Parser(dict.path);
+      parsers.set(dict.name, { dict: newParser, path: dict.path });
+      if (!dict.hasOwnProperty('info')) {
+        configDb.get('dicts').find({ name: dict.name }).assign({ info: newParser.headerStr }).write();
+      }
+
+    });
+  }
+
 };
 export { parsers, registerDictService, findWord, loadParsers };

@@ -1,13 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { Layout, Menu, Breadcrumb,  Row, Col, Input, Button } from 'antd';
+import { Breadcrumb, Button, Col, Input, Layout, Row } from 'antd';
 import ReactAudioPlayer from 'react-audio-player';
 import styles from './Translate.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
 import AppFooter from '../General/Footer/Footer';
 
-const { Content} = Layout;
+const { Content } = Layout;
 const { ipcRenderer } = require('electron');
 
 type Props = {
@@ -29,9 +29,11 @@ export default class Translate extends Component<Props> {
     };
 
     ipcRenderer.on('translate-result', (event, arg) => {
-      this.setState({
-        result: arg
-      });
+      if (this.state.target.length) {
+        this.setState({
+          result: arg
+        });
+      }
     });
 
     ipcRenderer.on('read-result', (event, arg) => {
@@ -72,16 +74,16 @@ export default class Translate extends Component<Props> {
             <Content className={styles.content}>
               <Row>
                 <Col span={24}>
-                  <Input.TextArea rows={8} onChange={this.handleChange} />
+                  <Input.TextArea rows={8} onChange={this.handleChange}/>
                 </Col>
               </Row>
-              <br />
+              <br/>
               <Row>
                 <Col span={24}>
-                  <Input.TextArea rows={8} value={this.state.result.result} />
+                  <Input.TextArea rows={8} value={this.state.result.result}/>
                 </Col>
               </Row>
-              <br />
+              <br/>
 
               <Row>
                 <Col span={6}>

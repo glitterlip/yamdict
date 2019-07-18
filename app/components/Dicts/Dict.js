@@ -39,7 +39,7 @@ export default class Dict extends Component<Props> {
 
   toggleDict = (dict) => {
 
-    configDb.get('dicts').find({ id: dict.id }).assign({ enabled: dict.enabled === 0 ? 1 : 0 }).write();
+    configDb.get('dicts').find({ name: dict.name }).assign({ enabled: dict.enabled === 0 ? 1 : 0 }).write();
     let dicts = configDb.get('dicts').value();
 
     this.setState({ dicts });
@@ -95,7 +95,7 @@ export default class Dict extends Component<Props> {
               </Modal>
               <Row>
                 {this.state.dicts.map((dict) => {
-                  return <Col span={8} key={dict.id}>
+                  return <Col span={8} key={dict.name}>
                     <Card
                       title={dict.name}
                       actions={[<Button icon="ellipsis" shape="round" onClick={() => {
