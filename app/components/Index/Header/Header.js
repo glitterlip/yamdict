@@ -8,7 +8,8 @@ type Props = {
   toggleTheme: () => void,
   engine: () => {},
   setResult: () => void,
-  setting: {}
+  setting: {},
+  setWord: ()=>void
 };
 
 export default class IndexHeader extends Component<Props> {
@@ -16,6 +17,9 @@ export default class IndexHeader extends Component<Props> {
 
   search = value => {
     ipcRenderer.send('search-word', value);
+    if (this.props.setWord !== undefined) {
+      this.props.setWord(value);
+    }
   };
 
   render() {
@@ -27,7 +31,9 @@ export default class IndexHeader extends Component<Props> {
         theme={setting.theme}
       >
         <Row>
-          <Col span={5}>占位</Col>
+          <Col span={5}>
+            <span style={{ color: 'white' }}>后退</span>
+          </Col>
           <Col span={14}>
             <div className={styles.searchWrapper}>
               <Input.Search
@@ -44,6 +50,7 @@ export default class IndexHeader extends Component<Props> {
               checkedChildren="Dark"
               unCheckedChildren="Light"
             />
+            <span style={{ color: 'white' }}>历史记录</span>
           </Col>
         </Row>
       </Header>
