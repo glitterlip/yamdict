@@ -1,0 +1,25 @@
+{
+  "name": "单词本",
+  "count": 0,
+  "info": "",
+  "words": [
+    {
+      "word": "first",
+      "time": 1563353412427,
+      "note": "序数词第一的意思",
+      "score": 4
+    },
+    {
+      "word": "try",
+      "time": 1563436410164,
+      "note": "",
+      "score": 5
+    },
+    {
+      "word": "than",
+      "time": 1563437037690,
+      "note": "",
+      "score": 5
+    }
+  ]
+}
