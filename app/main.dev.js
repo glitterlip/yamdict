@@ -18,6 +18,7 @@ import { registerTray } from './utils/tray';
 import { registerConfig } from './utils/config';
 import { registerErrorService } from './utils/Error/main';
 import { registerDictService } from './services/dict/DictService';
+import { registerNoteService } from './services/note/NoteService';
 import { init } from './services/app/AppService';
 
 const { ipcMain } = require('electron');
@@ -103,8 +104,9 @@ app.on('ready', async () => {
   registerErrorService(ipcMain, dialog);
   registerTray(ipcMain);
   registerConfig();
-  registerDictService(ipcMain,mainWindow);
+  registerDictService(ipcMain, mainWindow);
   registerTranslateEvent(ipcMain);
+  registerNoteService();
   init();
 
   // Remove this if your app does not use auto updates

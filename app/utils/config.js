@@ -6,12 +6,11 @@ const configDb = low(adapter);
 
 
 const registerConfig = () => {
-  configDb._.mixin(lodashId);
 
   if (!configDb.has('dicts').value()) {
     configDb.set('dicts', [
-      { id: 1, name: '柯林斯双解', path: '/resources/dicts/柯林斯双解.mdx', enabled: 1 },
-      { id: 2, name: '牛津', path: '/resources/dicts/nnnn牛津双解.mdx', enabled: 1 }
+      { name: '柯林斯双解', path: '/resources/dicts/柯林斯双解.mdx', enabled: 1 },
+      { name: '牛津', path: '/resources/dicts/nnnn牛津双解.mdx', enabled: 1 }
     ]).write();
   }
 
