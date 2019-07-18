@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Breadcrumb, Card, Col, Collapse, Icon, Layout, Row, Switch } from 'antd';
+import { Breadcrumb, Button, Card, Col, Collapse, Layout, Modal, Row, Switch } from 'antd';
 import styles from './Dict.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
@@ -23,9 +23,19 @@ export default class Dict extends Component<Props> {
   constructor() {
     super();
     let dicts = configDb.get('dicts').value();
-    this.state = { dicts };
+    let visible = false;
+    let title = '';
+    let content = '';
+    this.state = { dicts, title, visible, content };
 
   }
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
 
   toggleDict = (dict) => {
 
@@ -34,7 +44,22 @@ export default class Dict extends Component<Props> {
 
     this.setState({ dicts });
     loadParsers();
+    console.log(this.state.dicts);
 
+  };
+
+  format = (str) => {
+    return (new DOMParser()).parseFromString(str, 'text/xml').querySelector('Dictionary').attributes.getNamedItem('Description').value;
+  };
+
+  dictInfo = (dict) => {
+
+    let content = this.format(dict.info);
+    this.setState({
+      visible: true,
+      title: dict.name,
+      content
+    });
   };
 
   render() {
@@ -50,26 +75,45 @@ export default class Dict extends Component<Props> {
               <Breadcrumb.Item>词典</Breadcrumb.Item>
             </Breadcrumb>
             <Content className={styles.content}>
+              <Modal
+                title={this.state.title}
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                okText={'确定'}
+                width={'70%'}
+                maskClosable={true}
+                closable={false}
+                footer={[
+                  <Button key="ok" type="primary" onClick={this.handleOk}>
+                    确定
+                  </Button>
+                ]}
+              >
+                <div dangerouslySetInnerHTML={{ __html: this.state.content }}></div>
+
+
+              </Modal>
               <Row>
                 {this.state.dicts.map((dict) => {
                   return <Col span={8} key={dict.id}>
                     <Card
                       title={dict.name}
-                      actions={[<Icon type="setting"/>, <Icon type="edit"/>, <Icon type="ellipsis"/>]}
+                      actions={[<Button icon="ellipsis" shape="round" onClick={() => {
+                        this.dictInfo(dict);
+                      }}/>,
+                        <Switch checked={!!dict.enabled} checkedChildren="启用" unCheckedChildren="禁用"
+                                onChange={() => {
+                                  this.toggleDict(dict);
+                                }}/>]}
 
                     >
-                      <Switch checked={!!dict.enabled} checkedChildren="启用" unCheckedChildren="禁用"
-                              onChange={() => {
-                                this.toggleDict(dict);
-                              }}/>
-                      <br/>
+
 
                     </Card>
                   </Col>;
                 })}
 
               </Row>
-
 
             </Content>
           </Layout>
