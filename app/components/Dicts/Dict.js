@@ -1,16 +1,18 @@
 // @flow
 import React, { Component } from 'react';
-import { Breadcrumb, Button, Card, Col, Collapse, Layout, Modal, Row, Switch } from 'antd';
+import { Breadcrumb, Button, Card, Col, Collapse, Layout, Modal, Row, Switch, Tabs } from 'antd';
 import styles from './Dict.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
 import AppFooter from '../General/Footer/Footer';
+import DictsInfo from './DictsInfo';
 import { configDb } from '../../utils/config';
 import { loadParsers } from '../../services/dict/DictService';
 
 const { Content } = Layout;
 const { ipcRenderer } = require('electron');
 const { Panel } = Collapse;
+const { TabPane } = Tabs;
 type Props = {
   setDict: () => void,
   setResult: () => void,
@@ -91,8 +93,12 @@ export default class Dict extends Component<Props> {
               >
                 <div dangerouslySetInnerHTML={{ __html: this.state.content }}></div>
 
-
               </Modal>
+              <Row>
+                <Col span={24}>
+                  <DictsInfo></DictsInfo>
+                </Col>
+              </Row>
               <Row>
                 {this.state.dicts.map((dict) => {
                   return <Col span={8} key={dict.name}>
@@ -105,9 +111,7 @@ export default class Dict extends Component<Props> {
                                 onChange={() => {
                                   this.toggleDict(dict);
                                 }}/>]}
-
                     >
-
 
                     </Card>
                   </Col>;

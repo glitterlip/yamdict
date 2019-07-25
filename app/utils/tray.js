@@ -32,15 +32,13 @@ const toggleWindow = () => {
 const createWindow = () => {
   trayWindow = new BrowserWindow({
     width: 300,
-    height: 450,
+    height: 150,
     show: false,
     frame: false,
     fullscreenable: false,
     resizable: false,
     transparent: false,
     webPreferences: {
-      // Prevents renderer process code from not running when window is
-      // hidden
       backgroundThrottling: false
     }
   });

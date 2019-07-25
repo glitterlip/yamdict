@@ -1,5 +1,10 @@
 import Parser from '../../utils/MdictParser';
 import { configDb } from '../../utils/config';
+import { dialog } from 'electron';
+// import {resPath} from '../../main.dev';
+
+const fs = require('fs');
+const path = require('path');
 
 
 let parsers = new Map();
@@ -18,6 +23,19 @@ const registerDictService = (ipcMain, mainWindow) => {
 
     event.sender.send('parsers', parsers);
 
+  });
+
+  ipcMain.on('add-dict-dialog', (event) => {
+    dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+        { name: '词典文件', extensions: ['mdx'] }
+      ]
+    }, (files) => {
+      if (files) {
+        addDict(files);
+      }
+    });
   });
 
 
@@ -54,6 +72,26 @@ const loadParsers = () => {
 
     });
   }
+
+};
+const addDict = (dictPath) => {
+
+  let pathArr = dictPath[0].split('/');
+  let dictName = pathArr[pathArr.length - 1];
+  let newPath = path.join(__dirname, '../../../resources/dicts/' + dictName);
+  console.log(dictPath[0]);
+  console.log(newPath);
+  console.log(dictName);
+  fs.copyFileSync(dictPath[0], newPath);
+  let newParser = new Parser('/resources/dicts/' + dictName);
+  parsers.set(dictName, { dict: newParser, path: '/resources/dicts/' + dictName });
+
+  configDb.get('dicts').push({
+    name: dictName,
+    path: '/resources/dicts/' + dictName,
+    enabled: 1,
+    info: newParser.info
+  }).write();
 
 };
 export { parsers, registerDictService, findWord, loadParsers };

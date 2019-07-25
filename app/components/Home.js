@@ -50,7 +50,6 @@ export default class Home extends Component<Props> {
       this.setState({ score: favo.score });
     } else {
       this.setState({ score: 0 });
-
     }
   };
 
@@ -81,11 +80,10 @@ export default class Home extends Component<Props> {
   };
 
   like = (value) => {
-    if (value){
+    if (value) {
       NoteService.add({ word: this.state.word, score: value });
       this.setState({ score: value });
     }
-
   };
 
   render() {
@@ -123,16 +121,13 @@ export default class Home extends Component<Props> {
                 />
               </Row>
               <Row>
-                {this.state.result.length ?
-                  <Card>
-                    {
-                      this.state.result.map((item, index) => {
-                        return <p key={index}>{item}</p>;
-                      })
-                    }
-                  </Card>
-                  : ''
-                }
+                <Card className={this.state.result.length ? styles.show : styles.hidden}>
+                  {
+                    this.state.result.map((item, index) => {
+                      return <p key={index}>{item}</p>;
+                    })
+                  }
+                </Card>
               </Row>
 
             </Card>

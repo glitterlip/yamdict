@@ -22,3 +22,9 @@
   overflow: auto;
 }
 
+.show {
+  display: block;
+}
+.hidden {
+  display: none;
+}

@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow, dialog } from 'electron';
+import { app, BrowserWindow, dialog, protocol } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { registerTranslateEvent } from './utils/translate';
@@ -22,6 +22,9 @@ import { registerNoteService } from './services/note/NoteService';
 import { init } from './services/app/AppService';
 
 const { ipcMain } = require('electron');
+const path = require('path');
+const { readFileSync: read } = require('fs');
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -72,6 +75,13 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  //register custom protocal
+  protocol.registerBufferProtocol('tray', (request, respond) => {
+    const filePath = request.url.substr(7);
+    let data = read(path.join(__dirname, filePath));
+    console.log(data);
+    respond({ mimeType: 'text/javascript', data });
+  });
 
   mainWindow = new BrowserWindow({
     show: false,

@@ -3,53 +3,46 @@
 <head>
   <meta charset="utf-8">
   <title>Weather</title>
+  <!--<script type="module" src="tray://trayindex.js"></script>-->
+  <style>
+    li {
+      list-style-type: none
+    }
+
+    #search {
+      width: 160px;
+    }
+  </style>
 </head>
 <body>
-<div class="header-arrow"></div>
 <div class="window">
-  <header class="toolbar toolbar-header">
-    <h1 class="title">The Weather <span class="js-update-time"></span></h1>
-  </header>
-
   <div class="window-content">
     <div class="pane">
       <div>
-        <div class="column">
-          <label for="search">搜索</label><input type="text" id="search"  autofocus
-                                               placeholder="按下 Command+Option+X 快速查询">
-        </div>
-        <div class="column">
-          <button>偏好设置</button>
-        </div>
+        <ul>
+          <li>
+            <input type="text"
+                   id="search"
+                   autofocus
+                   placeholder="Command+Option+X快速查询">
+          </li>
+          <li>
+            <button id="open">打开词典</button>
+          </li>
+          <li>偏好设置</li>
+          <li>退出词典</li>
+        </ul>
       </div>
 
     </div>
   </div>
 
-  <footer class="toolbar toolbar-footer">
-
-    <div class="footer-link">
-      Powered by <a href="http://forecast.io">Forecast</a>
-    </div>
-
-    <div class="toolbar-actions pull-right">
-      <div class="btn-group">
-        <button class="btn btn-default js-refresh-action">
-          <span class="icon icon-arrows-ccw js-refresh-action" title="Refresh"></span>
-        </button>
-
-        <button class="btn btn-default js-quit-action">
-          <span class="icon icon-cancel js-quit-action" title="Quit"></span>
-        </button>
-      </div>
-    </div>
-
-  </footer>
 </div>
 </body>
-<script>
-
+<script type="text/babel">
   const { ipcRenderer } = require('electron');
+  let btn = document.querySelector('#open');
+  btn.onClick();
   document.onkeydown = (event) => {
     console.log(event.code);
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
@@ -60,5 +53,6 @@
 
     }
   };
+
 </script>
 </html>
