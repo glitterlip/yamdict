@@ -1,6 +1,5 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const lodashId = require('lodash-id');
 const adapter = new FileSync('app/database/notes/note.json');
 const noteDb = low(adapter);
 

@@ -32,6 +32,7 @@ export default class Home extends Component<Props> {
     };
 
     ipcRenderer.on('search-results', (event, arg) => {
+      this.props.history.push('/');
       //下次搜索是清空网络词典
       this.props.setResult(arg);
       this.setState({ result: [] });
