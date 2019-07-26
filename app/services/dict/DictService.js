@@ -104,13 +104,17 @@ class DictService {
     configDb.set('dicts', [...dicts]).write();
 
   };
+
   static getAllDicts = () => {
-    a++;
-    console.log(a);
-    let all = configDb.get('dicts').value();
-    console.log(all);
-    return all;
+    return configDb.get('dicts').value();
+
   };
+
+  static rename = (newName, oldName) => {
+
+    configDb.get('dicts').find({ name: oldName }).assign({ name: newName }).write();
+  };
+
   findWord = (word) => {
     return findWord(word);
   };

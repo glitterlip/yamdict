@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Breadcrumb, Button, Col, Collapse, Icon, Layout, Modal, Row, Switch, Table, Tabs } from 'antd';
+import { Breadcrumb, Button, Col, Collapse, Icon, Input, Layout, Modal, Row, Switch, Table, Tabs } from 'antd';
 import styles from './Dict.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
@@ -28,7 +28,11 @@ export default class Dict extends Component<Props> {
     let visible = false;
     let title = '';
     let content = '';
-    this.state = { dicts, title, visible, content };
+    this.state = {
+      dicts, title, visible, content,
+      oldName: '',
+      newName: ''
+    };
 
   }
 
@@ -72,6 +76,27 @@ export default class Dict extends Component<Props> {
 
   };
 
+  handleEdit = () => {
+
+    DictService.rename(this.state.newName, this.state.oldName);
+
+    let dicts = [...this.state.dicts];
+    for (let i = 0; i < dicts.length; i++) {
+      let item = dicts[i];
+      if (item.name === this.state.oldName) {
+        item.name = this.state.newName;
+        break;
+      }
+    }
+
+    this.setState({ dicts });
+    this.closeEditModal();
+
+  };
+
+  closeEditModal=()=>{
+    this.setState({ oldName: '' });
+  };
   orderUp = (dict) => {
 
     let dicts = [...this.state.dicts];
@@ -140,7 +165,7 @@ export default class Dict extends Component<Props> {
         key: 'sort',
         render: (text, record, index) => {
 
-          if (index ===items.length ) {
+          if (index === items.length - 1) {
             return <span>
               <Icon type="up-circle" style={{ fontSize: 20 }} theme="twoTone" onClick={() => {
                 this.orderUp(record);
@@ -171,13 +196,16 @@ export default class Dict extends Component<Props> {
 
       },
       {
-        title: '删除',
-        key: 'delete',
+        title: '操作',
+        key: 'operations',
         render: (record) => (
           <span>
+            <Icon type="edit" theme="twoTone" style={{ fontSize: 20 }} onClick={() => {
+              this.setState({ oldName: record.name });
+            }}>重命名</Icon>
         <Icon type="delete" theme="twoTone" style={{ fontSize: 20 }} onClick={() => {
           this.deleteDict(record);
-        }}/>
+        }}>删除</Icon>
       </span>
         )
       }
@@ -210,6 +238,28 @@ export default class Dict extends Component<Props> {
                 ]}
               >
                 <div dangerouslySetInnerHTML={{ __html: this.state.content }}></div>
+
+              </Modal>
+              <Modal
+                title='词典修改'
+                visible={this.state.oldName.length > 0}
+                onOk={this.handleEdit}
+                okText={'确定'}
+                width={'70%'}
+                maskClosable={true}
+                closable={true}
+                footer={[
+                  <Button key="cancel" type="primary" onClick={this.closeEditModal}>
+                    取消
+                  </Button>,
+                  <Button key="ok" type="primary" onClick={this.handleEdit}>
+                    确定
+                  </Button>
+                ]}
+              >
+                <Input placeholder="请输入新名字(原文件名不变)" onChange={(e) => {
+                  this.setState({ newName: e.target.value });
+                }}/>
 
               </Modal>
               <Row>
