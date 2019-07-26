@@ -1,6 +1,25 @@
 {
-  "name": "单词本",
+  "name": "生词本",
   "count": 0,
   "info": "",
-  "words": []
+  "words": [
+    {
+      "time": 1564147833971,
+      "note": "",
+      "score": 4,
+      "count": 1,
+      "last_time": 1564147833971,
+      "next_time": 1564147833971,
+      "word": "input"
+    },
+    {
+      "time": 1564147839080,
+      "note": "",
+      "score": 5,
+      "count": 1,
+      "last_time": 1564147839080,
+      "next_time": 1564147839080,
+      "word": "star"
+    }
+  ]
 }

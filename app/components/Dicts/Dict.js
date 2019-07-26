@@ -140,13 +140,13 @@ export default class Dict extends Component<Props> {
         key: 'sort',
         render: (text, record, index) => {
 
-          if (index === 0) {
+          if (index ===items.length ) {
             return <span>
               <Icon type="up-circle" style={{ fontSize: 20 }} theme="twoTone" onClick={() => {
                 this.orderUp(record);
               }}/>
             </span>;
-          } else if (index === items.length) {
+          } else if (index === 0) {
             return <span>
               <Icon type="down-circle" style={{ fontSize: 20 }} theme="twoTone" onClick={() => {
                 this.orderDown(record);

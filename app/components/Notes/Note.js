@@ -45,10 +45,14 @@ export default class Note extends Component<Props> {
       {
         title: '添加时间',
         dataIndex: 'time',
-        render: time => (new Date(time)).toLocaleString()
+        render: time => (new Date(time)).toLocaleString(),
+        sorter: (a, b) => a.time - b.time,
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: '星级',
+        sorter: (a, b) => a.score - b.score,
+        sortDirections: ['descend', 'ascend'],
         render: record => <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} value={record.score}
                                 onChange={(newScore) => {
                                   this.like(record.word, newScore);
