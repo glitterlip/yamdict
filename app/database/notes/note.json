@@ -2,15 +2,5 @@
   "name": "单词本",
   "count": 0,
   "info": "",
-  "words": [
-    {
-      "word": "try",
-      "time": 1563436410164,
-      "note": "",
-      "score": 5,
-      "count": 1,
-      "last_time": 1563437037690,
-      "next_time": 1563437037690
-    }
-  ]
+  "words": []
 }

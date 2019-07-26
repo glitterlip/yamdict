@@ -19,8 +19,7 @@ class NoteService {
 
     }
 
-  }
-  ;
+  };
   find = (word) => {
     return noteDb.get('words').find({ word }).value();
   };
@@ -44,6 +43,9 @@ class NoteService {
       next_time: _now,
       ...word
     };
+  };
+  update = (word, score) => {
+    noteDb.get('words').find({word}).assign({ score }).write();
   };
 }
 

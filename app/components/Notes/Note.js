@@ -20,12 +20,20 @@ export default class Note extends Component<Props> {
 
   constructor() {
     super();
-    this.words = NoteService.all();
+    this.state = { words: NoteService.all() };
 
   }
 
   remove = (word) => {
     NoteService.remove(word);
+    this.setState({words:NoteService.all()})
+  };
+
+  like = (word, score) => {
+    console.log(word, score);
+    NoteService.update(word, score);
+    this.setState({ words: NoteService.all() });
+    // this.setState({ score: value });
   };
 
   render() {
@@ -41,8 +49,10 @@ export default class Note extends Component<Props> {
       },
       {
         title: '星级',
-        dataIndex: 'score',
-        render: score => <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} value={score}/>
+        render: record => <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} value={record.score}
+                                onChange={(newScore) => {
+                                  this.like(record.word, newScore);
+                                }}/>
       },
       {
         title: '查询次数',
@@ -53,7 +63,7 @@ export default class Note extends Component<Props> {
         key: 'action',
         render: (record) => (
           <span>
-        <Icon type="delete" theme="twoTone" onClick={() => {
+        <Icon type="delete" theme="twoTone" style={{fontSize:20}} onClick={() => {
           this.remove(record.word);
         }}/>
       </span>
@@ -73,7 +83,7 @@ export default class Note extends Component<Props> {
             </Breadcrumb>
             <Content className={styles.content}>
 
-              <Table dataSource={this.words} columns={columns} rowKey={'word'}>
+              <Table dataSource={this.state.words} columns={columns} rowKey={'word'}>
 
               </Table>
             </Content>
