@@ -2,7 +2,7 @@ import Parser from '../../utils/MdictParser';
 import { configDb } from '../../utils/config';
 import { dialog } from 'electron';
 // import {resPath} from '../../main.dev';
-
+const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 
@@ -79,9 +79,7 @@ const addDict = (dictPath) => {
   let pathArr = dictPath[0].split('/');
   let dictName = pathArr[pathArr.length - 1];
   let newPath = path.join(__dirname, '../../../resources/dicts/' + dictName);
-  console.log(dictPath[0]);
-  console.log(newPath);
-  console.log(dictName);
+
   fs.copyFileSync(dictPath[0], newPath);
   let newParser = new Parser('/resources/dicts/' + dictName);
   parsers.set(dictName, { dict: newParser, path: '/resources/dicts/' + dictName });
@@ -94,4 +92,34 @@ const addDict = (dictPath) => {
   }).write();
 
 };
-export { parsers, registerDictService, findWord, loadParsers };
+let a = 0;
+
+class DictService {
+
+  static updateSort = (dicts) => {
+    a++;
+    console.log(a);
+    console.log(dicts);
+    configDb.get('dicts').remove().write();
+    configDb.set('dicts', [...dicts]).write();
+
+  };
+  static getAllDicts = () => {
+    a++;
+    console.log(a);
+    let all = configDb.get('dicts').value();
+    console.log(all);
+    return all;
+  };
+  findWord = (word) => {
+    return findWord(word);
+  };
+
+  addDict = (dictPath) => {
+    addDict(dictPath);
+  };
+
+
+}
+
+export { parsers, registerDictService, findWord, loadParsers, DictService };

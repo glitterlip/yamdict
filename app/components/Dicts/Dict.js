@@ -1,13 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { Breadcrumb, Button, Card, Col, Collapse, Layout, Modal, Row, Switch, Tabs } from 'antd';
+import { Breadcrumb, Button, Col, Collapse, Icon, Layout, Modal, Row, Switch, Table, Tabs } from 'antd';
 import styles from './Dict.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
 import AppFooter from '../General/Footer/Footer';
 import DictsInfo from './DictsInfo';
 import { configDb } from '../../utils/config';
-import { loadParsers } from '../../services/dict/DictService';
+import { DictService, loadParsers } from '../../services/dict/DictService';
 
 const { Content } = Layout;
 const { ipcRenderer } = require('electron');
@@ -24,7 +24,7 @@ export default class Dict extends Component<Props> {
 
   constructor() {
     super();
-    let dicts = configDb.get('dicts').value();
+    let dicts = DictService.getAllDicts();
     let visible = false;
     let title = '';
     let content = '';
@@ -33,7 +33,6 @@ export default class Dict extends Component<Props> {
   }
 
   handleOk = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
@@ -46,7 +45,6 @@ export default class Dict extends Component<Props> {
 
     this.setState({ dicts });
     loadParsers();
-    console.log(this.state.dicts);
 
   };
 
@@ -64,7 +62,127 @@ export default class Dict extends Component<Props> {
     });
   };
 
+  rename = (dict, oldName, newName) => {
+    console.log(dict);
+
+  };
+
+  deleteDict = (dict) => {
+    console.log(dict);
+
+  };
+
+  orderUp = (dict) => {
+
+    let dicts = [...this.state.dicts];
+    for (let i = 0; i < dicts.length; i++) {
+      let item = dicts[i];
+      if (item.name === dict.name) {
+        let temp = dicts[i - 1];
+        dicts[i - 1] = dict;
+        dicts[i] = temp;
+        break;
+      }
+    }
+
+    this.setState({ dicts });
+    console.log(dicts);
+    DictService.updateSort(dicts);
+
+  };
+
+
+  orderDown = (dict) => {
+    let dicts = [...this.state.dicts];
+    for (let i = 0; i < dicts.length; i++) {
+      let item = dicts[i];
+      if (item.name === dict.name) {
+        let temp = dicts[i + 1];
+        dicts[i + 1] = dict;
+        dicts[i] = temp;
+        break;
+      }
+    }
+
+    this.setState({ dicts });
+    DictService.updateSort(dicts);
+  };
+
+
   render() {
+    let items = DictService.getAllDicts();
+    const columns = [
+      {
+        title: '文件名',
+        dataIndex: 'name'
+      },
+      {
+        title: '详情',
+        key: 'info',
+        render: (text, dict, index) => <Button icon="ellipsis" shape="round" onClick={() => {
+          this.dictInfo(dict);
+        }}/>
+      },
+      {
+        title: '状态',
+        key: 'enabled',
+        render: (text, dict, index) =>
+          <Switch checked={!!dict.enabled}
+                  checkedChildren="启用"
+                  unCheckedChildren="禁用"
+                  onChange={() => {
+                    this.toggleDict(dict);
+                  }}/>
+      },
+
+      {
+        title: '排序',
+        key: 'sort',
+        render: (text, record, index) => {
+
+          if (index === 0) {
+            return <span>
+              <Icon type="up-circle" style={{ fontSize: 20 }} theme="twoTone" onClick={() => {
+                this.orderUp(record);
+              }}/>
+            </span>;
+          } else if (index === items.length) {
+            return <span>
+              <Icon type="down-circle" style={{ fontSize: 20 }} theme="twoTone" onClick={() => {
+                this.orderDown(record);
+              }}/>
+            </span>;
+          } else {
+            return (
+              <span>
+                <Icon type="up-circle" style={{ fontSize: 20 }} theme="twoTone" onClick={() => {
+                  this.orderUp(record);
+                }}/>
+                <br/>
+                <Icon type="down-circle" style={{ fontSize: 20 }} theme="twoTone" onClick={() => {
+                  this.orderDown(record);
+                }}/>
+            </span>
+            );
+
+          }
+        }
+
+
+      },
+      {
+        title: '删除',
+        key: 'delete',
+        render: (record) => (
+          <span>
+        <Icon type="delete" theme="twoTone" style={{ fontSize: 20 }} onClick={() => {
+          this.deleteDict(record);
+        }}/>
+      </span>
+        )
+      }
+    ];
+
     return (
       <Layout>
         <IndexHeader  {...this.props} />
@@ -100,25 +218,9 @@ export default class Dict extends Component<Props> {
                 </Col>
               </Row>
               <Row>
-                {this.state.dicts.map((dict) => {
-                  return <Col span={8} key={dict.name}>
-                    <Card
-                      title={dict.name}
-                      actions={[<Button icon="ellipsis" shape="round" onClick={() => {
-                        this.dictInfo(dict);
-                      }}/>,
-                        <Switch checked={!!dict.enabled} checkedChildren="启用" unCheckedChildren="禁用"
-                                onChange={() => {
-                                  this.toggleDict(dict);
-                                }}/>]}
-                    >
-
-                    </Card>
-                  </Col>;
-                })}
-
+                {/*<Table dataSource={this.state.dicts} columns={columns} rowKey={'name'}/>*/}
+                <Table dataSource={items} columns={columns} rowKey={'name'}/>
               </Row>
-
             </Content>
           </Layout>
         </Layout>
