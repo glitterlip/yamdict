@@ -1,0 +1,22 @@
+{
+  "dicts": [
+    {
+      "name": "牛津",
+      "path": "牛津双解.mdx",
+      "enabled": 1,
+      "info": "<Dictionary GeneratedByEngineVersion=\"2.0\" RequiredEngineVersion=\"2.0\" Format=\"Html\" KeyCaseSensitive=\"No\" StripKey=\"Yes\" Encrypted=\"2\" RegisterBy=\"EMail\" Description=\"&lt;p align=&quot;center&quot;&gt;&lt;font size=&quot;5&quot; color=black&gt;&lt;br&gt;&amp;nbsp&lt;br&gt;&lt;b&gt;《牛 津 高 阶 学 习 词 典》\r\n&lt;/font&gt;&lt;font size=&quot;6&quot; color=black&gt;&lt;br&gt;英 汉 双 解 第 7 版&lt;br&gt;&lt;font size=+3 color=red&gt;&lt;i&gt;O A L D 7&lt;/i&gt;&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Number of entries: 42481&lt;/p&gt;&lt;br&gt;&lt;hr&gt;\r\n&lt;p align=&quot;center&quot;&gt;&lt;br&gt;Modified By Hugh&lt;br&gt;\r\n2012.07.08&lt;/p&gt;\" Title=\"Title (No HTML code allowed)\" Encoding=\"UTF-8\" CreationDate=\"2012-7-8\" Compact=\"Yes\" Compat=\"Yes\" Left2Right=\"Yes\" DataSourceFormat=\"106\" StyleSheet=\"\"/>\r\n"
+    },
+    {
+      "name": "柯林斯双解",
+      "path": "柯林斯双解.mdx",
+      "enabled": 0,
+      "info": "<Dictionary GeneratedByEngineVersion=\"2.0\" RequiredEngineVersion=\"2.0\" Format=\"Html\" KeyCaseSensitive=\"No\" StripKey=\"Yes\" Encrypted=\"2\" RegisterBy=\"EMail\" Description=\"&lt;p align=&quot;center&quot;&gt;&lt;br&gt;&lt;font size=&quot;5&quot; color=#0066CC&gt;&lt;b&gt;柯林斯COBUILD高阶英汉双解学习词典\r\n&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;br&gt;柯林斯公司携手外研社专为中国学习者打造的学习型词典，其内容全部基于43亿收词规模大语料库，收录31万词汇短语，11万例证辨析，上万句式搭配、词语辨析，语料地道、典型，口语书面语并重，原汁原味英语世界。&lt;br&gt;&lt;br&gt;Number of entries: 36,330&lt;/p&gt;&lt;br&gt;&lt;hr style=&quot;height:1px; border:none; border-top:1px gray dashed ;&quot;&gt;\r\n&lt;p align=&quot;center&quot;&gt;&lt;br&gt;Modified By Hugh&lt;br&gt;\r\n2014 01 20&lt;/p&gt;\" Title=\"\" Encoding=\"UTF-8\" CreationDate=\"2014-1-20\" Compact=\"Yes\" Compat=\"Yes\" Left2Right=\"Yes\" DataSourceFormat=\"106\" StyleSheet=\"\"/>\r\n"
+    },
+    {
+      "name": "21世纪英汉汉英双向词典",
+      "path": "21cen.mdx",
+      "enabled": 1,
+      "info": "<Dictionary GeneratedByEngineVersion=\"2.0\" RequiredEngineVersion=\"2.0\" Format=\"Html\" KeyCaseSensitive=\"No\" StripKey=\"Yes\" Encrypted=\"2\" RegisterBy=\"EMail\" Description=\"&lt;font size=5 color=red&gt;convert from  21世纪英汉汉英双向词典 source from http://download.huzheng.org/zh_CN/stardict-21cen-2.4.2.tar.bz2&lt;/font&gt;\" Title=\"21世纪英汉汉英双向词典\" Encoding=\"UTF-8\" CreationDate=\"2019-7-23\" Compact=\"Yes\" Compat=\"Yes\" Left2Right=\"Yes\" DataSourceFormat=\"106\" StyleSheet=\"1\n&lt;font color=red size=+2&gt;&lt;b&gt;\n&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;\n2\n&lt;font color=#009999&gt;\n&lt;/font&gt;&lt;br&gt;\n3\n&lt;font color=#009999 face=&quot;Lucida Sans Unicode&quot;&gt;[\n]&lt;/font&gt;&lt;br&gt;\n4\n&lt;font color=black&gt;\n&lt;/font&gt;&lt;br&gt;\n\"/>\r\n"
+    }
+  ]
+}
