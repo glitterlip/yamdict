@@ -94,36 +94,36 @@ const addDict = (dictPath) => {
 };
 let a = 0;
 
-class DictService {
+const DictService = {
 
-  static updateSort = (dicts) => {
+  updateSort: (dicts) => {
     a++;
     console.log(a);
     console.log(dicts);
     configDb.get('dicts').remove().write();
     configDb.set('dicts', [...dicts]).write();
 
-  };
+  },
 
-  static getAllDicts = () => {
+  getAllDicts: () => {
     return configDb.get('dicts').value();
 
-  };
+  },
 
-  static rename = (newName, oldName) => {
+  rename: (newName, oldName) => {
 
     configDb.get('dicts').find({ name: oldName }).assign({ name: newName }).write();
-  };
+  },
 
-  findWord = (word) => {
+  findWord: (word) => {
     return findWord(word);
-  };
+  },
 
-  addDict = (dictPath) => {
+  addDict: (dictPath) => {
     addDict(dictPath);
-  };
+  }
 
 
-}
+};
 
 export { parsers, registerDictService, findWord, loadParsers, DictService };

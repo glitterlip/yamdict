@@ -1,16 +1,19 @@
+// import { app } from 'electron';
+const { app } = process.type === 'browser' ? require('electron') : require('electron').remote;
+const path = require('path');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const lodashId = require('lodash-id');
-const adapter = new FileSync('app/database/config.json');
+const appPath = path.resolve(app.getAppPath(), '../../');
+const resPath = app.getPath('userData');
+const adapter = new FileSync(resPath + '/databases/config.json');
 const configDb = low(adapter);
-
 
 const registerConfig = () => {
 
   if (!configDb.has('dicts').value()) {
     configDb.set('dicts', [
-      { name: '柯林斯双解', path: '/resources/dicts/柯林斯双解.mdx', enabled: 1 },
-      { name: '牛津', path: '/resources/dicts/nnnn牛津双解.mdx', enabled: 1 }
+      { name: '柯林斯双解', path: '柯林斯双解.mdx', enabled: 1 },
+      { name: '牛津', path: '牛津双解.mdx', enabled: 1 }
     ]).write();
   }
 
@@ -23,4 +26,4 @@ const parserNames = () => {
     .value();
 
 };
-export { registerConfig, configDb, parserNames } ;
+export { registerConfig, configDb, parserNames, appPath,resPath } ;

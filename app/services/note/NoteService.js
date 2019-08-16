@@ -1,6 +1,8 @@
+import {resPath} from '../../utils/config';
+
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('app/database/notes/note.json');
+const adapter = new FileSync(resPath+'/databases/notes/note.json');
 const noteDb = low(adapter);
 
 

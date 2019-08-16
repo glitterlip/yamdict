@@ -1,6 +1,7 @@
 import { google } from 'translation.js';
+const { ipcMain, dialog, app } = require('electron');
 
-const registerTranslateEvent = (ipcMain) => {
+const registerTranslateEvent = () => {
   ipcMain.on('translate-request', (event, arg) => {
     console.log(arg); // prints "ping"
     google.translate(arg).then(result => {

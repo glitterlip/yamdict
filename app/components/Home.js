@@ -36,10 +36,12 @@ export default class Home extends Component<Props> {
       //下次搜索是清空网络词典
       this.props.setResult(arg);
       this.setState({ result: [] });
+      console.log(arg);
 
     });
     ipcRenderer.on('search-word', (event, arg) => {
       this.setState({ word: arg });
+      console.log(arg);
     });
 
   }

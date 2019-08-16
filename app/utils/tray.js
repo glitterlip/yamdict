@@ -6,16 +6,10 @@ let trayWindow;
 
 const registerTray = () => {
   createWindow();
-  console.log(trayWindow);
   tray = new Tray(path.join(__dirname, '../flag.png'));
   tray.on('click', function(event) {
-    console.log(trayWindow);
     toggleWindow(trayWindow);
 
-    // Show devtools when command clicked
-    // if (window.isVisible() && process.defaultApp && event.metaKey) {
-    //   window.openDevTools({ mode: 'detach' });
-    // }
   });
 
 
@@ -45,7 +39,6 @@ const createWindow = () => {
   trayWindow.loadURL(`file://${path.join(__dirname, '../tray.html')}`);
 
 
-  // Hide the window when it loses focus
   trayWindow.on('blur', () => {
     if (!trayWindow.webContents.isDevToolsOpened()) {
       trayWindow.hide();

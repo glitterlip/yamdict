@@ -10,21 +10,14 @@
  *
  * @flow
  */
-import { app, BrowserWindow, dialog, protocol } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { registerTranslateEvent } from './utils/translate';
-import { registerTray } from './utils/tray';
-import { registerConfig } from './utils/config';
-import { registerErrorService } from './utils/Error/main';
-import { registerDictService } from './services/dict/DictService';
-import { registerNoteService } from './services/note/NoteService';
-import { init } from './services/app/AppService';
+
 
 const { ipcMain } = require('electron');
 const path = require('path');
-const { readFileSync: read } = require('fs');
-
+const fs = require('fs');
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -55,6 +48,7 @@ const installExtensions = async () => {
   ).catch(console.log);
 };
 
+boot();
 /**
  * Add event listeners...
  */
@@ -75,20 +69,13 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
-  //register custom protocal
-  protocol.registerBufferProtocol('tray', (request, respond) => {
-    const filePath = request.url.substr(7);
-    let data = read(path.join(__dirname, filePath));
-    console.log(data);
-    respond({ mimeType: 'text/javascript', data });
-  });
-
   mainWindow = new BrowserWindow({
     show: false,
     width: 960,
     height: 680,
     titleBarStyle: 'hiddenInset'
   });
+
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
@@ -111,15 +98,39 @@ app.on('ready', async () => {
   });
 
 
-  registerErrorService(ipcMain, dialog);
-  registerTray(ipcMain);
-  registerConfig();
-  registerDictService(ipcMain, mainWindow);
-  registerTranslateEvent(ipcMain);
-  registerNoteService();
-  init();
-
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   // new AppUpdater();
 });
+export { mainWindow };
+require('./boot');
+
+function boot() {
+  global.appPath = process.env.NODE_ENV === 'development' ? __dirname : path.resolve(app.getAppPath(), '../../');
+  global.resPath = process.env.NODE_ENV === 'development' ? __dirname : path.resolve(app.getPath('userData'));
+  const dbPath = resPath + '/databases';
+  const dictsPath = resPath + '/dicts';
+  const builtinPath = process.env.NODE_ENV === 'development' ? path.resolve(__dirname, '../../') : path.resolve(app.getAppPath(), '../../');
+  if (!fs.existsSync(resPath)) {
+    fs.mkdirSync(resPath);
+
+  }
+  if (!fs.existsSync(dbPath)) {
+    fs.mkdirSync(dbPath);
+    fs.mkdirSync(dbPath + '/notes');
+    fs.copyFileSync(builtinPath + '/databases/config.json', dbPath + '/config.json');
+      fs.copyFileSync(builtinPath + '/databases/notes/note.json', dbPath + '/notes/note.json');
+
+  }
+
+  if (!fs.existsSync(dictsPath)) {
+    fs.mkdirSync(dictsPath);
+    let dicts = fs.readdirSync(builtinPath + '/dicts');
+    dicts.map((item) => {
+      fs.copyFileSync(builtinPath + '/dicts/' + item, dictsPath + '/' + item);
+
+    });
+
+
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "version": "0.17.1",
+  "name": "yamdict",
+  "productName": "yamdict",
+  "version": "0.0.2",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -56,7 +56,7 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "ElectronReact",
+    "productName": "yamdict",
     "appId": "org.develar.ElectronReact",
     "files": [
       "app/dist/",
@@ -65,6 +65,28 @@
       "app/main.prod.js.map",
       "package.json"
     ],
+    "extraFiles": [
+      {
+        "from": "./app/databases/",
+        "to": "./databases/",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "./resources/dicts/",
+        "to": "./dicts/",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "./app/flag.png",
+        "to": "./config/flag.png"
+
+      }
+    ],
+
     "dmg": {
       "contents": [
         {

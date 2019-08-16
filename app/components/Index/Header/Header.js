@@ -3,6 +3,7 @@ import { Col, Input, Layout, Row, Switch } from 'antd';
 import styles from './Header.css';
 
 const { ipcRenderer } = require('electron');
+
 const { Header } = Layout;
 type Props = {
   toggleTheme: () => void,
@@ -17,6 +18,9 @@ export default class IndexHeader extends Component<Props> {
 
   search = value => {
     ipcRenderer.send('search-word', value);
+    //在渲染器进程 (网页) 中。
+
+    ipcRenderer.send('asynchronous-message', 'ping');
     if (this.props.setWord !== undefined) {
       this.props.setWord(value);
     }

@@ -1,4 +1,5 @@
 import { ripemd128 } from './ripemd128';
+import { appPath,resPath } from './config';
 
 const fs = require('fs');
 const pako = require('pako');
@@ -20,14 +21,15 @@ export default class MdictParser {
   keyBlocks = [];
   indexMap;
 
-  constructor(filePath = '/resources/dicts/柯林斯双解.mdx') {
+  constructor(filePath = '') {
 
     this.offset = 0;
     this.length = 4;
     this.indexMap = new Map();
     this.flipMap = new Map();
 
-    const realPath = path.join(process.cwd(), filePath);
+    const realPath = path.join(resPath+'/dicts', filePath);
+    // const realPath = path.join('./dicts', filePath);
     fs.access(realPath, fs.constants.R_OK, (err) => {
       if (err) {
         ipcRenderer.send('app-error', { title: '解析失败', content: `解析词典文件时发生错误,请确认文件:${realPath} 存在并且有读取权限` });
@@ -426,15 +428,13 @@ export default class MdictParser {
     }
 
     //解压目标 word 所在区块 然后截取 start-end 返回
-    let buffer = fs.readFileSync(path.join(process.cwd(), filePath));
+    let buffer = fs.readFileSync(path.join(resPath+'/dicts', filePath));
 
-    console.log('429');
     let no = this.recordInfo.blockSize[wanted.count];
     console.log(no, no.globalOffset, no.compressSize);
     //303516
     let compressed = buffer.slice(no.globalOffset + 8, no.globalOffset + no.compressSize);
 
-    console.log('437');
     let res = Buffer.from(pako.inflate(compressed));
     // let res = Buffer.from(pako.inflate(compressed)).toString('utf8');
 
