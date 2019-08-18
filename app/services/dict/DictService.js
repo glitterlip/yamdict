@@ -2,7 +2,6 @@ import Parser from '../../utils/MdictParser';
 import { configDb } from '../../utils/config';
 import { dialog } from 'electron';
 // import {resPath} from '../../main.dev';
-const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 
@@ -44,7 +43,6 @@ const registerDictService = (ipcMain, mainWindow) => {
 const findWord = (word) => {
 
   let result = {};
-  console.log('receive:', word);
   parsers.forEach((parser, index) => {
     // console.log(parser.parser);
     result[index] = parser.dict.findWord(word, parser.path);

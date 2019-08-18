@@ -9,10 +9,9 @@ try {
   Bootstrap();
 
 } catch (e) {
-  console.log( e.message);
+  console.log(e.message);
 }
 registerErrorService();
-// registerTray();
 registerConfig();
 registerDictService();
 registerTranslateEvent();

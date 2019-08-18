@@ -36,7 +36,6 @@ export default class Home extends Component<Props> {
       //下次搜索是清空网络词典
       this.props.setResult(arg);
       this.setState({ result: [] });
-      console.log(arg);
 
     });
     ipcRenderer.on('search-word', (event, arg) => {
@@ -164,11 +163,16 @@ const Definitions = ({ result }) => <Collapse
 >
 
   {
-    Object.keys(result).map((key) => {
-      return <Panel key={key} header={key} style={customPanelStyle}>
-        <div dangerouslySetInnerHTML={{ __html: result[key] }}/>
+    parserNames().map((key) => {
+      if (result.hasOwnProperty(key)){
+        return <Panel key={key} header={key} style={customPanelStyle}>
+          <div dangerouslySetInnerHTML={{ __html: result[key] }}/>
 
-      </Panel>;
-    })}
+        </Panel>;
+      }
+
+    })
+
+  }
 
 </Collapse>;

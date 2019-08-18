@@ -10,10 +10,10 @@
  *
  * @flow
  */
-import { app, BrowserWindow, dialog } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-
+import {registerTray} from './utils/tray';
 
 const { ipcMain } = require('electron');
 const path = require('path');
@@ -97,10 +97,8 @@ app.on('ready', async () => {
     mainWindow = null;
   });
 
+  registerTray();
 
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  // new AppUpdater();
 });
 export { mainWindow };
 require('./boot');
@@ -119,7 +117,7 @@ function boot() {
     fs.mkdirSync(dbPath);
     fs.mkdirSync(dbPath + '/notes');
     fs.copyFileSync(builtinPath + '/databases/config.json', dbPath + '/config.json');
-      fs.copyFileSync(builtinPath + '/databases/notes/note.json', dbPath + '/notes/note.json');
+    fs.copyFileSync(builtinPath + '/databases/notes/note.json', dbPath + '/notes/note.json');
 
   }
 
