@@ -13,7 +13,8 @@
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import {registerTray} from './utils/tray';
+import { registerTray } from './utils/tray';
+import { copyFolder } from './utils/file';
 
 const { ipcMain } = require('electron');
 const path = require('path');
@@ -109,26 +110,22 @@ function boot() {
   const dbPath = resPath + '/databases';
   const dictsPath = resPath + '/dicts';
   const builtinPath = process.env.NODE_ENV === 'development' ? path.resolve(__dirname, '../../') : path.resolve(app.getAppPath(), '../../');
+
+  let version = app.getVersion();
+  if (fs.existsSync(resPath + `install.lock`)) {
+    return;
+  }
   if (!fs.existsSync(resPath)) {
     fs.mkdirSync(resPath);
+    fs.writeFileSync(resPath + `/${version}.local`, `${Date.now()}/${version}`);
 
   }
   if (!fs.existsSync(dbPath)) {
-    fs.mkdirSync(dbPath);
-    fs.mkdirSync(dbPath + '/notes');
-    fs.copyFileSync(builtinPath + '/databases/config.json', dbPath + '/config.json');
-    fs.copyFileSync(builtinPath + '/databases/notes/note.json', dbPath + '/notes/note.json');
-
+    copyFolder(builtinPath + '/databases', dbPath);
   }
 
   if (!fs.existsSync(dictsPath)) {
-    fs.mkdirSync(dictsPath);
-    let dicts = fs.readdirSync(builtinPath + '/dicts');
-    dicts.map((item) => {
-      fs.copyFileSync(builtinPath + '/dicts/' + item, dictsPath + '/' + item);
-
-    });
-
+    copyFolder(builtinPath + '/dicts/', dictsPath);
 
   }
 }
