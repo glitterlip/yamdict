@@ -84,6 +84,14 @@
         "from": "./app/flag.png",
         "to": "./config/flag.png"
 
+      },
+      {
+        "from": "./app/tray/",
+        "to": "./tray",
+        "filter": [
+          "**/*"
+        ]
+
       }
     ],
 

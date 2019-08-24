@@ -1,12 +1,13 @@
 const { app, BrowserWindow, ipcMain, Tray } = require('electron');
 const path = require('path');
+import { appPath } from './config';
 
 let tray;
 let trayWindow;
 
 const registerTray = () => {
   createWindow();
-  tray = new Tray(path.join(__dirname, '../flag.png'));
+  tray = new Tray(appPath + '/tray/flag.png');
   tray.on('click', function(event) {
     toggleWindow(trayWindow);
 
@@ -33,16 +34,15 @@ const createWindow = () => {
     resizable: false,
     transparent: false,
     webPreferences: {
-      backgroundThrottling: false
+      backgroundThrottling: false,
+      webSecurity: false
     }
   });
-  trayWindow.loadURL(`file://${path.join(__dirname, '../tray.html')}`);
+  trayWindow.loadURL(`file://${appPath + '/tray/tray.html'}`);
 
 
   trayWindow.on('blur', () => {
-    if (!trayWindow.webContents.isDevToolsOpened()) {
       trayWindow.hide();
-    }
   });
 };
 
