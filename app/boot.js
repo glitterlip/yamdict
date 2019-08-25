@@ -1,9 +1,8 @@
 import { registerTranslateEvent } from './utils/translate';
 import { registerConfig } from './utils/config';
 import { registerDictService, registerErrorService } from './utils/Error/main';
-import { app, dialog } from 'electron';
 import { Bootstrap } from './services/app/BootstrapService';
-
+import {init} from './services/app/AppService';
 
 try {
   Bootstrap();

@@ -1,9 +1,11 @@
 // import { app } from 'electron';
+import is from 'electron-is';
+
 const { app } = process.type === 'browser' ? require('electron') : require('electron').remote;
 const path = require('path');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const appPath = path.resolve(app.getAppPath(), '../../');
+const appPath = is.dev() ? path.join(__dirname,'../') : path.resolve(app.getAppPath(), '../../');
 const resPath = app.getPath('userData');
 const adapter = new FileSync(resPath + '/databases/config.json');
 const configDb = low(adapter);
@@ -26,4 +28,4 @@ const parserNames = () => {
     .value();
 
 };
-export { registerConfig, configDb, parserNames, appPath,resPath } ;
+export { registerConfig, configDb, parserNames, appPath, resPath } ;

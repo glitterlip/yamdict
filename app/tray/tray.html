@@ -24,7 +24,7 @@
             <input type="text"
                    id="search"
                    autofocus
-                   placeholder="Command+Option+X快速查询">
+                   placeholder="Command+Option+X快速查询" >
           </li>
           <li>
             <button id="open">打开词典</button>
@@ -39,10 +39,11 @@
 
 </div>
 </body>
-<script type="text/babel">
+<script type="text/javascript">
+
+
   const { ipcRenderer } = require('electron');
-  let btn = document.querySelector('#open');
-  btn.onClick();
+
   document.onkeydown = (event) => {
     console.log(event.code);
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {

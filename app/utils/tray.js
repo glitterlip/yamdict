@@ -1,6 +1,8 @@
-const { app, BrowserWindow, ipcMain, Tray } = require('electron');
-const path = require('path');
+import { globalShortcut } from 'electron';
 import { appPath } from './config';
+
+const electron = require('electron');
+const { app, BrowserWindow, ipcMain, Tray } = require('electron');
 
 let tray;
 let trayWindow;
@@ -9,17 +11,21 @@ const registerTray = () => {
   createWindow();
   tray = new Tray(appPath + '/tray/flag.png');
   tray.on('click', function(event) {
-    toggleWindow(trayWindow);
+    let position = getWindowPosition();
+    toggleWindow(position.x,position.y);
 
   });
-
+  globalShortcut.register('Cmd+Shift+X', () => {
+    let position = electron.screen.getCursorScreenPoint();
+    toggleWindow(position.x + 50, position.y + 50);
+  });
 
 };
-const toggleWindow = () => {
+const toggleWindow = (x = false, y = false) => {
   if (trayWindow.isVisible()) {
     trayWindow.hide();
   } else {
-    showWindow();
+    showWindow(x, y);
   }
 };
 
@@ -32,7 +38,7 @@ const createWindow = () => {
     frame: false,
     fullscreenable: false,
     resizable: false,
-    transparent: false,
+    transparent: true,
     webPreferences: {
       backgroundThrottling: false,
       webSecurity: false
@@ -42,13 +48,14 @@ const createWindow = () => {
 
 
   trayWindow.on('blur', () => {
-      trayWindow.hide();
+    trayWindow.hide();
   });
+
 };
 
-const showWindow = () => {
+const showWindow = (x = false, y = false) => {
   const position = getWindowPosition();
-  trayWindow.setPosition(position.x, position.y, false);
+  trayWindow.setPosition(x ? x : position.x, y ? y : position.y, false);
   trayWindow.show();
   trayWindow.focus();
 };

@@ -10,13 +10,12 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, globalShortcut } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { registerTray } from './utils/tray';
 import { copyFolder } from './utils/file';
+import { registerTray} from './utils/tray';
 
-const { ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 export default class AppUpdater {
