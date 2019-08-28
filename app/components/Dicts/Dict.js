@@ -33,7 +33,6 @@ export default class Dict extends Component<Props> {
       oldName: '',
       newName: ''
     };
-    console.log(dicts);
     ipcRenderer.on('dicts:update', (event, arg) => {
       this.setState({ dicts: DictService.getAllDicts() });
     });

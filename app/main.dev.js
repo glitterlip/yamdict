@@ -10,11 +10,12 @@
  *
  * @flow
  */
-import { app, BrowserWindow, globalShortcut } from 'electron';
+import { app, BrowserWindow, globalShortcut,ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { copyFolder } from './utils/file';
 import { registerTray} from './utils/tray';
+import { registerDictService } from './services/dict/DictService';
 
 const path = require('path');
 const fs = require('fs');
@@ -98,6 +99,7 @@ app.on('ready', async () => {
   });
 
   registerTray();
+  registerDictService(ipcMain,mainWindow);
 
 });
 export { mainWindow };
@@ -105,15 +107,12 @@ require('./boot');
 
 function boot() {
   global.appPath = process.env.NODE_ENV === 'development' ? __dirname : path.resolve(app.getAppPath(), '../../');
-  global.resPath = process.env.NODE_ENV === 'development' ? __dirname : path.resolve(app.getPath('userData'));
+  global.resPath = path.resolve(app.getPath('userData'));
   const dbPath = resPath + '/databases';
   const dictsPath = resPath + '/dicts';
-  const builtinPath = process.env.NODE_ENV === 'development' ? path.resolve(__dirname, '../../') : path.resolve(app.getAppPath(), '../../');
+  const builtinPath = process.env.NODE_ENV === 'development' ? __dirname : path.resolve(app.getAppPath(), '../../');
 
   let version = app.getVersion();
-  if (fs.existsSync(resPath + `install.lock`)) {
-    return;
-  }
   if (!fs.existsSync(resPath)) {
     fs.mkdirSync(resPath);
     fs.writeFileSync(resPath + `/${version}.local`, `${Date.now()}/${version}`);

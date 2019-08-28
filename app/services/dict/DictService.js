@@ -1,10 +1,10 @@
 import Parser from '../../utils/MdictParser';
 import { configDb } from '../../utils/config';
 import { dialog } from 'electron';
+import { History } from '../history/history';
 // import {resPath} from '../../main.dev';
 const fs = require('fs');
 const path = require('path');
-
 
 let parsers = new Map();
 
@@ -13,6 +13,9 @@ const registerDictService = (ipcMain, mainWindow) => {
 
   ipcMain.on('search-word', (event, arg) => {
 
+    let history = History();
+    history.add(arg);
+    console.log("searching:",arg)
     let res = findWord(arg);
     mainWindow.show();
     mainWindow.webContents.send('search-results', res);
