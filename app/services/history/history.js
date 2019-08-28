@@ -15,7 +15,7 @@ const History = () => {
         if (exist) {
           exist.records.unshift((new Date()).getTime());
           historyDb.get('words').remove({ word }).write();
-          historyDb.get('words').unshift({ word, records:exist.records }).write();
+          historyDb.get('words').unshift({ word, records: exist.records }).write();
 
         } else {
           historyDb.get('words').unshift({
@@ -26,6 +26,11 @@ const History = () => {
           }).write();
 
         }
+        return historyDb.get('words').find({ word }).value();
+
+      },
+      find: (word) => {
+        return historyDb.get('words').find({ word }).value();
 
       }
     };

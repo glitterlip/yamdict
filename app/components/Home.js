@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styles from './Home.css';
 import IndexHeader from './Index/Header/Header';
-import { Breadcrumb, Card, Col, Collapse, Icon, Layout, Rate, Row } from 'antd';
+import { Breadcrumb, Card, Col, Collapse, Empty, Icon, Layout, Rate, Row, Statistic } from 'antd';
 import SideBar from './General/SideBar/SideBar';
 import AppFooter from './General/Footer/Footer';
 import { parserNames } from '../utils/config';
@@ -28,21 +28,34 @@ export default class Home extends Component<Props> {
       word: '',
       result: [],
       read: '',
-      score: 0
+      score: 0,
+      record: 0
     };
 
     ipcRenderer.on('search-results', (event, arg) => {
       this.props.history.push('/');
-      //下次搜索是清空网络词典
+      //下次搜索时清空网络词典
       this.props.setResult(arg);
-      this.setState({ result: [] });
+      console.log(arg)
+      this.setState({ result: [],record: arg.history.records.length });
 
     });
     ipcRenderer.on('search-word', (event, arg) => {
       this.setState({ word: arg });
-      console.log(arg);
+
     });
 
+    ipcRenderer.on('translate-result', (event, arg) => {
+      let result;
+      if (arg.hasOwnProperty('dict')) {
+        result = arg.dict;
+      } else {
+        result = arg.result;
+      }
+      this.setState({
+        result
+      });
+    });
   }
 
   setWord = (word) => {
@@ -57,18 +70,6 @@ export default class Home extends Component<Props> {
 
   internet = () => {
     ipcRenderer.send('translate-request', this.state.word);
-    ipcRenderer.on('translate-result', (event, arg) => {
-      let result;
-      if (arg.hasOwnProperty('dict')) {
-        result = arg.dict;
-      } else {
-        result = arg.result;
-      }
-      this.setState({
-        result
-      });
-    });
-
   };
 
   spell = () => {
@@ -115,6 +116,15 @@ export default class Home extends Component<Props> {
                   <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} onChange={this.like}
                         value={this.state.score}/>
                 </Col>
+                <Col span={6}>
+                  {this.state.record ?
+                    <Statistic
+                      value={this.state.record}
+                      valueStyle={{ color: '#cf1322' }}
+                      suffix={<Icon type="rise" />}
+                      prefix="已查"
+                    /> : ''}
+                </Col>
                 <ReactAudioPlayer
                   ref={element => {
                     this.player = element;
@@ -135,7 +145,7 @@ export default class Home extends Component<Props> {
             </Card>
             <Content className={styles.content}
             >
-              {Object.keys(this.props.dict.result) ? <Definitions result={this.props.dict.result}/> : ''}
+              {Object.keys(this.props.dict.result) ? <Definitions result={this.props.dict.result}/> : <Empty/>}
             </Content>
           </Layout>
         </Layout>
@@ -164,7 +174,7 @@ const Definitions = ({ result }) => <Collapse
 
   {
     parserNames().map((key) => {
-      if (result.hasOwnProperty(key)){
+      if (result.hasOwnProperty(key)) {
         return <Panel key={key} header={key} style={customPanelStyle}>
           <div dangerouslySetInnerHTML={{ __html: result[key] }}/>
 

@@ -39,5 +39,11 @@
     "icon": "database",
     "type": "single",
     "name": "词典库"
+  },
+  "HISTORY": {
+    "path": "/historys",
+    "icon": "history",
+    "type": "single",
+    "name": "历史记录"
   }
 }

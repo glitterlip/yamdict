@@ -6,6 +6,7 @@ import HomePage from './containers/HomePage';
 import TranslatePage from './containers/TranslatePage';
 import NotePage from './containers/NotePage';
 import DictPage from './containers/DictPage';
+import History from './containers/HistoryPage';
 
 export default () => (
   <App>
@@ -14,6 +15,7 @@ export default () => (
       <Route path={routes.HOME.path} exact component={HomePage} />
       <Route path={routes.NOTE.path} exact component={NotePage} />
       <Route path={routes.DICTS.path} exact component={DictPage} />
+      <Route path={routes.HISTORY.path} exact component={History} />
     </Switch>
   </App>
 );
