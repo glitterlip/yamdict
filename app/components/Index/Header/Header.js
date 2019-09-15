@@ -17,13 +17,18 @@ export default class IndexHeader extends Component<Props> {
   props: Props;
 
   search = value => {
-    ipcRenderer.send('search-word', value);
-    //在渲染器进程 (网页) 中。
-
-    ipcRenderer.send('asynchronous-message', 'ping');
-    if (this.props.setWord !== undefined) {
-      this.props.setWord(value);
+    if (value) {
+      ipcRenderer.send('search-word', value);
+      if (this.props.setWord !== undefined) {
+        this.props.setWord(value);
+      }
     }
+
+
+  };
+
+  handleInput = (e) => {
+    this.props.setWord(e.target.value)
   };
 
   render() {
@@ -41,9 +46,11 @@ export default class IndexHeader extends Component<Props> {
           <Col span={14}>
             <div className={styles.searchWrapper}>
               <Input.Search
-                placeholder="input search text"
                 onSearch={value => this.search(value)}
                 enterButton
+                value={this.props.dict.word}
+                onChange={this.handleInput}
+
               />
             </div>
           </Col>

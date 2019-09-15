@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React from 'react';
 import Home from '../components/Home';
 import * as DictActions from '../actions/dict';
 import * as SettingActions from '../actions/setting';
@@ -23,6 +23,9 @@ function mapDispatchToProps(dispatch) {
     },
     toggleTheme: () => {
       dispatch(SettingActions.toggleTheme());
+    },
+    setWord: (word) => {
+      dispatch(DictActions.setWord(word));
     }
   };
   // return bindActionCreators(DictActions, dispatch);

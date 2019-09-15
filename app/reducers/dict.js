@@ -1,7 +1,7 @@
 // @flow
-import { DISABLE_DICT, SET_DICT, SET_RESULT } from '../actions/dict';
+import { DISABLE_DICT, SET_DICT, SET_RESULT, SET_WORD } from '../actions/dict';
 
-export default function dict(state = { result: {}, engine: null }, action) {
+export default function dict(state = { result: {}, engine: null, word: '' }, action) {
   switch (action.type) {
     case SET_DICT:
       return {
@@ -16,6 +16,11 @@ export default function dict(state = { result: {}, engine: null }, action) {
       };
     case DISABLE_DICT:
       return { ...state };
+    case SET_WORD:
+      return {
+        ...state,
+        word: action.word
+      };
     default:
       return state;
   }

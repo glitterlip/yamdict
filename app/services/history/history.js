@@ -4,6 +4,7 @@ const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync(resPath + '/databases/history.json');
 let historyDb;
+
 const History = () => {
   let instance = null;
   historyDb = low(adapter);
@@ -32,6 +33,15 @@ const History = () => {
       find: (word) => {
         return historyDb.get('words').find({ word }).value();
 
+      },
+      all: () => {
+        return historyDb.get('words').value();
+
+      },
+      remove: (word) => {
+        historyDb.get('words')
+          .remove({ word: word })
+          .write();
       }
     };
 

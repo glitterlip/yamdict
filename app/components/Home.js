@@ -25,7 +25,6 @@ export default class Home extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      word: '',
       result: [],
       read: '',
       score: 0,
@@ -33,16 +32,18 @@ export default class Home extends Component<Props> {
     };
 
     ipcRenderer.on('search-results', (event, arg) => {
-      this.props.history.push('/');
-      //下次搜索时清空网络词典
-      this.props.setResult(arg);
-      console.log(arg)
-      this.setState({ result: [],record: arg.history.records.length });
-
+      if (arg) {
+        if (this.props.history.location.pathname !== '/') {
+          this.props.history.push('/');
+        }
+        //下次搜索时清空网络词典
+        this.props.setResult(arg);
+        this.setState({ result: [], record: arg.history.records.length ? arg.history.records.length : 0 });
+      }
     });
     ipcRenderer.on('search-word', (event, arg) => {
       this.setState({ word: arg });
-
+      this.props.setWord(arg);
     });
 
     ipcRenderer.on('translate-result', (event, arg) => {
@@ -69,11 +70,11 @@ export default class Home extends Component<Props> {
   };
 
   internet = () => {
-    ipcRenderer.send('translate-request', this.state.word);
+    ipcRenderer.send('translate-request', this.props.dict.word);
   };
 
   spell = () => {
-    ipcRenderer.send('read-request', this.state.word);
+    ipcRenderer.send('read-request', this.props.dict.word);
     ipcRenderer.on('read-result', (event, arg) => {
       let player = this.player.audioEl;
       player.src = arg;
@@ -83,8 +84,8 @@ export default class Home extends Component<Props> {
   };
 
   like = (value) => {
-    if (value) {
-      NoteService.add({ word: this.state.word, score: value });
+    if (value && this.props.dict.word) {
+      NoteService.add({ word: this.props.dict.word, score: value });
       this.setState({ score: value });
     }
   };
@@ -121,7 +122,7 @@ export default class Home extends Component<Props> {
                     <Statistic
                       value={this.state.record}
                       valueStyle={{ color: '#cf1322' }}
-                      suffix={<Icon type="rise" />}
+                      suffix={<Icon type="rise"/>}
                       prefix="已查"
                     /> : ''}
                 </Col>

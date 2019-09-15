@@ -1,11 +1,11 @@
 // @flow
 import React, { Component } from 'react';
-import { Breadcrumb, Icon, Layout, Rate, Table } from 'antd';
+import { Breadcrumb, Col, Icon, Layout, PageHeader, Row, Statistic, Table, Tag } from 'antd';
 import styles from './History.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
 import AppFooter from '../General/Footer/Footer';
-import { note as NoteService } from '../../services/note/NoteService';
+import { History as HistoryService } from '../../services/history/history';
 
 const { Content } = Layout;
 
@@ -15,25 +15,28 @@ type Props = {
   dict: {},
   setting: {}
 };
+const extraContent = (
+  <Row>
+    <Col span={12}>
+      <Statistic title="已查" value="10"/>
+    </Col>
+    {/*<Col span={12}>*/}
+    {/*  <Statistic title="本月"  value={568.08}/>*/}
+    {/*</Col>*/}
+  </Row>
+);
 export default class History extends Component<Props> {
   props: Props;
 
   constructor() {
     super();
-    this.state = { words: NoteService.all() };
+    this.state = { words: HistoryService().all() };
 
   }
 
   remove = (word) => {
-    NoteService.remove(word);
-    this.setState({words:NoteService.all()})
-  };
-
-  like = (word, score) => {
-    console.log(word, score);
-    NoteService.update(word, score);
-    this.setState({ words: NoteService.all() });
-    // this.setState({ score: value });
+    HistoryService().remove(word);
+    this.setState({ words: HistoryService().all() });
   };
 
   render() {
@@ -43,31 +46,28 @@ export default class History extends Component<Props> {
         dataIndex: 'word'
       },
       {
-        title: '添加时间',
-        dataIndex: 'time',
-        render: time => (new Date(time)).toLocaleString(),
-        sorter: (a, b) => a.time - b.time,
-        sortDirections: ['descend', 'ascend'],
+        title: '上次查询时间',
+        key: 'last_time',
+        dataIndex: 'records',
+        render: records => (new Date(records[records.length - 1])).toLocaleString()
+        // sorter: (a, b) => a.time - b.time,
+        // sortDirections: ['descend', 'ascend']
       },
-      {
-        title: '星级',
-        sorter: (a, b) => a.score - b.score,
-        sortDirections: ['descend', 'ascend'],
-        render: record => <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} value={record.score}
-                                onChange={(newScore) => {
-                                  this.like(record.word, newScore);
-                                }}/>
-      },
+
       {
         title: '查询次数',
-        dataIndex: 'count'
+        key: 'count',
+        dataIndex: 'records',
+        render: records => (records.length)
+        // sorter: (a, b) => a.time - b.time,
+        // sortDirections: ['descend', 'ascend']
       },
       {
         title: '操作',
         key: 'action',
         render: (record) => (
           <span>
-        <Icon type="delete" theme="twoTone" style={{fontSize:20}} onClick={() => {
+        <Icon type="delete" theme="twoTone" style={{ fontSize: 20 }} onClick={() => {
           this.remove(record.word);
         }}/>
       </span>
@@ -86,6 +86,14 @@ export default class History extends Component<Props> {
               <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>
             <Content className={styles.content}>
+              <PageHeader
+                title="历史"
+                tags={<Tag color="red">Warning</Tag>}
+              >
+                <div className="wrap">
+                  <div className="extraContent">{extraContent}</div>
+                </div>
+              </PageHeader>
 
               <Table dataSource={this.state.words} columns={columns} rowKey={'word'}>
 
