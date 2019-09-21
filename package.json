@@ -130,7 +130,16 @@
       "owner": "electron-react-boilerplate",
       "repo": "electron-react-boilerplate",
       "private": false
-    }
+    },
+    "protocols": [
+      {
+        "name": "yamdict",
+        "role": "Viewer",
+        "schemes": [
+          "yamdict"
+        ]
+      }
+    ]
   },
   "repository": {
     "type": "git",
