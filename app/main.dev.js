@@ -10,12 +10,13 @@
  *
  * @flow
  */
-import { app, BrowserWindow, ipcMain, Menu,dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { copyFolder } from './utils/file';
 import { registerTray } from './utils/tray';
-import { registerDictService } from './services/dict/DictService';
+import { findWord, registerDictService } from './services/dict/DictService';
+import { History } from './services/history/history';
 
 const path = require('path');
 const fs = require('fs');
@@ -53,51 +54,25 @@ boot();
 /**
  * Add event listeners...
  */
-const gotTheLock = app.requestSingleInstanceLock();
-if (!gotTheLock) {
-  app.quit();
-}
-const args = [];
-if (!app.isPackaged) {
-  args.push(path.resolve(process.argv[1]));
-}
-args.push('--');
-const PROTOCOL = 'yamdict';
-app.setAsDefaultProtocolClient(PROTOCOL, process.execPath, args);
+// const gotTheLock = app.requestSingleInstanceLock();
+// if (!gotTheLock) {
+//   app.quit();
+// }
+// const args = [];
+// if (!app.isPackaged) {
+//   args.push(path.resolve(process.argv[1]));
+// }
+// args.push('--');
+// const PROTOCOL = 'yamdict';
+// app.setAsDefaultProtocolClient(PROTOCOL, process.execPath, args);
+//
+// app.on('second-instance', (event, argv) => {
+// });
+//
+// app.on('open-url', (event, urlStr) => {
+//   invoke(urlStr);
+// });
 
-app.on('second-instance', (event, argv) => {
-});
-
-app.on('open-url', (event, urlStr) => {
-  invoke(urlStr);
-});
-
-
-
-function invoke(urlStr) {
-
-  const urlObj = new URL(urlStr);
-  const { searchParams } = urlObj;
-  console.log(urlObj);
-  //URL {
-  //   href: 'yamdict://guess?&a=1&b=asd',
-  //   origin: 'null',
-  //   protocol: 'yamdict:',
-  //   username: '',
-  //   password: '',
-  //   host: 'guess',
-  //   hostname: 'guess',
-  //   port: '',
-  //   pathname: '',
-  //   search: '?&a=1&$b=asd',
-  //   searchParams: URLSearchParams { 'a' => '1', 'b' => 'asd' },
-  //   hash: '' }
-  console.log(urlStr);
-  dialog.showMessageBox({title:'search event',message:`${searchParams.get('word')}`});
-
-  console.log(searchParams.get('a')); // -> 1
-  console.log(searchParams.get('b')); // -> 2
-}
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
