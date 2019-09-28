@@ -9,7 +9,7 @@ import { parserNames } from '../utils/config';
 import ReactAudioPlayer from 'react-audio-player';
 import { note as NoteService } from '../../app/services/note/NoteService';
 
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, dialog } = require('electron');
 const { Content } = Layout;
 
 type Props = {
@@ -47,15 +47,23 @@ export default class Home extends Component<Props> {
     });
 
     ipcRenderer.on('translate-result', (event, arg) => {
-      let result;
-      if (arg.hasOwnProperty('dict')) {
-        result = arg.dict;
+      if (arg.text === this.state.word) {
+        let result;
+        if (arg.hasOwnProperty('dict')) {
+          result = arg.dict;
+        } else {
+          result = arg.result;
+        }
+        this.setState({
+          result
+        });
       } else {
-        result = arg.result;
+        this.props.history.push('/translate');
       }
-      this.setState({
-        result
-      });
+    });
+    ipcRenderer.on('forward', (event, arg) => {
+      let [action, param] = arg;
+      ipcRenderer.send(action, param);
     });
   }
 

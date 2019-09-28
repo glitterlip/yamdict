@@ -29,11 +29,13 @@ export default class Translate extends Component<Props> {
     };
 
     ipcRenderer.on('translate-result', (event, arg) => {
-      if (this.state.target.length) {
-        this.setState({
-          result: arg
-        });
-      }
+
+      this.setState({
+        result: arg,
+        target:arg.text
+      });
+
+      console.log(arg);
     });
 
     ipcRenderer.on('read-result', (event, arg) => {
@@ -74,7 +76,7 @@ export default class Translate extends Component<Props> {
             <Content className={styles.content}>
               <Row>
                 <Col span={24}>
-                  <Input.TextArea rows={8} onChange={this.handleChange}/>
+                  <Input.TextArea rows={8} onChange={this.handleChange} value={this.state.target}/>
                 </Col>
               </Row>
               <br/>
