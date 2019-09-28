@@ -68,9 +68,9 @@ export default class MdictParser {
 
 
   read = (size) => {
-    console.log('当前位置', this.offset);
+    // console.log('当前位置', this.offset);
     this.offset += size;
-    console.log('操作完成位置', this.offset);
+    // console.log('操作完成位置', this.offset);
     return this.stream.read(size);
   };
 
@@ -182,7 +182,7 @@ export default class MdictParser {
 
     let compressType = buffer.slice(0, 5).readUInt8();
 
-    console.log(compressType, this.offset, buffer.buffer, buffer.byteLength);
+    // console.log(compressType, this.offset, buffer.buffer, buffer.byteLength);
 
     // skip comp_type (4 bytes with tailing \x00) and checksum (4 bytes)
     let offset = 8;
@@ -208,7 +208,7 @@ export default class MdictParser {
 
     // console.log(buffer);
     buffer = Buffer.from(buffer);
-    console.log(buffer);
+    // console.log(buffer);
     let offset = 0;
 
     for (let i = 0, size; i < this.keyWordSummary.num_blocks; i++) {
@@ -241,7 +241,7 @@ export default class MdictParser {
         index: i            // index of this key index, used to search previous/next block
       };
       offset += 4;
-      console.log('for offset end', this.keywordIndex[i]);
+      // console.log('for offset end', this.keywordIndex[i]);
 
 
     }
@@ -273,11 +273,11 @@ export default class MdictParser {
 
       //解压后的block
       block = pako.inflate(block);
-      console.log(block);
+      // console.log(block);
       //arraybuffer to buffer
       let blockBuffer = Buffer.from(block);
 
-      console.log(blockBuffer.byteLength);
+      // console.log(blockBuffer.byteLength);
 
 
       for (let offset = 0; offset < blockBuffer.byteLength;) {
@@ -346,9 +346,9 @@ export default class MdictParser {
     this.recordInfo = {
       numBlocks, numEntries, indexLen, blocksLen, blockSize, offsetInfo
     };
-    console.log(this.recordInfo);
+    // console.log(this.recordInfo);
 
-    console.log('block started from: ' + this.offset);
+    // console.log('block started from: ' + this.offset);
 
     // this.concatFile(path.join(__dirname, '../resources/dicts/柯林斯双解.mdx.txt'));
 
@@ -389,7 +389,7 @@ export default class MdictParser {
     if (!wordSite) {
       return 'no results';
     }
-    console.log('weizhi', wordSite);
+    // console.log('weizhi', wordSite);
     let start = wordSite.wordOffset;
     let count = wordSite.count;
 
@@ -397,8 +397,8 @@ export default class MdictParser {
 
     let end = flip.wordOffset;
 
-    console.log('start', start);
-    console.log('wordOffset', end);
+    // console.log('start', start);
+    // console.log('wordOffset', end);
 
     let wanted;
     let cOffset = 0;
