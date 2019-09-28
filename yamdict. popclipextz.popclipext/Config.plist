@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Actions</key>
+	<array>
+		<dict>
+			<key>Shell Script File</key>
+			<string>search.sh</string>
+			<key>Long Running</key>
+			<true/>
+			<key>Title</key>
+			<string>search</string>
+		</dict>
+		<dict>
+			<key>Shell Script File</key>
+			<string>translate.sh</string>
+			<key>Long Running</key>
+			<true/>
+			<key>Title</key>
+			<string>translate</string>
+		</dict>
+	</array>
+	<key>Extension Description</key>
+	<string>yamdict</string>
+	<key>Extension Identifier</key>
+	<string>com.yamdict</string>
+	<key>Extension Name</key>
+	<string>yamdict</string>
+</dict>
+</plist>
