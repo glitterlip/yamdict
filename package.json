@@ -81,7 +81,7 @@
         ]
       },
       {
-        "from": "./app/flag.png",
+        "from": "./app/tray/flag.png",
         "to": "./config/flag.png"
       },
       {

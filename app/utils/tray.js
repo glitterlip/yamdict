@@ -1,4 +1,4 @@
-import { globalShortcut } from 'electron';
+import { globalShortcut, Menu } from 'electron';
 import { appPath } from './config';
 
 const electron = require('electron');
@@ -19,6 +19,33 @@ const registerTray = () => {
     let position = electron.screen.getCursorScreenPoint();
     toggleWindow(position.x + 50, position.y + 50);
   });
+
+  const template = [{
+    label: 'Application',
+    submenu: [
+      { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
+      { type: 'separator' },
+      {
+        label: 'Quit', accelerator: 'Command+Q', click: function() {
+          app.quit();
+        }
+      }
+    ]
+  }, {
+    label: 'Edit',
+    submenu: [
+      { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+      { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+      { type: 'separator' },
+      { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+      { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
+    ]
+  }
+  ];
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
 };
 const toggleWindow = (x = false, y = false) => {
@@ -63,7 +90,6 @@ const showWindow = (x = false, y = false) => {
 const getWindowPosition = () => {
   const windowBounds = trayWindow.getBounds();//托盘菜单窗口
   const trayBounds = tray.getBounds();//托盘图标
-  console.log(windowBounds, trayBounds);
 
   // Center window horizontally below the tray icon
   const x = Math.round(trayBounds.x + (trayBounds.width / 2) - (windowBounds.width / 2));

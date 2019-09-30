@@ -10,16 +10,16 @@
  *
  * @flow
  */
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { copyFolder } from './utils/file';
 import { registerTray } from './utils/tray';
-import { findWord, registerDictService } from './services/dict/DictService';
-import { History } from './services/history/history';
-
+import { registerDictService } from './services/dict/DictService';
+const { useCapture } = require('./utils/Capture/capture-main')
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -28,6 +28,9 @@ export default class AppUpdater {
   }
 }
 let mainWindow = null;
+let win = null;
+let captureWins = [];
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -117,33 +120,24 @@ app.on('ready', async () => {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-
-  const template = [{
-    label: 'Application',
-    submenu: [
-      { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
-      { type: 'separator' },
-      {
-        label: 'Quit', accelerator: 'Command+Q', click: function() {
-          app.quit();
-        }
-      }
-    ]
-  }, {
-    label: 'Edit',
-    submenu: [
-      { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-      { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-      { type: 'separator' },
-      { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-      { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
-    ]
-  }
-  ];
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  useCapture()
+  // // // 创建浏览器窗口。
+  // win = new BrowserWindow({ width: 800, height: 600 });
+  // //
+  // // console.log(win);
+  // // // 然后加载应用的 index.html。
+  // win.loadFile(`${__dirname}/utils/Capture/index.html`);
+  // //
+  // // 打开开发者工具
+  // win.webContents.openDevTools();
+  //
+  // // 当 window 被关闭，这个事件会被触发。
+  // win.on('closed', () => {
+  //   // 取消引用 window 对象，如果你的应用支持多窗口的话，
+  //   // 通常会把多个 window 对象存放在一个数组里面，
+  //   // 与此同时，你应该删除相应的元素。
+  //   win = null;
+  // });
 
 
   registerTray();

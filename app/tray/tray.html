@@ -24,13 +24,18 @@
             <input type="text"
                    id="search"
                    autofocus
-                   placeholder="Command+Option+X快速查询" >
+                   placeholder="Command+Option+X快速查询">
           </li>
           <li>
             <button id="open">打开词典</button>
           </li>
-          <li>偏好设置</li>
-          <li>退出词典</li>
+          <li>
+            <button id="preferences">偏好设置</button>
+          </li>
+          <li>
+            <button id="capture">截图</button>
+          </li>
+          <li id="quit">退出词典</li>
         </ul>
       </div>
 
@@ -54,6 +59,11 @@
 
     }
   };
+
+  document.getElementById('capture').addEventListener('click', ()=>{
+    ipcRenderer.send('capture-screen')
+  })
+
 
 </script>
 </html>
