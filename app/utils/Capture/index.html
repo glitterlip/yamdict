@@ -7,7 +7,7 @@
 <body>
 <button id="js-capture">Capture Screen</button>
 <script>
-    const { ipcRenderer } = require('electron')
+    const { ipcRenderer } = require('electron');
 
     document.getElementById('js-capture').addEventListener('click', ()=>{
         ipcRenderer.send('capture-screen')

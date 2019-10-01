@@ -6,15 +6,19 @@ import styles from './Translate.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
 import AppFooter from '../General/Footer/Footer';
+import axios from 'axios';
+import md5 from 'md5';
+import qs from 'qs';
+
 
 const { Content } = Layout;
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, remote, dialog } = require('electron');
 
 type Props = {
   setDict: () => void,
   setResult: () => void,
   dict: {},
-  setting: {}
+  setting: {},
 };
 export default class Translate extends Component<Props> {
   props: Props;
@@ -25,14 +29,15 @@ export default class Translate extends Component<Props> {
     this.state = {
       target: '',
       result: '',
-      read: ''
+      read: '',
+      base64: ''
     };
 
     ipcRenderer.on('translate-result', (event, arg) => {
 
       this.setState({
         result: arg,
-        target:arg.text
+        target: arg.text
       });
 
       console.log(arg);
@@ -44,6 +49,20 @@ export default class Translate extends Component<Props> {
       player.load();
       player.play();
     });
+
+
+    remote.ipcMain.on('capture-screen', (e, { type = 'start', url: data } = {}) => {
+      if (type === 'complete') {
+        this.setState({
+          base64: data.substring(22)
+        });
+        console.log(data.substring(22));
+        // remote.app.show();
+        // remote.app.focus();
+        this.recognize();
+      }
+    });
+
   }
 
   translate = () => {
@@ -58,6 +77,52 @@ export default class Translate extends Component<Props> {
     this.setState({
       target: e.target.value
     });
+  };
+
+  handleOcr = () => {
+    remote.app.hide();
+    ipcRenderer.send('capture-screen');
+  };
+
+  recognize = () => {
+    const app_id = 2122174291;
+    const app_key = 'AotWYIsIKc30FegX';
+    const url = 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_generalocr';
+
+    let obj = {
+      app_id,
+      image: this.state.base64,
+      time_stamp: Math.round(new Date().getTime() / 1000),
+      nonce_str: '1333753988'
+    };
+
+    let sign = '';
+    Object.keys(obj).sort().map((key) => {
+      sign += `${key}=${encodeURIComponent(obj[key])}&`;
+    });
+
+    sign = `${sign}app_key=${app_key}`;
+    obj.sign = (md5(sign)).toUpperCase();
+    axios.post(url, qs.stringify(obj), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    })
+      .then((response) => {
+
+        console.log(response);
+        const { data } = response;
+        if (data.ret === 0) {
+          let target = '';
+          data.data.item_list.map((item) => {
+            target += `${item.itemstring} `;
+          });
+          this.setState({
+            target
+          });
+        } else {
+          dialog.showErrorBox('出错了,腾讯的锅', data.msg);
+        }
+
+      });
   };
 
   render() {
@@ -116,11 +181,12 @@ export default class Translate extends Component<Props> {
                 <Col span={6}>
                   <Button
                     type="primary"
-                    icon="search"
+                    icon="camera"
                     className={styles['tans-button']}
                     block
+                    onClick={this.handleOcr}
                   >
-                    Search
+                    截图识别并翻译
                   </Button>
                 </Col>
               </Row>
