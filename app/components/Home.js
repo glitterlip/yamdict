@@ -38,7 +38,7 @@ export default class Home extends Component<Props> {
         }
         //下次搜索时清空网络词典
         this.props.setResult(arg);
-        this.setState({ result: [], record: arg.history.records.length ? arg.history.records.length : 0 });
+        this.setState({ result: [], record: arg.hasOwnProperty('history') ? arg.history.records.length : 0 });
       }
     });
     ipcRenderer.on('search-word', (event, arg) => {
@@ -63,17 +63,6 @@ export default class Home extends Component<Props> {
     ipcRenderer.on('forward', (event, arg) => {
       let [action, param] = arg;
       ipcRenderer.send(action, param);
-    });
-    document.addEventListener('mouseup', (event) => {
-
-      let txt = document.getSelection().toString();
-      if (txt) {
-        this.setState({ word: txt });
-        this.props.setWord(txt);
-        ipcRenderer.send('search-word', txt);
-      }
-
-
     });
   }
 
@@ -106,6 +95,16 @@ export default class Home extends Component<Props> {
       NoteService.add({ word: this.props.dict.word, score: value });
       this.setState({ score: value });
     }
+  };
+
+  select = () => {
+    let txt = document.getSelection().toString();
+    if (txt) {
+      this.setState({ word: txt });
+      this.props.setWord(txt);
+      ipcRenderer.send('search-word', txt);
+    }
+
   };
 
   render() {
@@ -164,7 +163,8 @@ export default class Home extends Component<Props> {
             </Card>
             <Content className={styles.content}
             >
-              {Object.keys(this.props.dict.result) ? <Definitions result={this.props.dict.result}/> : <Empty/>}
+              {Object.keys(this.props.dict.result) ?
+                <Definitions result={this.props.dict.result} select={this.select}/> : <Empty/>}
             </Content>
           </Layout>
         </Layout>
@@ -185,7 +185,7 @@ const customPanelStyle = {
 };
 const { Panel } = Collapse;
 
-const Definitions = ({ result }) => <Collapse
+const Definitions = ({ result, select }) => <Collapse
   bordered={false}
   defaultActiveKey={parserNames()}
   expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0}/>}
@@ -195,7 +195,7 @@ const Definitions = ({ result }) => <Collapse
     parserNames().map((key) => {
       if (result.hasOwnProperty(key)) {
         return <Panel key={key} header={key} style={customPanelStyle}>
-          <div dangerouslySetInnerHTML={{ __html: result[key] }}/>
+          <div className={'Definitions'} onDoubleClick={select} dangerouslySetInnerHTML={{ __html: result[key] }}/>
 
         </Panel>;
       }

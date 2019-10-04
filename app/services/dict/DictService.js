@@ -15,7 +15,10 @@ const registerDictService = (ipcMain, mainWindow) => {
 
     let history = History();
     let res = findWord(arg);
-    res.history = history.find(arg);
+    let record = history.find(arg);
+    if (record){
+      res.history = record;
+    }
     history.add(arg);
     mainWindow.show();
     mainWindow.webContents.send('search-results', res);
