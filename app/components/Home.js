@@ -45,7 +45,6 @@ export default class Home extends Component<Props> {
       this.setState({ word: arg });
       this.props.setWord(arg);
     });
-
     ipcRenderer.on('translate-result', (event, arg) => {
       if (arg.text === this.state.word) {
         let result;
@@ -64,6 +63,17 @@ export default class Home extends Component<Props> {
     ipcRenderer.on('forward', (event, arg) => {
       let [action, param] = arg;
       ipcRenderer.send(action, param);
+    });
+    document.addEventListener('mouseup', (event) => {
+
+      let txt = document.getSelection().toString();
+      if (txt) {
+        this.setState({ word: txt });
+        this.props.setWord(txt);
+        ipcRenderer.send('search-word', txt);
+      }
+
+
     });
   }
 

@@ -1,6 +1,6 @@
 import Parser from '../../utils/MdictParser';
 import { configDb } from '../../utils/config';
-import { dialog } from 'electron';
+import { app, dialog } from 'electron';
 import { History } from '../history/history';
 // import {resPath} from '../../main.dev';
 const fs = require('fs');
@@ -76,13 +76,14 @@ const loadParsers = () => {
 
 };
 const addDict = (dictPath) => {
-
+  const resPath = path.resolve(app.getPath('userData'));
+  const dictsPath = resPath + '/dicts';
   let pathArr = dictPath[0].split('/');
   let dictName = pathArr[pathArr.length - 1];
-  let newPath = path.join(__dirname, '../../../resources/dicts/' + dictName);
+  let newPath = path.join(dictsPath, dictName);
 
   fs.copyFileSync(dictPath[0], newPath);
-  let newParser = new Parser('/resources/dicts/' + dictName);
+  let newParser = new Parser(dictName);
   parsers.set(dictName, { dict: newParser, path: '/resources/dicts/' + dictName });
 
   configDb.get('dicts').push({
@@ -93,14 +94,10 @@ const addDict = (dictPath) => {
   }).write();
 
 };
-let a = 0;
 
 const DictService = {
 
   updateSort: (dicts) => {
-    a++;
-    console.log(a);
-    console.log(dicts);
     configDb.get('dicts').remove().write();
     configDb.set('dicts', [...dicts]).write();
 
