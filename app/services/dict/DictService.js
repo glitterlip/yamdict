@@ -16,7 +16,7 @@ const registerDictService = (ipcMain, mainWindow) => {
     let history = History();
     let res = findWord(arg);
     let record = history.find(arg);
-    if (record){
+    if (record) {
       res.history = record;
     }
     history.add(arg);
@@ -48,7 +48,7 @@ const registerDictService = (ipcMain, mainWindow) => {
 
 const findWord = (word) => {
 
-  let result = {};
+  let result = { word };
   parsers.forEach((parser, index) => {
     // console.log(parser.parser);
     result[index] = parser.dict.findWord(word, parser.path);

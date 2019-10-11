@@ -16,7 +16,9 @@ type Props = {
   setDict: ()=>void,
   setResult: ()=>void,
   dict: {},
-  setting: {}
+  setting: {},
+  setWord: ()=>void,
+  setScore: ()=>void,
 };
 export default class Home extends Component<Props> {
   props: Props;
@@ -39,6 +41,17 @@ export default class Home extends Component<Props> {
         //下次搜索时清空网络词典
         this.props.setResult(arg);
         this.setState({ result: [], record: arg.hasOwnProperty('history') ? arg.history.records.length : 0 });
+
+        let favo = NoteService.find(arg.word);
+        if (favo) {
+          this.props.setScore(favo.score);
+          // this.setState({ score: favo.score });
+        } else {
+          this.props.setScore(0);
+          // this.setState({ score: 0 });
+        }
+
+
       }
     });
     ipcRenderer.on('search-word', (event, arg) => {
@@ -46,7 +59,7 @@ export default class Home extends Component<Props> {
       this.props.setWord(arg);
     });
     ipcRenderer.on('translate-result', (event, arg) => {
-      if (arg.text === this.state.word) {
+      if (arg.text === this.props.dict.word) {
         let result;
         if (arg.hasOwnProperty('dict')) {
           result = arg.dict;
@@ -66,15 +79,6 @@ export default class Home extends Component<Props> {
     });
   }
 
-  setWord = (word) => {
-    this.setState({ word: word });
-    let favo = NoteService.find(word);
-    if (favo) {
-      this.setState({ score: favo.score });
-    } else {
-      this.setState({ score: 0 });
-    }
-  };
 
   internet = () => {
     ipcRenderer.send('translate-request', this.props.dict.word);
@@ -93,7 +97,7 @@ export default class Home extends Component<Props> {
   like = (value) => {
     if (value && this.props.dict.word) {
       NoteService.add({ word: this.props.dict.word, score: value });
-      this.setState({ score: value });
+      this.props.setScore(value)
     }
   };
 
@@ -112,7 +116,7 @@ export default class Home extends Component<Props> {
     return (
       <Layout>
 
-        <IndexHeader setWord={this.setWord} {...this.props} />
+        <IndexHeader {...this.props}/>
         <Layout>
 
           <SideBar></SideBar>
@@ -132,7 +136,7 @@ export default class Home extends Component<Props> {
                 </Col>
                 <Col span={6}>
                   <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} onChange={this.like}
-                        value={this.state.score}/>
+                        value={this.props.setting.score}/>
                 </Col>
                 <Col span={6}>
                   {this.state.record ?

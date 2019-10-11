@@ -1,4 +1,5 @@
 export const SET_THEME = 'SET_THEME';
+export const SET_SCORE = 'SET_SCORE';
 
 export function toggleTheme() {
   return (dispatch, getState) => {
@@ -7,9 +8,16 @@ export function toggleTheme() {
   };
 }
 
-const changeTheme = theme => {
+export const changeTheme = theme => {
   return {
     type: SET_THEME,
     theme
   };
 };
+
+export function setScore(score) {
+  return {
+    type: SET_SCORE,
+    score
+  };
+}

@@ -10,26 +10,11 @@ type Props = {
   engine: () => {},
   setResult: () => void,
   setting: {},
-  setWord: ()=>void
+  setWord: ()=>void,
 };
 
 export default class IndexHeader extends Component<Props> {
   props: Props;
-
-  search = value => {
-    if (value) {
-      ipcRenderer.send('search-word', value);
-      if (this.props.setWord !== undefined) {
-        this.props.setWord(value);
-      }
-    }
-
-
-  };
-
-  handleInput = (e) => {
-    this.props.setWord(e.target.value)
-  };
 
   render() {
     const { setting, toggleTheme } = this.props;
@@ -46,10 +31,19 @@ export default class IndexHeader extends Component<Props> {
           <Col span={14}>
             <div className={styles.searchWrapper}>
               <Input.Search
-                onSearch={value => this.search(value)}
+                onSearch={value => {
+                  if (value) {
+                    ipcRenderer.send('search-word', value);
+                    if (this.props.setWord !== undefined) {
+                      this.props.setWord(value);
+                    }
+                  }
+                }}
                 enterButton
                 value={this.props.dict.word}
-                onChange={this.handleInput}
+                onChange={(e) => {
+                  this.props.setWord(e.target.value);
+                }}
 
               />
             </div>

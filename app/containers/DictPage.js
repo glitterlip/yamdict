@@ -3,6 +3,7 @@ import React from 'react';
 import Dict from '../components/Dicts/Dict';
 
 import { connect } from 'react-redux';
+import { defaultFunctions } from '../reducers';
 
 function mapStateToProps(state) {
   return {
@@ -13,7 +14,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
 
-  return {};
+  return { ...defaultFunctions(dispatch) };
+
 }
 
 export default connect(
