@@ -2,7 +2,6 @@ import Parser from '../../utils/MdictParser';
 import { configDb } from '../../utils/config';
 import { app, dialog } from 'electron';
 import { History } from '../history/history';
-// import {resPath} from '../../main.dev';
 const fs = require('fs');
 const path = require('path');
 
@@ -50,10 +49,7 @@ const findWord = (word) => {
 
   let result = { word };
   parsers.forEach((parser, index) => {
-    // console.log(parser.parser);
     result[index] = parser.dict.findWord(word, parser.path);
-    // resultMap.set(index, parser.dict.findWord(word, parser.Path));
-    //???? electron ipc cant accept Map param?
   });
 
   return result;
