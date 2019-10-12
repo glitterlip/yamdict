@@ -45,13 +45,9 @@ export default class Home extends Component<Props> {
         let favo = NoteService.find(arg.word);
         if (favo) {
           this.props.setScore(favo.score);
-          // this.setState({ score: favo.score });
         } else {
           this.props.setScore(0);
-          // this.setState({ score: 0 });
         }
-
-
       }
     });
     ipcRenderer.on('search-word', (event, arg) => {
@@ -97,7 +93,7 @@ export default class Home extends Component<Props> {
   like = (value) => {
     if (value && this.props.dict.word) {
       NoteService.add({ word: this.props.dict.word, score: value });
-      this.props.setScore(value)
+      this.props.setScore(value);
     }
   };
 
@@ -198,10 +194,13 @@ const Definitions = ({ result, select }) => <Collapse
   {
     parserNames().map((key) => {
       if (result.hasOwnProperty(key)) {
-        return <Panel key={key} header={key} style={customPanelStyle}>
-          <div className={'Definitions'} onDoubleClick={select} dangerouslySetInnerHTML={{ __html: result[key] }}/>
+        let content = result[key] ?
+          <div className={'Definitions'} onDoubleClick={select}
+               dangerouslySetInnerHTML={{ __html: result[key] }}/>
+          :
+          <div><Empty/></div>;
+        return <Panel key={key} header={key} style={customPanelStyle}>{content}</Panel>;
 
-        </Panel>;
       }
 
     })

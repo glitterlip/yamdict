@@ -1,5 +1,5 @@
 import { ripemd128 } from './ripemd128';
-import { appPath,resPath } from './config';
+import { resPath } from './config';
 
 const fs = require('fs');
 const pako = require('pako');
@@ -28,7 +28,7 @@ export default class MdictParser {
     this.indexMap = new Map();
     this.flipMap = new Map();
 
-    const realPath = path.join(resPath+'/dicts', filePath);
+    const realPath = path.join(resPath + '/dicts', filePath);
     // const realPath = path.join('./dicts', filePath);
     fs.access(realPath, fs.constants.R_OK, (err) => {
       if (err) {
@@ -387,7 +387,7 @@ export default class MdictParser {
     let wordSite = this.indexMap.get(word);
 
     if (!wordSite) {
-      return 'no results';
+      return null;
     }
     // console.log('weizhi', wordSite);
     let start = wordSite.wordOffset;
@@ -428,7 +428,7 @@ export default class MdictParser {
     }
 
     //解压目标 word 所在区块 然后截取 start-end 返回
-    let buffer = fs.readFileSync(path.join(resPath+'/dicts', filePath));
+    let buffer = fs.readFileSync(path.join(resPath + '/dicts', filePath));
 
     let no = this.recordInfo.blockSize[wanted.count];
     console.log(no, no.globalOffset, no.compressSize);
