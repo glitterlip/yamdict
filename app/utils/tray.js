@@ -59,8 +59,8 @@ const toggleWindow = (x = false, y = false) => {
 
 const createWindow = () => {
   trayWindow = new BrowserWindow({
-    width: 300,
-    height: 150,
+    width: 240,
+    height: 200,
     show: false,
     frame: false,
     fullscreenable: false,

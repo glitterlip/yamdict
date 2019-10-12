@@ -2,15 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Weather</title>
-  <!--<script type="module" src="tray://trayindex.js"></script>-->
+  <title>Yamdict</title>
   <style>
-    li {
-      list-style-type: none
+    body {
+      background-color: #e7ebee;
+      margin: 0 0;
+      height: 200px;
+      width: 240px;
     }
 
-    #search {
-      width: 160px;
+    ul {
+      padding: 0 0;
+    }
+
+    li {
+      list-style-type: none;
+      padding-top: 5px;
+    }
+
+    li div {
+      padding-left: 10px;
+    }
+
+    .search > div {
+      float: left;
+      padding-left: 10px;
+      height: 30px;
+      line-height: 30px;
+      vertical-align: center;
+    }
+
+    .search {
+      width: 100%;
+      height: 30px;
+      background-color: #4c7ef4;
+    }
+
+    #search input {
+      background-color: white;
+      padding-left: 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
@@ -21,21 +52,31 @@
       <div>
         <ul>
           <li>
-            <input type="text"
-                   id="search"
-                   autofocus
-                   placeholder="Command+Option+X快速查询">
+            <div class="search">
+              <div>
+                <span style="color: white">搜索</span>
+              </div>
+              <div>
+                <input type="text" id="search" autofocus
+                       placeholder="Cmd+Opt+X快速查询">
+              </div>
+            </div>
           </li>
           <li>
-            <button id="open">打开词典</button>
+            <div id="open">打开词典</div>
           </li>
           <li>
-            <button id="preferences">偏好设置</button>
+            <div id="preferences">偏好设置</div>
           </li>
           <li>
-            <button id="capture">截图</button>
+            <div id="capture">截图翻译</div>
           </li>
-          <li id="quit">退出词典</li>
+          <li>
+            <div id="about">关于软件</div>
+          </li>
+          <li>
+            <div id="quit">退出词典</div>
+          </li>
         </ul>
       </div>
 
@@ -60,9 +101,9 @@
     }
   };
 
-  document.getElementById('capture').addEventListener('click', ()=>{
-    ipcRenderer.send('capture-screen')
-  })
+  document.getElementById('capture').addEventListener('click', () => {
+    ipcRenderer.send('capture-screen');
+  });
 
 
 </script>
