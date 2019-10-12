@@ -83,11 +83,11 @@ const addDict = (dictPath) => {
 
   fs.copyFileSync(dictPath[0], newPath);
   let newParser = new Parser(dictName);
-  parsers.set(dictName, { dict: newParser, path: '/resources/dicts/' + dictName });
+  parsers.set(dictName, { dict: newParser, path:dictName });
 
   configDb.get('dicts').push({
     name: dictName,
-    path: '/resources/dicts/' + dictName,
+    path: dictName,
     enabled: 1,
     info: newParser.info
   }).write();
