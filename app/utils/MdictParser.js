@@ -418,8 +418,8 @@ export default class MdictParser {
 
         };
 
-        console.log(wanted);
-        console.log(cOffset, dOffset, this.recordInfo.blockSize[i - 1]);
+        // console.log(wanted);
+        // console.log(cOffset, dOffset, this.recordInfo.blockSize[i - 1]);
         break;
       }
       dOffset += this.recordInfo.blockSize[i].deCompressSize;
