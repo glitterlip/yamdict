@@ -146,6 +146,10 @@ export default class Dict extends Component<Props> {
         dataIndex: 'name'
       },
       {
+        title: '词条数',
+        dataIndex: 'items'
+      },
+      {
         title: '详情',
         key: 'info',
         render: (text, dict, index) => <Button icon="ellipsis" shape="round" onClick={() => {

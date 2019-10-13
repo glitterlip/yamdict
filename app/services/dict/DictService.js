@@ -2,6 +2,7 @@ import Parser from '../../utils/MdictParser';
 import { configDb } from '../../utils/config';
 import { app, dialog } from 'electron';
 import { History } from '../history/history';
+
 const fs = require('fs');
 const path = require('path');
 
@@ -83,13 +84,14 @@ const addDict = (dictPath) => {
 
   fs.copyFileSync(dictPath[0], newPath);
   let newParser = new Parser(dictName);
-  parsers.set(dictName, { dict: newParser, path:dictName });
+  parsers.set(dictName, { dict: newParser, path: dictName });
 
   configDb.get('dicts').push({
     name: dictName,
     path: dictName,
     enabled: 1,
-    info: newParser.info
+    info: newParser.info,
+    items: newParser.keyWordSummary.num_entries
   }).write();
 
 };
