@@ -32,6 +32,9 @@ export const defaultFunctions = (dispatch) => {
     },
     setScore: (score) => {
       dispatch(SettingActions.setScore(score));
+    },
+    setPredictions: (predictions) => {
+      dispatch(DictActions.setPredictions(predictions));
     }
   };
 };

@@ -2,6 +2,7 @@ export const SET_RESULT = 'SET_RESULT';
 export const SET_DICT = 'SET_DICT';
 export const DISABLE_DICT = 'DISABLE_DICT';
 export const SET_WORD = 'SET_WORD';
+export const SET_PREDICTIONS = 'SET_PREDICTIONS';
 
 export function setDict(dict) {
   return {
@@ -30,3 +31,12 @@ export function disableDict(dict) {
     dict
   };
 }
+
+export function setPredictions(predictions) {
+  return {
+    type: SET_PREDICTIONS,
+    predictions
+  };
+}
+
+
