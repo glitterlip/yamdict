@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Layout, Row, Select, Switch } from 'antd';
+import { Col, Icon, Layout, Row, Select, Switch } from 'antd';
 import styles from './Header.css';
 
 const { ipcRenderer } = require('electron');
@@ -39,8 +39,8 @@ export default class IndexHeader extends Component<Props> {
                 showSearch
                 value={this.props.dict.word}
                 defaultActiveFirstOption={false}
-                showArrow={false}
                 filterOption={false}
+                suffixIcon={<Icon type="search" style={{ fontSize: '20px', color: '#1790ff' }}/>}
                 onSearch={value => {
                   if (this.props.setWord !== undefined) {
                     this.props.setWord(value);
