@@ -20,6 +20,7 @@ export default class MdictParser {
   bpu;//bytes_per_unit
   keyBlocks = [];
   indexMap;
+  // buffer;
 
   constructor(filePath = '') {
 
@@ -68,9 +69,7 @@ export default class MdictParser {
 
 
   read = (size) => {
-    // console.log('当前位置', this.offset);
     this.offset += size;
-    // console.log('操作完成位置', this.offset);
     return this.stream.read(size);
   };
 
@@ -258,6 +257,7 @@ export default class MdictParser {
     //每个 block 起始位置
     let blockOffset = 0;
     let count = 0;
+    this.keyblockStart = this.offset;
 
 
     for (let i = 0, size; i < this.keyWordSummary.num_blocks; i++) {
@@ -287,7 +287,7 @@ export default class MdictParser {
         let [word, end] = this.searchEnd(blockBuffer, offset += 4);
 
         this.indexMap.set(word, { wordOffset, count, block: i });
-        this.flipMap.set(count, { wordOffset });
+        this.flipMap.set(count, { wordOffset, word });
 
         offset = end;
         // i++;

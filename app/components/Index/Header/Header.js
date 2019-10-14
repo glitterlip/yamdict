@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Input, Layout, Row, Switch } from 'antd';
+import { Col, Layout, Row, Select, Switch } from 'antd';
 import styles from './Header.css';
 
 const { ipcRenderer } = require('electron');
@@ -11,6 +11,8 @@ type Props = {
   setResult: () => void,
   setting: {},
   setWord: ()=>void,
+  predict: ()=>void,
+  predictions: []
 };
 
 export default class IndexHeader extends Component<Props> {
@@ -18,6 +20,8 @@ export default class IndexHeader extends Component<Props> {
 
   render() {
     const { setting, toggleTheme } = this.props;
+    const { Option } = Select;
+
     return (
       <Header
         className={styles.header}
@@ -30,8 +34,26 @@ export default class IndexHeader extends Component<Props> {
           </Col>
           <Col span={14}>
             <div className={styles.searchWrapper}>
-              <Input.Search
+              <Select
+                style={{ width: '100%' }}
+                showSearch
+                value={this.props.dict.word}
+                defaultActiveFirstOption={false}
+                showArrow={false}
+                filterOption={false}
                 onSearch={value => {
+                  if (this.props.setWord !== undefined) {
+                    this.props.setWord(value);
+                  }
+                  ipcRenderer.send('predict', value);
+                }}
+                onInputKeyDown={(e) => {
+                  if (e.which === 13) {
+                    ipcRenderer.send('search-word', this.props.dict.word);
+                  }
+                }}
+
+                onSelect={(value) => {
                   if (value) {
                     ipcRenderer.send('search-word', value);
                     if (this.props.setWord !== undefined) {
@@ -39,13 +61,13 @@ export default class IndexHeader extends Component<Props> {
                     }
                   }
                 }}
-                enterButton
-                value={this.props.dict.word}
-                onChange={(e) => {
-                  this.props.setWord(e.target.value);
-                }}
 
-              />
+                notFoundContent={null}
+              >
+                {this.props.dict.predictions.length ? this.props.dict.predictions.map(d => <Option
+                  key={d.word}>{d.word}</Option>) : ''}
+              </Select>
+
             </div>
           </Col>
           <Col span={5}>

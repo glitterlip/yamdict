@@ -43,6 +43,17 @@ const registerDictService = (ipcMain, mainWindow) => {
     });
   });
 
+  ipcMain.on('predict', (event, arg) => {
+    let predictions = [];
+
+    if (arg) {
+      predictions = predict(arg);
+    }
+    event.sender.send('predictions', predictions);
+
+
+  });
+
 
 };
 
@@ -95,7 +106,49 @@ const addDict = (dictPath) => {
   }).write();
 
 };
+const predict = (word) => {
+  let arr = [];
+  parsers.forEach((v, k) => {
+    if (v.path.indexOf('柯林斯') > -1) {
+      let kdx = reduce(v.dict.keywordIndex, word);
+      let { last_word } = kdx;
 
+      let wordSite = v.dict.indexMap.get(last_word);
+      if (!wordSite) {
+        console.log('null');
+        return [];
+      }
+      let count = wordSite.count;
+      let current = v.dict.flipMap.get(count);
+      while (current.word.toLowerCase().replace('-', '') > word) {
+        count -= 1;
+        current = v.dict.flipMap.get(count);
+      }
+
+      for (let i = count; arr.length < 10; i++) {
+        let { word } = v.dict.flipMap.get(i);
+        if (word.indexOf(' ') === -1) {
+          arr.push(v.dict.flipMap.get(i));
+        }
+      }
+
+    }
+  });
+  return arr;
+};
+
+
+const reduce = (arr, phrase) => {
+  let len = arr.length;
+  if (len > 1) {
+    len = len >> 1;
+    return phrase > arr[len - 1].last_word
+      ? reduce(arr.slice(len), phrase)
+      : reduce(arr.slice(0, len), phrase);
+  } else {
+    return arr[0];
+  }
+};
 const DictService = {
 
   updateSort: (dicts) => {
@@ -106,7 +159,6 @@ const DictService = {
 
   getAllDicts: () => {
     return configDb.get('dicts').value();
-
   },
 
   rename: (newName, oldName) => {
@@ -120,6 +172,10 @@ const DictService = {
 
   addDict: (dictPath) => {
     addDict(dictPath);
+  },
+
+  predict: (word) => {
+    return predict(word);
   }
 
 

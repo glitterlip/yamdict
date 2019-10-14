@@ -19,6 +19,9 @@ type Props = {
   setting: {},
   setWord: ()=>void,
   setScore: ()=>void,
+  setPredictions: ()=>void,
+  predictions: []
+
 };
 export default class Home extends Component<Props> {
   props: Props;
@@ -53,6 +56,9 @@ export default class Home extends Component<Props> {
     ipcRenderer.on('search-word', (event, arg) => {
       this.setState({ word: arg });
       this.props.setWord(arg);
+    });
+    ipcRenderer.on('predictions', (event, arg) => {
+      this.props.setPredictions(arg);
     });
     ipcRenderer.on('translate-result', (event, arg) => {
       if (arg.text === this.props.dict.word) {
