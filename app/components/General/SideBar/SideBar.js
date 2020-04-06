@@ -48,7 +48,7 @@ const SideBar = () => {
               {item.children.map(child => {
                 return (
                   <Menu.Item key={child.name}>
-                    <Link to={child.path} className={style.link}>
+                    <Link to={`${item.path}${child.path}`} className={style.link}>
                       <Icon type={child.icon} />
                       {child.name}
                     </Link>

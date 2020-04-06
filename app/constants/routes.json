@@ -45,5 +45,33 @@
     "icon": "history",
     "type": "single",
     "name": "历史记录"
+  },
+  "PODCAST": {
+    "path": "/podcast",
+    "icon": "podcast",
+    "type": "mutiple",
+    "name": "播客",
+    "children": [
+      {
+        "path": "/play",
+        "icon": "tag",
+        "name": "播放"
+      },
+      {
+        "path": "/subscriptions",
+        "icon": "tag",
+        "name": "订阅"
+      },
+      {
+        "path": "/favorites",
+        "icon": "tag",
+        "name": "收藏"
+      },
+      {
+        "path": "/discover",
+        "icon": "tag",
+        "name": "发现"
+      }
+    ]
   }
 }
