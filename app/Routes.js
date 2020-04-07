@@ -8,16 +8,19 @@ import NotePage from './containers/NotePage';
 import DictPage from './containers/DictPage';
 import History from './containers/HistoryPage';
 import PodcastPage from './containers/PodcastPage';
+import DiscoverPage from './containers/podcast/DiscoverPage';
 
 export default () => (
   <App>
     <Switch>
-      <Route path={routes.TRANSLATE.path} component={TranslatePage} />
-      <Route path={routes.HOME.path} exact component={HomePage} />
-      <Route path={routes.NOTE.path} exact component={NotePage} />
-      <Route path={routes.DICTS.path} exact component={DictPage} />
-      <Route path={routes.HISTORY.path} exact component={History} />
-      <Route path={routes.PODCAST.path} exact component={PodcastPage} />
+      <Route path={routes.TRANSLATE.path} component={TranslatePage}/>
+      <Route path={routes.HOME.path} exact component={HomePage}/>
+      <Route path={routes.NOTE.path} exact component={NotePage}/>
+      <Route path={routes.DICTS.path} exact component={DictPage}/>
+      <Route path={routes.HISTORY.path} exact component={History}/>
+      <Route path={routes.PODCAST.path} exact component={PodcastPage}/>
+      <Route path={routes.PODCAST.path} exact component={PodcastPage}/>
+      <Route path='/podcast/discover' exact component={DiscoverPage}/>
     </Switch>
   </App>
 );
