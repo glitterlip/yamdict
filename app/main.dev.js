@@ -16,7 +16,8 @@ import log from 'electron-log';
 import { copyFolder } from './utils/file';
 import { registerTray } from './utils/tray';
 import { registerDictService } from './services/dict/DictService';
-const { useCapture } = require('./utils/Capture/capture-main')
+
+const { useCapture } = require('./utils/Capture/capture-main');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -125,6 +126,13 @@ function boot() {
 
   if (!fs.existsSync(dictsPath)) {
     copyFolder(builtinPath + '/dicts/', dictsPath);
+
+  }
+
+  if (!fs.existsSync(`${resPath}/podcasts/subscribes`)) {
+    fs.mkdirSync(`${resPath}/podcasts`);
+    fs.mkdirSync(`${resPath}/podcasts/subscribes/`);
+    fs.mkdirSync(`${resPath}/podcasts/downloads/`);
 
   }
 }

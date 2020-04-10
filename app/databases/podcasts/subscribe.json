@@ -47,7 +47,8 @@
         "Society & Culture",
         "Arts"
       ],
-      "played": []
+      "subscribed": true,
+      "episodes": []
     },
     {
       "wrapperType": "track",
@@ -92,7 +93,8 @@
         "Podcasts",
         "Society & Culture"
       ],
-      "played": []
+      "subscribed": true,
+      "episodes": []
     }
   ]
 }

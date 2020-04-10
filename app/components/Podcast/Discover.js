@@ -41,6 +41,7 @@ export default class Podcast extends Component<Props> {
 
   subscribe = (item) => {
     PodService.subscribe(item);
+    PodService.sync(item);
   };
 
   render() {

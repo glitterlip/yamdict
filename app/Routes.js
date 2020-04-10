@@ -9,6 +9,7 @@ import DictPage from './containers/DictPage';
 import History from './containers/HistoryPage';
 import PodcastPage from './containers/PodcastPage';
 import DiscoverPage from './containers/podcast/DiscoverPage';
+import SubscribesPage from './containers/podcast/SubscribesPage';
 
 export default () => (
   <App>
@@ -21,6 +22,7 @@ export default () => (
       <Route path={routes.PODCAST.path} exact component={PodcastPage}/>
       <Route path={routes.PODCAST.path} exact component={PodcastPage}/>
       <Route path='/podcast/discover' exact component={DiscoverPage}/>
+      <Route path='/podcast/subscribes' exact component={SubscribesPage}/>
     </Switch>
   </App>
 );

@@ -53,7 +53,7 @@
     "name": "播客",
     "children": [
       {
-        "path": "/subscriptions",
+        "path": "/subscribes",
         "icon": "inbox",
         "name": "订阅"
       },

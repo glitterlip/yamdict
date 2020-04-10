@@ -5,6 +5,9 @@ const FileSync = require('lowdb/adapters/FileSync');
 const subscribeAdapter = new FileSync(resPath + '/databases/podcasts/subscribe.json');
 const subscribeDb = low(subscribeAdapter);
 
+import axios from 'axios';
+
+const fs = require('fs');
 
 class PodcastService {
   subscribe = (podcast) => {
@@ -27,7 +30,24 @@ class PodcastService {
   };
 
   getDefault = (podcast) => {
-    return { ...podcast, played: [], subscribed: true };
+    return { ...podcast, subscribed: true, episodes: [] };
+  };
+
+  sync = (podcast) => {
+    axios.get(podcast.feedUrl, {
+      headers: {
+        'accept': 'application/x-www-form-urlencoded'
+      }
+    }).then((response) => {
+
+      console.log(response);
+      fs.writeFileSync(`${resPath}/podcasts/subscribes/${podcast.collectionId}.xml`, response.data);
+    });
+  };
+
+  allSubscribes = () => {
+
+    return subscribeDb.get('podcasts').value();
   };
 
 }
