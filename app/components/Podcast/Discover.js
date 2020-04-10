@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Icon, Layout, Rate, Table, Input } from 'antd';
+import { Breadcrumb, Icon, Layout, Rate, Table, Input, List, Avatar, Button } from 'antd';
 import styles from './Discover.css';
 import IndexHeader from '../Index/Header/Header';
 import SideBar from '../General/SideBar/SideBar';
 import AppFooter from '../General/Footer/Footer';
 import { PodService } from '../../services/podcast/PodcastService';
+import axios from 'axios';
+import qs from 'qs';
 
 const { Content } = Layout;
 const { Search } = Input;
@@ -19,15 +21,30 @@ export default class Podcast extends Component<Props> {
 
   constructor() {
     super();
+    this.state = {
+      results: []
+    };
 
   }
 
   search = (value) => {
-    const api = `https://itunes.apple.com/search?term=${value}&limit=10&media=podcast&country=US`;
-    console.log(value);
+    const api = `https://itunes.apple.com/search?term=${value}&limit=30&media=podcast&country=US`;
+    axios.get(api).then((response) => {
+      const { results } = response.data;
+      console.log(response);
+      this.setState({
+        results
+      });
+
+    });
+  };
+
+  subscribe = (item) => {
+    PodService.subscribe(item);
   };
 
   render() {
+    const results = this.state.results;
 
     return (
       <Layout>
@@ -42,6 +59,20 @@ export default class Podcast extends Component<Props> {
             </Breadcrumb>
             <Content className={styles.content}>
               <Search placeholder="input search text" onSearch={this.search} enterButton/>
+              <List
+                itemLayout="horizontal"
+                dataSource={results}
+                renderItem={item => (
+                  <List.Item
+                    actions={[<Button type="primary" onClick={e => this.subscribe(item)}>subscribe</Button>]}>
+                    <List.Item.Meta
+                      avatar={<Avatar src={item.artworkUrl100}/>}
+                      title={item.artistName}
+                      description={item.collectionName}
+                    />
+                  </List.Item>
+                )}
+              />
             </Content>
           </Layout>
         </Layout>
