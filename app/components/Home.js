@@ -174,7 +174,7 @@ export default class Home extends Component<Props> {
             </Content>
           </Layout>
         </Layout>
-        <AppFooter></AppFooter>
+        <AppFooter {...this.props}></AppFooter>
       </Layout>
 
     );

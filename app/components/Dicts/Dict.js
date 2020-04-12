@@ -282,7 +282,7 @@ export default class Dict extends Component<Props> {
             </Content>
           </Layout>
         </Layout>
-        <AppFooter></AppFooter>
+        <AppFooter {...this.props}></AppFooter>
       </Layout>
     );
   }

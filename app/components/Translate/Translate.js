@@ -204,7 +204,7 @@ export default class Translate extends Component<Props> {
             </Content>
           </Layout>
         </Layout>
-        <AppFooter></AppFooter>
+        <AppFooter {...this.props}></AppFooter>
       </Layout>
     );
   }
