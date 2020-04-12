@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 import Translate from '../components/Translate/Translate';
 
 import { connect } from 'react-redux';
-import { defaultFunctions } from '../reducers';
+import { defaultFunctions, defaultProps } from '../reducers';
+
 
 function mapStateToProps(state) {
-  return {
-    dict: state.dict,
-    setting: state.setting
-  };
+  return { ...defaultProps(state) };
 }
 
 function mapDispatchToProps(dispatch,ownProps) {

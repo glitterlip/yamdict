@@ -3,16 +3,13 @@ import React, { Component } from 'react';
 import Subscribe from '../../components/Podcast/Subscribe';
 
 import { connect } from 'react-redux';
-import { defaultFunctions } from '../../reducers';
+import { defaultFunctions, defaultProps } from '../../reducers';
 
 function mapStateToProps(state) {
-  return {
-    dict: state.dict,
-    setting: state.setting
-  };
+  return { ...defaultProps(state) };
 }
 
-function mapDispatchToProps(dispatch,ownProps) {
+function mapDispatchToProps(dispatch, ownProps) {
 
   return { ...defaultFunctions(dispatch) };
 
