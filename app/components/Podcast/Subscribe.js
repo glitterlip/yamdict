@@ -21,7 +21,8 @@ export default class Subscribe extends Component<Props> {
       subscribes: PodService.allSubscribes(),
       podcast: null,
       detail: null,
-      modal: null
+      modal: null,
+      visible: false
     };
 
   }
@@ -30,9 +31,11 @@ export default class Subscribe extends Component<Props> {
     let { collectionId } = podcast;
     let detail = (await PodService.parseXML(collectionId)).rss.channel[0];
 
-    console.log(detail);
-    console.log(podcast);
-    let modal = <Modal title={detail.title[0]} visible={true} width={800} onCancel={this.setState({ visible: false })}>
+    let modal = <Modal title={detail.title[0]} visible={this.state.visible} width={800} onCancel={() => {
+      console.log('wtf happening', this.props);
+      console.log('wtf happening', this.state);
+      this.close();
+    }} maskClosable={true}>
       <Row>
         <Col span={4}>
           <Avatar src={podcast.artworkUrl100} style={{ width: 100, height: 100 }}/>
@@ -74,6 +77,10 @@ export default class Subscribe extends Component<Props> {
     </Modal>;
     this.setState({ visible: true, podcast, detail, modal });
 
+  };
+
+  close = () => {
+    this.setState({ visible: false, modal: null });
   };
 
   render() {
