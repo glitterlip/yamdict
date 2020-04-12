@@ -302,6 +302,7 @@
     "global": "^4.4.0",
     "google-translate-api-browser": "^1.1.71",
     "history": "^4.9.0",
+    "lodash": "^4.17.15",
     "lodash-id": "^0.14.0",
     "lowdb": "^1.0.0",
     "md5": "^2.2.1",
@@ -309,8 +310,10 @@
     "qs": "^6.9.0",
     "react": "^16.8.6",
     "react-audio-player": "^0.11.1",
+    "react-cool-music-player": "^1.0.6",
     "react-dom": "^16.8.6",
     "react-hot-loader": "^4.8.2",
+    "react-jinke-music-player": "^4.10.1",
     "react-redux": "^6.0.1",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
@@ -319,7 +322,8 @@
     "simplemde": "^1.11.2",
     "source-map-support": "^0.5.11",
     "styled-components": "^4.3.2",
-    "translation.js": "^0.7.8"
+    "translation.js": "^0.7.8",
+    "xml2js": "^0.4.23"
   },
   "devEngines": {
     "node": ">=7.x",
