@@ -4,15 +4,18 @@ import { connectRouter } from 'connected-react-router';
 import counter from './counter';
 import dict from './dict';
 import setting from './setting';
+import player from './player';
 import * as DictActions from '../actions/dict';
 import * as SettingActions from '../actions/setting';
+import * as PlayerActions from '../actions/player';
 
 export default function createRootReducer(history: History) {
   return combineReducers<{}, *>({
     router: connectRouter(history),
     counter,
     dict,
-    setting
+    setting,
+    player
   });
 }
 
@@ -35,13 +38,19 @@ export const defaultFunctions = (dispatch) => {
     },
     setPredictions: (predictions) => {
       dispatch(DictActions.setPredictions(predictions));
+    },
+    play: (podcast) => {
+      dispatch(PlayerActions.play(podcast));
+    },
+    status: () => {
+      dispatch(PlayerActions.switchStatus());
     }
   };
 };
 
 
-export const defaultProps = ({dict,setting}) => {
+export const defaultProps = ({ dict, setting, player }) => {
   return {
-    dict, setting
+    dict, setting, player
   };
 };
