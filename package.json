@@ -302,6 +302,7 @@
     "global": "^4.4.0",
     "google-translate-api-browser": "^1.1.71",
     "history": "^4.9.0",
+    "iohook": "^0.6.5",
     "lodash": "^4.17.15",
     "lodash-id": "^0.14.0",
     "lowdb": "^1.0.0",
@@ -319,6 +320,7 @@
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "robotjs": "^0.6.0",
     "simplemde": "^1.11.2",
     "source-map-support": "^0.5.11",
     "styled-components": "^4.3.2",
@@ -338,5 +340,20 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "iohook": {
+    "targets": [
+      "node-72",
+      "electron-69"
+    ],
+    "platforms": [
+      "win32",
+      "darwin",
+      "linux"
+    ],
+    "arches": [
+      "x64",
+      "ia32"
+    ]
   }
 }
