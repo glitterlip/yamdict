@@ -10364,7 +10364,7 @@ nise@^1.4.10:
     lolex "^4.1.0"
     path-to-regexp "^1.7.0"
 
-node-abi@^2.13.0, node-abi@^2.4.0, node-abi@^2.7.0:
+node-abi@^2.13.0, node-abi@^2.15.0, node-abi@^2.4.0, node-abi@^2.7.0:
   version "2.15.0"
   resolved "https://registry.npm.taobao.org/node-abi/download/node-abi-2.15.0.tgz#51d55cc711bd9e4a24a572ace13b9231945ccb10"
   integrity sha1-UdVcxxG9nkokpXKs4TuSMZRcyxA=
