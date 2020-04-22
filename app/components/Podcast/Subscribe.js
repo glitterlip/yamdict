@@ -83,6 +83,10 @@ export default class Subscribe extends Component<Props> {
     this.setState({ visible: false, modal: null });
   };
 
+  sync = () => {
+
+  };
+
   render() {
 
     return (
@@ -112,7 +116,10 @@ export default class Subscribe extends Component<Props> {
                           this.lists(podcast);
                         }}/>,
                         <Icon type="edit" key="edit"/>,
-                        <Icon type="ellipsis" key="ellipsis"/>
+                        <Icon type="ellipsis" key="ellipsis"/>,
+                        <Icon type="sync" key="sync" onClick={() => {
+                          this.sync(podcast);
+                        }}/>
                       ]}
 
                     >
