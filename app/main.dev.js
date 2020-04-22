@@ -76,8 +76,8 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 960,
-    height: 680,
+    width: 1024,
+    height: 768,
     titleBarStyle: 'hiddenInset'
   });
 
