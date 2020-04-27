@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Icon, Layout, Rate, Table, Input, List, Avatar, Button, Card, Row, Col, Modal } from 'antd';
+import { Avatar, Breadcrumb, Card, Col, Icon, Input, Layout, List, Modal, Row } from 'antd';
 import styles from './Subscribe.css';
-import IndexHeader from '../Index/Header/Header';
-import SideBar from '../General/SideBar/SideBar';
-import AppFooter from '../General/Footer/Footer';
 import { PodService } from '../../services/podcast/PodcastService';
-import axios from 'axios';
-import qs from 'qs';
 
 const { Content } = Layout;
 const { Search } = Input;
@@ -45,7 +40,7 @@ export default class Subscribe extends Component<Props> {
           <br/>
           {detail['itunes:subtitle'][0]}
           <br/>
-          {detail['itunes:summary'][0]}
+          {/*{detail['itunes:summary'][0]}*/}
         </Col>
       </Row>
       <Row>
@@ -83,8 +78,8 @@ export default class Subscribe extends Component<Props> {
     this.setState({ visible: false, modal: null });
   };
 
-  sync = () => {
-
+  sync = (podcast) => {
+    PodService.sync(podcast);
   };
 
   render() {
@@ -118,21 +113,18 @@ export default class Subscribe extends Component<Props> {
                     }}/>
                   ]}
 
-                    >
-                      <Meta
-                        title={podcast.collectionName}
-                        description={podcast.artistName}
-                      />
-                    </Card>
-                  </Col>;
-                })}
-              </Row>
+                >
+                  <Meta
+                    title={podcast.collectionName}
+                    description={podcast.artistName}
+                  />
+                </Card>
+              </Col>;
+            })}
+          </Row>
 
-              {this.state.modal}
-            </Content>
-          </Layout>
-        </Layout>
-        <AppFooter {...this.props}></AppFooter>
+          {this.state.modal}
+        </Content>
       </Layout>
     );
   }
