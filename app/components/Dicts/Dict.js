@@ -220,70 +220,64 @@ export default class Dict extends Component<Props> {
     ];
 
     return (
-      <Layout>
-        <IndexHeader  {...this.props} />
-        <Layout>
-          <SideBar></SideBar>
-          <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>词典</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content className={styles.content}>
-              <Modal
-                title={this.state.title}
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                okText={'确定'}
-                width={'70%'}
-                maskClosable={true}
-                closable={false}
-                footer={[
-                  <Button key="ok" type="primary" onClick={this.handleOk}>
-                    确定
-                  </Button>
-                ]}
-              >
-                <div dangerouslySetInnerHTML={{ __html: this.state.content }}></div>
+      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>词典</Breadcrumb.Item>
+        </Breadcrumb>
+        <Content className={styles.content}>
+          <Modal
+            title={this.state.title}
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            okText={'确定'}
+            width={'70%'}
+            maskClosable={true}
+            closable={false}
+            footer={[
+              <Button key="ok" type="primary" onClick={this.handleOk}>
+                确定
+              </Button>
+            ]}
+          >
+            <div dangerouslySetInnerHTML={{ __html: this.state.content }}></div>
 
-              </Modal>
-              <Modal
-                title='词典修改'
-                visible={this.state.oldName.length > 0}
-                onOk={this.handleEdit}
-                okText={'确定'}
-                width={'70%'}
-                maskClosable={true}
-                closable={true}
-                footer={[
-                  <Button key="cancel" type="primary" onClick={this.closeEditModal}>
-                    取消
-                  </Button>,
-                  <Button key="ok" type="primary" onClick={this.handleEdit}>
-                    确定
-                  </Button>
-                ]}
-              >
-                <Input placeholder="请输入新名字(原文件名不变)" onChange={(e) => {
-                  this.setState({ newName: e.target.value });
-                }}/>
+          </Modal>
+          <Modal
+            title='词典修改'
+            visible={this.state.oldName.length > 0}
+            onOk={this.handleEdit}
+            okText={'确定'}
+            width={'70%'}
+            maskClosable={true}
+            closable={true}
+            footer={[
+              <Button key="cancel" type="primary" onClick={this.closeEditModal}>
+                取消
+              </Button>,
+              <Button key="ok" type="primary" onClick={this.handleEdit}>
+                确定
+              </Button>
+            ]}
+          >
+            <Input placeholder="请输入新名字(原文件名不变)" onChange={(e) => {
+              this.setState({ newName: e.target.value });
+            }}/>
 
-              </Modal>
-              <Row>
-                <Col span={24}>
-                  <DictsInfo></DictsInfo>
-                </Col>
-              </Row>
-              <Row>
-                {/*<Table dataSource={this.state.dicts} columns={columns} rowKey={'name'}/>*/}
-                <Table dataSource={items} columns={columns} rowKey={'name'}/>
-              </Row>
-            </Content>
-          </Layout>
-        </Layout>
-        <AppFooter {...this.props}></AppFooter>
+          </Modal>
+          <Row>
+            <Col span={24}>
+              <DictsInfo></DictsInfo>
+            </Col>
+          </Row>
+          <Row>
+            {/*<Table dataSource={this.state.dicts} columns={columns} rowKey={'name'}/>*/}
+            <Table dataSource={items} columns={columns} rowKey={'name'}/>
+          </Row>
+        </Content>
       </Layout>
+
     );
   }
 }

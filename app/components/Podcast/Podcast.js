@@ -74,26 +74,20 @@ export default class Podcast extends Component<Props> {
       }
     ];
     return (
-      <Layout>
-        <IndexHeader {...this.props} />
-        <Layout>
-          <SideBar></SideBar>
-          <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content className={styles.content}>
+      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Content className={styles.content}>
 
-              <Table dataSource={this.state.words} columns={columns} rowKey={'word'}>
+          <Table dataSource={this.state.words} columns={columns} rowKey={'word'}>
 
-              </Table>
-            </Content>
-          </Layout>
-        </Layout>
-        <AppFooter {...this.props}></AppFooter>
+          </Table>
+        </Content>
       </Layout>
+
     );
   }
 }

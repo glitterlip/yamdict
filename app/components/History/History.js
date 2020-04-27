@@ -75,34 +75,28 @@ export default class History extends Component<Props> {
       }
     ];
     return (
-      <Layout>
-        <IndexHeader {...this.props} />
-        <Layout>
-          <SideBar></SideBar>
-          <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content className={styles.content}>
-              <PageHeader
-                title="历史"
-                tags={<Tag color="red">Warning</Tag>}
-              >
-                <div className="wrap">
-                  <div className="extraContent">{extraContent}</div>
-                </div>
-              </PageHeader>
+      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Content className={styles.content}>
+          <PageHeader
+            title="历史"
+            tags={<Tag color="red">Warning</Tag>}
+          >
+            <div className="wrap">
+              <div className="extraContent">{extraContent}</div>
+            </div>
+          </PageHeader>
 
-              <Table dataSource={this.state.words} columns={columns} rowKey={'word'}>
+          <Table dataSource={this.state.words} columns={columns} rowKey={'word'}>
 
-              </Table>
-            </Content>
-          </Layout>
-        </Layout>
-        <AppFooter {...this.props}></AppFooter>
+          </Table>
+        </Content>
       </Layout>
+
     );
   }
 }

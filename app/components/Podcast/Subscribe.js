@@ -90,37 +90,33 @@ export default class Subscribe extends Component<Props> {
   render() {
 
     return (
-      <Layout>
-        <IndexHeader {...this.props} />
-        <Layout>
-          <SideBar></SideBar>
-          <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content className={styles.content}>
-              <Row>
-                {this.state.subscribes.map((podcast) => {
-                  return <Col span={8} key={podcast.collectionId}>
-                    <Card
-                      style={{ width: 200 }}
-                      cover={
-                        <img
-                          src={podcast.artworkUrl100}
-                        />
-                      }
-                      actions={[
-                        <Icon type="menu" key="setting" onClick={() => {
-                          this.lists(podcast);
-                        }}/>,
-                        <Icon type="edit" key="edit"/>,
-                        <Icon type="ellipsis" key="ellipsis"/>,
-                        <Icon type="sync" key="sync" onClick={() => {
-                          this.sync(podcast);
-                        }}/>
-                      ]}
+      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Content className={styles.content}>
+          <Row>
+            {this.state.subscribes.map((podcast) => {
+              return <Col span={8} key={podcast.collectionId}>
+                <Card
+                  style={{ width: 200 }}
+                  cover={
+                    <img
+                      src={podcast.artworkUrl100}
+                    />
+                  }
+                  actions={[
+                    <Icon type="menu" key="setting" onClick={() => {
+                      this.lists(podcast);
+                    }}/>,
+                    <Icon type="edit" key="edit"/>,
+                    <Icon type="ellipsis" key="ellipsis"/>,
+                    <Icon type="sync" key="sync" onClick={() => {
+                      this.sync(podcast);
+                    }}/>
+                  ]}
 
                     >
                       <Meta

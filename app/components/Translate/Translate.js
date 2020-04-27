@@ -128,83 +128,76 @@ export default class Translate extends Component<Props> {
   render() {
 
     return (
-      <Layout>
-        <IndexHeader  {...this.props} />
-        <Layout>
-          <SideBar></SideBar>
-          <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content className={styles.content}>
-              <Row>
-                <Col span={24}>
-                  <Input.TextArea rows={8} onChange={this.handleChange} value={this.state.target}/>
-                </Col>
-              </Row>
-              <br/>
-              <Row>
-                <Col span={24}>
-                  <Input.TextArea rows={8} value={this.state.result.result}/>
-                </Col>
-              </Row>
-              <br/>
+      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Content className={styles.content}>
+          <Row>
+            <Col span={24}>
+              <Input.TextArea rows={8} onChange={this.handleChange} value={this.state.target}/>
+            </Col>
+          </Row>
+          <br/>
+          <Row>
+            <Col span={24}>
+              <Input.TextArea rows={8} value={this.state.result.result}/>
+            </Col>
+          </Row>
+          <br/>
 
-              <Row>
-                <Col span={6}>
-                  <Button
-                    type="primary"
-                    icon="audio"
-                    className={styles['tans-button']}
-                    block
-                    onClick={this.read}
-                  >
-                    朗读
-                  </Button>
-                </Col>
-                <Col span={3}></Col>
-                <Col span={6}>
-                  <Button
-                    type="primary"
-                    icon="search"
-                    className={styles['tans-button']}
-                    block
-                    onClick={this.translate}
-                  >
-                    翻译
-                  </Button>
-                </Col>
-                <Col span={3}></Col>
+          <Row>
+            <Col span={6}>
+              <Button
+                type="primary"
+                icon="audio"
+                className={styles['tans-button']}
+                block
+                onClick={this.read}
+              >
+                朗读
+              </Button>
+            </Col>
+            <Col span={3}></Col>
+            <Col span={6}>
+              <Button
+                type="primary"
+                icon="search"
+                className={styles['tans-button']}
+                block
+                onClick={this.translate}
+              >
+                翻译
+              </Button>
+            </Col>
+            <Col span={3}></Col>
 
-                <Col span={6}>
-                  <Button
-                    type="primary"
-                    icon="camera"
-                    className={styles['tans-button']}
-                    block
-                    onClick={this.handleOcr}
-                  >
-                    截图识别并翻译
-                  </Button>
-                </Col>
-              </Row>
+            <Col span={6}>
+              <Button
+                type="primary"
+                icon="camera"
+                className={styles['tans-button']}
+                block
+                onClick={this.handleOcr}
+              >
+                截图识别并翻译
+              </Button>
+            </Col>
+          </Row>
 
-              <Row>
-                <Col>
-                  <ReactAudioPlayer
-                    ref={element => {
-                      this.player = element;
-                    }}
-                    src=""
-                  />
-                </Col>
-              </Row>
-            </Content>
-          </Layout>
-        </Layout>
-        <AppFooter {...this.props}></AppFooter>
+          <Row>
+            <Col>
+              <ReactAudioPlayer
+                ref={element => {
+                  this.player = element;
+                }}
+                src=""
+              />
+            </Col>
+          </Row>
+        </Content>
       </Layout>
     );
   }

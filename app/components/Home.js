@@ -116,66 +116,58 @@ export default class Home extends Component<Props> {
   render() {
 
     return (
-      <Layout>
-
-        <IndexHeader {...this.props}/>
-        <Layout>
-
-          <SideBar></SideBar>
-          <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Card>
-              <Row>
-                <Col span={2}>
-                  <Icon type="audio" theme="twoTone" width='2em' height='2em' onClick={this.spell}/>
-                </Col>
-                <Col span={2}>
-                  <Icon type="compass" theme="twoTone" width={'20'} height='20' onClick={this.internet}/>
-                </Col>
-                <Col span={6}>
-                  <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} onChange={this.like}
-                        value={this.props.setting.score}/>
-                </Col>
-                <Col span={6}>
-                  {this.state.record ?
-                    <Statistic
-                      value={this.state.record}
-                      valueStyle={{ color: '#cf1322' }}
-                      suffix={<Icon type="rise"/>}
-                      prefix="已查"
-                    /> : ''}
-                </Col>
-                <ReactAudioPlayer
-                  ref={element => {
-                    this.player = element;
-                  }}
-                  src=""
-                />
-              </Row>
-              <Row>
-                <Card className={this.state.result.length ? styles.show : styles.hidden}>
-                  {
-                    this.state.result.map((item, index) => {
-                      return <p key={index}>{item}</p>;
-                    })
-                  }
-                </Card>
-              </Row>
-
+      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Card>
+          <Row>
+            <Col span={2}>
+              <Icon type="audio" theme="twoTone" width='2em' height='2em' onClick={this.spell}/>
+            </Col>
+            <Col span={2}>
+              <Icon type="compass" theme="twoTone" width={'20'} height='20' onClick={this.internet}/>
+            </Col>
+            <Col span={6}>
+              <Rate character={<Icon type="heart"/>} style={{ color: 'red' }} onChange={this.like}
+                    value={this.props.setting.score}/>
+            </Col>
+            <Col span={6}>
+              {this.state.record ?
+                <Statistic
+                  value={this.state.record}
+                  valueStyle={{ color: '#cf1322' }}
+                  suffix={<Icon type="rise"/>}
+                  prefix="已查"
+                /> : ''}
+            </Col>
+            <ReactAudioPlayer
+              ref={element => {
+                this.player = element;
+              }}
+              src=""
+            />
+          </Row>
+          <Row>
+            <Card className={this.state.result.length ? styles.show : styles.hidden}>
+              {
+                this.state.result.map((item, index) => {
+                  return <p key={index}>{item}</p>;
+                })
+              }
             </Card>
-            <Content className={styles.content}
-            >
-              {Object.keys(this.props.dict.result) ?
-                <Definitions result={this.props.dict.result} select={this.select}/> : <Empty/>}
-            </Content>
-          </Layout>
-        </Layout>
-        <AppFooter {...this.props}></AppFooter>
+          </Row>
+
+        </Card>
+        <Content className={styles.content}
+        >
+          {Object.keys(this.props.dict.result) ?
+            <Definitions result={this.props.dict.result} select={this.select}/> : <Empty/>}
+        </Content>
       </Layout>
+
 
     );
   }

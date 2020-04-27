@@ -47,36 +47,29 @@ export default class Podcast extends Component<Props> {
     const results = this.state.results;
 
     return (
-      <Layout>
-        <IndexHeader {...this.props} />
-        <Layout>
-          <SideBar></SideBar>
-          <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content className={styles.content}>
-              <Search placeholder="input search text" onSearch={this.search} enterButton/>
-              <List
-                itemLayout="horizontal"
-                dataSource={results}
-                renderItem={item => (
-                  <List.Item
-                    actions={[<Button type="primary" onClick={e => this.subscribe(item)}>subscribe</Button>]}>
-                    <List.Item.Meta
-                      avatar={<Avatar src={item.artworkUrl100}/>}
-                      title={item.artistName}
-                      description={item.collectionName}
-                    />
-                  </List.Item>
-                )}
-              />
-            </Content>
-          </Layout>
-        </Layout>
-        <AppFooter {...this.props}></AppFooter>
+      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Content className={styles.content}>
+          <Search placeholder="input search text" onSearch={this.search} enterButton/>
+          <List
+            itemLayout="horizontal"
+            dataSource={results}
+            renderItem={item => (
+              <List.Item
+                actions={[<Button type="primary" onClick={e => this.subscribe(item)}>subscribe</Button>]}>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.artworkUrl100}/>}
+                  title={item.artistName}
+                  description={item.collectionName}
+                />
+              </List.Item>
+            )}
+          />
+        </Content>
       </Layout>
     );
   }
