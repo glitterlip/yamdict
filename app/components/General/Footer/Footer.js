@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Col, Layout } from 'antd';
+import { Button, Layout } from 'antd';
 import CoolMusicPlayer from 'react-cool-music-player';
 
 const { Footer } = Layout;
@@ -29,15 +29,20 @@ export default class AppFooter extends Component<Props> {
         }}
         currentAudio={this.props.player.current}
         play={this.props.player.play}
-        showLyricNormal={true}
-        showDetailLyric={true}
+        showLyricNormal={false}
+        showDetailLyric={false}
         // onAudioChange={onAudioChange}
         // onVolumeChange={onVolumeChange}
         // lyric={lyric}
         // tLyric={tLyric}
         // lyricLoading={lyricLoading}
         // playListAudioActions={playListAudioActions}
-        // actions={actions}
+        actions={[
+          audio => <Button size={'small'} type="primary" shape="circle" icon="fast-backward"
+                           onClick={this.props.player.status}/>,
+          audio => <Button size={'small'} type="primary" shape="circle" icon="fast-forward"
+                           onClick={this.props.player.status}/>
+        ]}
         // volume={volumeValue}
         detailBackground={<div className={'blur-filter'}></div>}
         // playListHeader={{
@@ -53,7 +58,7 @@ export default class AppFooter extends Component<Props> {
         //   setPlaying(isPlayed)
         // }}
         showPlayDetail={false}
-        showLyricMini={true}
+        showLyricMini={false}
         playListShow={false}
         playDetailShow={false}
         // onPlayListStatusChange={(status: boolean) => {
