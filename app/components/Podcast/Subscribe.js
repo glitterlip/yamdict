@@ -27,8 +27,6 @@ export default class Subscribe extends Component<Props> {
     let detail = (await PodService.parseXML(collectionId)).rss.channel[0];
 
     let modal = <Modal title={detail.title[0]} visible={this.state.visible} width={800} onCancel={() => {
-      console.log('wtf happening', this.props);
-      console.log('wtf happening', this.state);
       this.close();
     }} maskClosable={true}>
       <Row>
