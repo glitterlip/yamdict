@@ -9,33 +9,18 @@ export const switchStatus = () => {
   };
 };
 
-export const play = (podcast) => {
-  console.log(podcast);
-  let item = {
-    src: podcast.enclosure[0].$.url,
-    artist: podcast['itunes:author'][0],
-    name: podcast.title[0],
-    img: podcast.img,
-    id: podcast.guid[0]._
-  };
+export const play = (audio) => {
+
   return {
     type: PLAYER_PLAY,
-    podcast: item
+    audio
   };
 };
 
-export const playlistAdd = (podcast) => {
-
-  let item = {
-    src: podcast.enclosure[0].$.url,
-    artist: podcast['itunes:author'],
-    name: podcast.title,
-    img: 'http://audio-avatar-cdn/Señorita.jpg',
-    id: podcast.guid[0]._
-  };
+export const playlistAdd = (audio) => {
 
   return {
     type: PLAYER_LIST_ADD,
-    podcast: item
+    audio
   };
 };

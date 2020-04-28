@@ -49,8 +49,7 @@ export default class Subscribe extends Component<Props> {
             <List.Item
               actions={[
                 <Icon type="customer-service" key="setting" onClick={() => {
-                  console.log(item);
-                  this.props.play({ ...item, img: podcast.artworkUrl100 });
+                  this.props.play(PodService.episodeToAudio({ ...item, img: podcast.artworkUrl100 }));
                 }}/>,
                 <Icon type="download" key="save"/>,
                 <Icon type="bars" key="bars"/>,

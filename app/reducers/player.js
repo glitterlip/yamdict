@@ -9,18 +9,18 @@ export default function player(state = { play: false, list: [], current: null },
       };
     case PLAYER_PLAY:
       let list=state.list;
-      list.push(action.podcast);
+      list.push(action.audio);
       return {
         ...state,
         list,
-        current: action.podcast,
+        current: action.audio,
         play: true
 
       };
     case PLAYER_LIST_ADD:
       return {
         ...state,
-        list: state.list.push(action.item)
+        list: state.list.push(action.audio)
       };
 
     default:
