@@ -7,7 +7,7 @@ import TranslatePage from './containers/TranslatePage';
 import NotePage from './containers/NotePage';
 import DictPage from './containers/DictPage';
 import History from './containers/HistoryPage';
-import PodcastPage from './containers/PodcastPage';
+import FavoritesPage from './containers/FavoritesPage';
 import DiscoverPage from './containers/podcast/DiscoverPage';
 import SubscribesPage from './containers/podcast/SubscribesPage';
 import IndexHeader from './components/Index/Header/Header';
@@ -45,8 +45,8 @@ class Routes extends Component<Props> {
               <Route path={routes.NOTE.path} exact component={NotePage}/>
               <Route path={routes.DICTS.path} exact component={DictPage}/>
               <Route path={routes.HISTORY.path} exact component={History}/>
-              <Route path={routes.PODCAST.path} exact component={PodcastPage}/>
               <Route path='/podcast/discover' exact component={DiscoverPage}/>
+              <Route path='/podcast/favorites' exact component={FavoritesPage}/>
               <Route path='/podcast/subscribes' exact component={SubscribesPage}/>
             </Layout>
             <AppFooter {...this.props}/>

@@ -55,7 +55,6 @@ class PodcastService {
     let res = {};
     let xmlStr = fs.readFileSync(`${resPath}/podcasts/subscribes/${collectionId}.xml`);
 
-
     parser.parseString(xmlStr, function(err, result) {
       res = result;
     });
@@ -101,10 +100,5 @@ class PodcastService {
 }
 
 const PodService = new PodcastService();
-
-// const registerNoteService = () => {
-//   // noteDb._.mixin(lodashId);
-// };
-
 
 export { PodService } ;
