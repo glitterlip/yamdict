@@ -1,10 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import styles from './Home.css';
-import IndexHeader from './Index/Header/Header';
 import { Breadcrumb, Card, Col, Collapse, Empty, Icon, Layout, Rate, Row, Statistic } from 'antd';
-import SideBar from './General/SideBar/SideBar';
-import AppFooter from './General/Footer/Footer';
 import { parserNames } from '../utils/config';
 import ReactAudioPlayer from 'react-audio-player';
 import { note as NoteService } from '../../app/services/note/NoteService';
@@ -53,10 +50,7 @@ export default class Home extends Component<Props> {
         }
       }
     });
-    ipcRenderer.on('search-word', (event, arg) => {
-      this.setState({ word: arg });
-      this.props.setWord(arg);
-    });
+
     ipcRenderer.on('predictions', (event, arg) => {
       this.props.setPredictions(arg);
     });
@@ -106,7 +100,6 @@ export default class Home extends Component<Props> {
   select = () => {
     let txt = document.getSelection().toString();
     if (txt) {
-      this.setState({ word: txt });
       this.props.setWord(txt);
       ipcRenderer.send('search-word', txt);
     }
@@ -151,7 +144,7 @@ export default class Home extends Component<Props> {
             />
           </Row>
           <Row>
-            <Card className={this.state.result.length ? styles.show : styles.hidden}>
+            <Card className={this.state.result&&this.state.result.length ? styles.show : styles.hidden}>
               {
                 this.state.result.map((item, index) => {
                   return <p key={index}>{item}</p>;

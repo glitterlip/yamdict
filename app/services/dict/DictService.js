@@ -106,7 +106,7 @@ const addDict = (dictPath) => {
 const predict = (word) => {
   let arr = [];
   parsers.forEach((v, k) => {
-    if (v.path.indexOf('21cen') > -1) {
+    if (v.path.indexOf('柯林斯') > -1) {
       let kdx = reduce(v.dict.keywordIndex, word);
       let { last_word } = kdx;
 
@@ -133,7 +133,7 @@ const predict = (word) => {
   return arr;
 };
 
-
+//二分法
 const reduce = (arr, phrase) => {
   let len = arr.length;
   if (len > 1) {

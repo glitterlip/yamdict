@@ -42,10 +42,11 @@ export default class IndexHeader extends Component<Props> {
                 filterOption={false}
                 suffixIcon={<Icon type="search" style={{ fontSize: '20px', color: '#1790ff' }}/>}
                 onSearch={value => {
-                  if (this.props.setWord !== undefined) {
+                  if (value) {
                     this.props.setWord(value);
+                    ipcRenderer.send('predict', value);
                   }
-                  ipcRenderer.send('predict', value);
+
                 }}
                 onInputKeyDown={(e) => {
                   if (e.which === 13) {
@@ -56,9 +57,7 @@ export default class IndexHeader extends Component<Props> {
                 onSelect={(value) => {
                   if (value) {
                     ipcRenderer.send('search-word', value);
-                    if (this.props.setWord !== undefined) {
-                      this.props.setWord(value);
-                    }
+                    this.props.setWord(value);
                   }
                 }}
 
