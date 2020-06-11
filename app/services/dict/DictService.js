@@ -45,13 +45,10 @@ const registerDictService = (ipcMain, mainWindow) => {
 
   ipcMain.on('predict', (event, arg) => {
     let predictions = [];
-
     if (arg) {
       predictions = predict(arg);
+      event.sender.send('predictions', predictions);
     }
-    event.sender.send('predictions', predictions);
-
-
   });
 
 
@@ -109,13 +106,12 @@ const addDict = (dictPath) => {
 const predict = (word) => {
   let arr = [];
   parsers.forEach((v, k) => {
-    if (v.path.indexOf('柯林斯') > -1) {
+    if (v.path.indexOf('21cen') > -1) {
       let kdx = reduce(v.dict.keywordIndex, word);
       let { last_word } = kdx;
 
       let wordSite = v.dict.indexMap.get(last_word);
       if (!wordSite) {
-        console.log('null');
         return [];
       }
       let count = wordSite.count;
