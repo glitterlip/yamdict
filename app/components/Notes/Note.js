@@ -2,9 +2,6 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Icon, Layout, Rate, Table } from 'antd';
 import styles from './Note.css';
-import IndexHeader from '../Index/Header/Header';
-import SideBar from '../General/SideBar/SideBar';
-import AppFooter from '../General/Footer/Footer';
 import { note as NoteService } from '../../services/note/NoteService';
 
 const { Content } = Layout;
@@ -26,14 +23,13 @@ export default class Note extends Component<Props> {
 
   remove = (word) => {
     NoteService.remove(word);
-    this.setState({words:NoteService.all()})
+    this.setState({ words: NoteService.all() });
   };
 
   like = (word, score) => {
     console.log(word, score);
     NoteService.update(word, score);
     this.setState({ words: NoteService.all() });
-    // this.setState({ score: value });
   };
 
   render() {
@@ -47,7 +43,7 @@ export default class Note extends Component<Props> {
         dataIndex: 'time',
         render: time => (new Date(time)).toLocaleString(),
         sorter: (a, b) => a.time - b.time,
-        sortDirections: ['descend', 'ascend'],
+        sortDirections: ['descend', 'ascend']
       },
       {
         title: '星级',
@@ -67,7 +63,7 @@ export default class Note extends Component<Props> {
         key: 'action',
         render: (record) => (
           <span>
-        <Icon type="delete" theme="twoTone" style={{fontSize:20}} onClick={() => {
+        <Icon type="delete" theme="twoTone" style={{ fontSize: 20 }} onClick={() => {
           this.remove(record.word);
         }}/>
       </span>

@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import { Breadcrumb, Button, Col, Input, Layout, Row } from 'antd';
 import ReactAudioPlayer from 'react-audio-player';
 import styles from './Translate.css';
-import IndexHeader from '../Index/Header/Header';
-import SideBar from '../General/SideBar/SideBar';
-import AppFooter from '../General/Footer/Footer';
 import axios from 'axios';
 import md5 from 'md5';
 import qs from 'qs';
@@ -56,9 +53,6 @@ export default class Translate extends Component<Props> {
         this.setState({
           base64: data.substring(22)
         });
-        console.log(data.substring(22));
-        // remote.app.show();
-        // remote.app.focus();
         this.recognize();
       }
     });
@@ -85,6 +79,7 @@ export default class Translate extends Component<Props> {
   };
 
   recognize = () => {
+    //todo: use user own config
     const app_id = 2122174291;
     const app_key = 'AotWYIsIKc30FegX';
     const url = 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_generalocr';
