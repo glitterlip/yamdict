@@ -37,12 +37,12 @@ export default class AppFooter extends Component<Props> {
         // tLyric={tLyric}
         // lyricLoading={lyricLoading}
         // playListAudioActions={playListAudioActions}
-        actions={[
-          audio => <Button size={'small'} type="primary" shape="circle" icon="fast-backward"
-                           onClick={this.props.player.status}/>,
-          audio => <Button size={'small'} type="primary" shape="circle" icon="fast-forward"
-                           onClick={this.props.player.status}/>
-        ]}
+        // actions={[
+        //   backward => <Button size={'small'} type="primary" shape="circle" icon="fast-backward"
+        //                    onClick={this.props.player.status}/>,
+        //   forward => <Button size={'small'} type="primary" shape="circle" icon="fast-forward"
+        //                    onClick={this.props.player.status}/>
+        // ]}
         // volume={volumeValue}
         detailBackground={<div className={'blur-filter'}></div>}
         // playListHeader={{

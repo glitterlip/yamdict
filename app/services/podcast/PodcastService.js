@@ -13,8 +13,7 @@ class PodcastService {
   subscribe = (podcast) => {
     const { collectionId } = podcast;
     let exist = subscribeDb.get('podcasts').find({ collectionId }).value();
-    if (exist) {
-    } else {
+    if (!exist) {
       subscribeDb.get('podcasts').push(this.getDefault(podcast)).write();
       this.sync(podcast);
     }
@@ -36,7 +35,7 @@ class PodcastService {
   sync = (podcast) => {
     axios.get(podcast.feedUrl, {
       headers: {
-        'accept': 'application/x-www-form-urlencoded'
+        'accept': 'application/xml'
       }
     }).then((response) => {
 

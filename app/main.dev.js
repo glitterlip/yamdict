@@ -10,19 +10,19 @@
  *
  * @flow
  */
-import { app, BrowserWindow, clipboard, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { copyFolder } from './utils/file';
 import { registerTray } from './utils/tray';
 import { registerDictService } from './services/dict/DictService';
-import robot from 'robotjs';
+// import robot from 'robotjs';
 
 const { useCapture } = require('./utils/Capture/capture-main');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-const ioHook = require('iohook');
+// const ioHook = require('iohook');
 
 export default class AppUpdater {
   constructor() {
@@ -107,49 +107,49 @@ app.on('ready', async () => {
   registerDictService(ipcMain, mainWindow);
 
 
-  ioHook.start(true);
-
-  let mouseDownAt;
-  ioHook.on('mousedown', (event) => {
-    if (event.button === 1) {
-      mouseDownAt = +new Date();
-    } else {
-      mouseDownAt = 0;
-    }
-  });
-
-
-  ioHook.on('mouseup', async (event) => {
-    if (mouseDownAt && (new Date() - mouseDownAt >= 500)) {
-
-      const text = await getSelectedText();
-
-      console.log(text);
-    }
-
-  });
-
-
-  const getSelectedText = () => {
-    return new Promise<string>((resolve, reject) => {
-      const lastText = clipboard.readText('clipboard');
-
-      const platform = process.platform;
-
-      if (platform === 'darwin') {
-        robot.keyTap('c', 'command');
-      } else {
-        robot.keyTap('c', 'control');
-      }
-
-      setTimeout(() => {
-        const content = clipboard.readText('clipboard') || '';
-        clipboard.writeText(lastText);
-
-        resolve(content);
-      }, 100);
-    });
-  };
+  // ioHook.start(true);
+  //
+  // let mouseDownAt;
+  // ioHook.on('mousedown', (event) => {
+  //   if (event.button === 1) {
+  //     mouseDownAt = +new Date();
+  //   } else {
+  //     mouseDownAt = 0;
+  //   }
+  // });
+  //
+  //
+  // ioHook.on('mouseup', async (event) => {
+  //   if (mouseDownAt && (new Date() - mouseDownAt >= 500)) {
+  //
+  //     const text = await getSelectedText();
+  //
+  //     console.log(text);
+  //   }
+  //
+  // });
+  //
+  //
+  // const getSelectedText = () => {
+  //   return new Promise<string>((resolve, reject) => {
+  //     const lastText = clipboard.readText('clipboard');
+  //
+  //     const platform = process.platform;
+  //
+  //     if (platform === 'darwin') {
+  //       robot.keyTap('c', 'command');
+  //     } else {
+  //       robot.keyTap('c', 'control');
+  //     }
+  //
+  //     setTimeout(() => {
+  //       const content = clipboard.readText('clipboard') || '';
+  //       clipboard.writeText(lastText);
+  //
+  //       resolve(content);
+  //     }, 100);
+  //   });
+  // };
 
 
 });
