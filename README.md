@@ -12,7 +12,7 @@ using `.mdx` dictionary file
 
 ### 1.2 Online Dictionary 
 
-use `Goole` for Translate and pronunciation
+use `Google` for Translate and pronunciation
 
 ## 2. Translate
 
@@ -51,8 +51,11 @@ Search the podcast/video you like,subscribe it,listen it.
 Get your favorite podcast latest episode.Listen it ,download it.
   
 # 7 Docs
+
 It's still underdevelopment. But ready to use , just clone it and `yarn dev` 
+
 # 8. Thanks 
+
 `framework`: electron-react-boilerplate [github](https://github.com/electron-react-boilerplate/electron-react-boilerplate)
 
 `mdict-js`: mdict parser [github](https://github.com/fengdh/mdict-js)
@@ -66,6 +69,8 @@ It's still underdevelopment. But ready to use , just clone it and `yarn dev`
 `podcast search api`: [apple itunes api](https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/)
 
 `radio search api`: [radio-browser](http://www.radio-browser.info/gui/#!/)
+
+`ocr`: [Tencent](https://ai.qq.com/doc/ocrgeneralocr.shtml)
 
 # 9. Lisence
 
