@@ -134,8 +134,8 @@ a:hover {
 }
 
 .cool-player-control .cool-player-control-btn .icon-play, .cool-player-control .cool-player-control-btn .icon-puase {
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   fill: currentColor;
   overflow: hidden
 }
@@ -621,7 +621,7 @@ a:hover {
   }
 
   .cool-player-wrapper .cool-player-inner {
-    width: 70%
+    width: 90%
   }
 
   .cool-player-wrapper .cool-player-inner .cool-player-actions {
