@@ -109,7 +109,7 @@ export default class Home extends Component<Props> {
   render() {
 
     return (
-      <Layout style={{ padding: '0 24px 24px', height: '580px' }}>
+      <Layout style={{ padding: '0 24px 24px', minHeight: '400px' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>List</Breadcrumb.Item>

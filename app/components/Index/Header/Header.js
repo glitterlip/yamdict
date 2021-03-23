@@ -26,7 +26,6 @@ export default class IndexHeader extends Component<Props> {
       <Header
         className={styles.header}
         style={{ height: '70px' }}
-        theme={setting.theme}
       >
         <Row>
           <Col span={5}>
