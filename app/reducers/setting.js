@@ -1,7 +1,7 @@
 // @flow
-import { SET_SCORE, SET_THEME } from '../actions/setting';
+import { SET_COLLAPSED, SET_SCORE, SET_THEME } from '../actions/setting';
 
-export default function setting(state = { theme: 'dark', score: 0 }, action) {
+export default function setting(state = { theme: 'dark', score: 0, collapsed: false }, action) {
   switch (action.type) {
     case SET_THEME:
       return {
@@ -13,7 +13,11 @@ export default function setting(state = { theme: 'dark', score: 0 }, action) {
         ...state,
         score: action.score
       };
-
+    case SET_COLLAPSED:
+      return {
+        ...state,
+        collapsed: action.collaspsed
+      };
     default:
       return state;
   }

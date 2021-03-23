@@ -44,6 +44,9 @@ export const defaultFunctions = (dispatch) => {
     },
     status: () => {
       dispatch(PlayerActions.switchStatus());
+    },
+    setCollaspsed:(collapsed)=>{
+      dispatch(SettingActions.setCollapsed(collapsed))
     }
   };
 };

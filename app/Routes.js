@@ -39,7 +39,7 @@ class Routes extends Component<Props> {
           <Layout>
             <IndexHeader {...this.props}/>
             <Layout>
-              <SideBar></SideBar>
+              <SideBar {...this.props}/>
               <Route path={routes.TRANSLATE.path} component={TranslatePage}/>
               <Route path={routes.HOME.path} exact component={HomePage}/>
               <Route path={routes.NOTE.path} exact component={NotePage}/>

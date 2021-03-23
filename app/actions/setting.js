@@ -1,5 +1,6 @@
 export const SET_THEME = 'SET_THEME';
 export const SET_SCORE = 'SET_SCORE';
+export const SET_COLLAPSED = 'SET_COLLAPSED';
 
 export function toggleTheme() {
   return (dispatch, getState) => {
@@ -19,5 +20,11 @@ export function setScore(score) {
   return {
     type: SET_SCORE,
     score
+  };
+}
+export function setCollapsed(collaspsed) {
+  return {
+    type: SET_COLLAPSED,
+    collaspsed
   };
 }

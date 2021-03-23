@@ -7,7 +7,7 @@ import style from './SideBar.css';
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
-const SideBar = () => {
+const SideBar = (props) => {
   const ROUTEARR = Object.keys(routes).map(item => {
     return {
       key: item,
@@ -20,19 +20,23 @@ const SideBar = () => {
   });
 
   return (
-    <Sider width={200} style={{ background: '#fff' }}>
+    <Sider width={200} style={{ background: '#fff' }} collapsible={true} trigger={null} breakpoint={'lg'} collapsed={props.setting.collapsed}
+    onBreakpoint={b=>props.setCollaspsed(b)} theme={props.setting.theme} collapsedWidth={100}
+    >
       <Menu
         mode="inline"
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
         style={{ height: '100%', borderRight: 0 }}
+        theme={props.setting.theme}
+        inlineCollapsed={props.setting.collapsed}
       >
         {ROUTEARR.map(item => {
           return item.type === 'single' ? (
             <Menu.Item key={item.key}>
               <Link to={item.path} className={style.link}>
                 <Icon type={item.icon} />
-                {item.name}
+                <span>{item.name}</span>
               </Link>
             </Menu.Item>
           ) : (
@@ -41,7 +45,7 @@ const SideBar = () => {
               title={
                 <span>
                   <Icon type={item.icon} />
-                  {item.name}
+                  <span>{item.name}</span>
                 </span>
               }
             >
@@ -50,7 +54,7 @@ const SideBar = () => {
                   <Menu.Item key={child.name}>
                     <Link to={`${item.path}${child.path}`} className={style.link}>
                       <Icon type={child.icon} />
-                      {child.name}
+                      <span>{child.name}</span>
                     </Link>
                   </Menu.Item>
                 );
